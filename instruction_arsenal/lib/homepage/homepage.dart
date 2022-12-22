@@ -32,12 +32,13 @@ class _HomepageState extends State<Homepage> with TickerProviderStateMixin{
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
+        leading: IconButton(icon: Icon(Icons.account_circle_rounded, color: Colors.black), onPressed: () {  },),
         centerTitle: true,
         title: const Text('Instruction Arsenal',
           style: TextStyle(
               color: Colors.black,
               fontFamily: 'armalite',
-            fontSize: 30
+            fontSize: 25
           ),),
         bottom: TabBar(
           controller: _tabController,
