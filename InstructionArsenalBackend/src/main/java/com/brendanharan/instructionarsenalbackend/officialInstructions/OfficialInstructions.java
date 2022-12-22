@@ -37,7 +37,7 @@ public class OfficialInstructions {
     private String description;
 
     @Column(name="Company")
-    private String Company;
+    private String company;
 
     @Column(name="PostCreatedAt")
     private LocalDateTime postCreatedAt = LocalDateTime.now();
@@ -52,7 +52,24 @@ public class OfficialInstructions {
 //TODO add file storage
 
 
+    @Override
+    public String toString() {
+        return "OfficialInstructions{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", company='" + company + '\'' +
+                ", postCreatedAt=" + postCreatedAt +
+                ", instructions='" + instructions + '\'' +
+                '}';
+    }
 
-
+    public OfficialInstructions(String title, String description, String company, LocalDateTime postCreatedAt, String instructions) {
+        this.title = title;
+        this.description = description;
+        this.company = company;
+        this.postCreatedAt = postCreatedAt;
+        this.instructions = instructions;
+    }
 
 }

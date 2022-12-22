@@ -25,14 +25,14 @@ public class OfficialInstructionsController {
 
     private final OfficialInstructionsService postService;
 
-    @PostMapping("/create")
-    public ResponseEntity createPost(@RequestBody OfficialInstructions post)  {
+    @PostMapping()
+    public ResponseEntity createPost(@RequestBody OfficialInstructions officialInstructions)  {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        postService.savePost(post);
+        postService.savePost(officialInstructions);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    @GetMapping("/getOfficialInstructions")
+    @GetMapping()
     public ResponseEntity<List<OfficialInstructions>> getPosts() {
         return ResponseEntity.ok().body(postService.getPosts());
     }

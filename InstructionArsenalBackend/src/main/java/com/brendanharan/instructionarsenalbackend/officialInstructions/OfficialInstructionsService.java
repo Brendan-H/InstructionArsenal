@@ -24,8 +24,8 @@ public class OfficialInstructionsService {
 
 
 
-    public void savePost(OfficialInstructions post) {
-        officialInstructionsRepository.save(post);
+    public void savePost(OfficialInstructions officialInstructions) {
+        officialInstructionsRepository.save(officialInstructions);
     }
 
     public List<OfficialInstructions> getPosts(){
