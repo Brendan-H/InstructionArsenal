@@ -14,9 +14,7 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
     return Scaffold(
       backgroundColor: Colors.white60,
       body: LayoutBuilder(
-        builder: (context, constraints) => SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-        child: Container(
+        builder: (context, constraints) => Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Column(
@@ -24,7 +22,7 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.175,
                 width: MediaQuery.of(context).size.width * 0.8,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -42,16 +40,31 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
                   padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: const [
                           Icon(Icons.search),
+                          //search box
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Search for official instructions',
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width * 0.65,
                         child: const ElevatedButton(onPressed: null, child: Text(
                           "Search"
+                              //TODO add search functionality using spotlight.io
                         ),
                         ),
                       )
@@ -63,8 +76,7 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
 
             ],
           ),
-        )
-      ),
+        ),
     )
     );
   }
