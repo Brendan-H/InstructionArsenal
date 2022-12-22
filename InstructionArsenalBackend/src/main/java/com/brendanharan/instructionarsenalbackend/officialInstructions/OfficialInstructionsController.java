@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("api/v1/officialinstructions")
+@RequestMapping("api/v1/instructions/officialinstructions")
 @AllArgsConstructor
 public class OfficialInstructionsController {
 
