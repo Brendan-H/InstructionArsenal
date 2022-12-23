@@ -14,7 +14,7 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
     return Scaffold(
       backgroundColor: Colors.white60,
       body: LayoutBuilder(
-        builder: (context, constraints) => Container(
+        builder: (context, constraints) => SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Column(
@@ -60,7 +60,7 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
                           ),
                         ],
                       ),
-                      Container(
+                      SizedBox(
                         width: MediaQuery.of(context).size.width * 0.65,
                         child: const ElevatedButton(onPressed: null, child: Text(
                           "Search"

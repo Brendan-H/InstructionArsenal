@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "866365159801",
+    "project_id": "instructionarsenal",
+    "storage_bucket": "instructionarsenal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:866365159801:android:652d11011db35f811457a8",
+        "android_client_info": {
+          "package_name": "com.brendanharan.instruction_arsenal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "866365159801-9ss53s95h2i05qi44l0m0a4fm8um7la7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDK6BFpxHAc4FU-s39hIzyfWzUZljnWhDA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "866365159801-9ss53s95h2i05qi44l0m0a4fm8um7la7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

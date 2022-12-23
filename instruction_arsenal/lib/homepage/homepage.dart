@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:instruction_arsenal/homepage/official_instructions/official_instructions_tab.dart';
+import 'package:instruction_arsenal/login_page/login_page.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
@@ -32,7 +33,7 @@ class _HomepageState extends State<Homepage> with TickerProviderStateMixin{
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: IconButton(icon: Icon(Icons.account_circle_rounded, color: Colors.black), onPressed: () {  },),
+        leading: IconButton(icon: const Icon(Icons.account_circle_rounded, color: Colors.black), onPressed: () {  },),
         centerTitle: true,
         title: const Text('Instruction Arsenal',
           style: TextStyle(
@@ -53,9 +54,20 @@ class _HomepageState extends State<Homepage> with TickerProviderStateMixin{
       ),
       body: TabBarView(
         controller: _tabController,
-        children: const [
+        children: [
           OfficialInstructionsTab(),
-          Center(child: Text('Community-Made Instructions coming soon')),
+          Center(child: ElevatedButton(
+              onPressed: () async {
+                await Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginPageWidget(),
+                  ),
+                      (r) => false,
+                );
+              },
+              child: Text("Go to login page"))
+          ),
         ],
       ),
     );
