@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 
@@ -9,6 +13,8 @@ class OfficialInstructionsTab extends StatefulWidget {
 }
 
 class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +68,39 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.65,
-                        child: const ElevatedButton(onPressed: null, child: Text(
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            var firebaseid = await FirebaseAuth.instance.currentUser?.getIdToken();
+                            try {
+                           var dio = Dio();
+                              final response = await dio.get(
+                                "http://10.0.2.2:8080/api/v1/instructions/officialinstructions",
+                                options: Options(
+                                    headers: {
+                                      'Authorization': 'Bearer $firebaseid',
+                                    }
+                                ),
+
+                                //TODO fix it not taking authorization header
+                              );
+                              print(response);
+                            } catch (e) {
+                              if (e is DioError) {
+                                if (e.response != null) {
+                                  print('Dio error!');
+                                  print('STATUS: ${e.response?.statusCode}');
+                                  print('DATA: ${e.response?.data}');
+                                  print('HEADERS: ${e.response?.headers}');
+                                } else {
+                                  // Error due to setting up or sending the request
+                                  print('Error sending request!');
+                                  print(e.message);
+                                }
+                              }
+                            print(" $e\n");
+                            }
+                          },
+                          child: Text(
                           "Search"
                               //TODO add search functionality using spotlight.io
                         ),
