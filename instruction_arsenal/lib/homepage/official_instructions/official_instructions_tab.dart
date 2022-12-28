@@ -102,7 +102,6 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
                           },
                           child: Text(
                           "Search"
-                              //TODO add search functionality using spotlight.io
                         ),
                         ),
                       )
