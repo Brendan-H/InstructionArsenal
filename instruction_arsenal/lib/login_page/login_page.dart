@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:instruction_arsenal/homepage/homepage.dart';
+import 'package:instruction_arsenal/login_page/complete_profile_widget.dart';
 
 //import '../auth/auth_util.dart';
 //import '../forgot_password/forgot_password_widget.dart';
@@ -715,15 +716,32 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
                                         );
                                         return;
                                       }
+                                      if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                          .hasMatch(createEmailController!.text)) {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(
+                                                content: Text("Invalid email address")
+                                            ));
+                                        return;
+                                      }
 
                                       await FirebaseAuth.instance.createUserWithEmailAndPassword(
+
                                           email: createEmailController!.text,
                                           password: createPasswordController!.text);
 
+
+                                      // await Navigator.pushAndRemoveUntil(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //     builder: (context) => Homepage(),
+                                      //   ),
+                                      //       (r) => false,
+                                      // );
                                       await Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => Homepage(),
+                                          builder: (context) => CompleteProfileWidget(),
                                         ),
                                             (r) => false,
                                       );

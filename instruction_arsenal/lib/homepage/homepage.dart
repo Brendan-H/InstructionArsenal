@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:instruction_arsenal/homepage/official_instructions/official_instructions_tab.dart';
+import 'package:instruction_arsenal/homepage/profile/profile_page.dart';
 import 'package:instruction_arsenal/login_page/login_page.dart';
 
 class Homepage extends StatefulWidget {
@@ -55,6 +56,14 @@ class _HomepageState extends State<Homepage> with TickerProviderStateMixin{
             ListTile(
               leading: Icon(Icons.account_circle),
               title: Text('Profile'),
+              onTap: () async{
+                await Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProfilePage(),
+              ),
+                  (r) => false,
+            );},
             ),
             ListTile(
               leading: Icon(Icons.settings),
@@ -87,9 +96,10 @@ class _HomepageState extends State<Homepage> with TickerProviderStateMixin{
       body: TabBarView(
         controller: _tabController,
         children: [
-          OfficialInstructionsTab(),
+          const OfficialInstructionsTab(),
           Center(child: ElevatedButton(
               onPressed: () async {
+                await FirebaseAuth.instance.signOut();
                 await Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
@@ -98,7 +108,7 @@ class _HomepageState extends State<Homepage> with TickerProviderStateMixin{
                       (r) => false,
                 );
               },
-              child: Text("Go to login page"))
+              child: Text("Logout"))
           ),
         ],
       ),
