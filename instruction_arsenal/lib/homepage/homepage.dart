@@ -97,7 +97,8 @@ class _HomepageState extends State<Homepage> with TickerProviderStateMixin{
         controller: _tabController,
         children: [
           const OfficialInstructionsTab(),
-          Center(child: ElevatedButton(
+          Center(
+              child: ElevatedButton(
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();
                 await Navigator.pushAndRemoveUntil(
