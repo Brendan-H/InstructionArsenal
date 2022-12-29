@@ -18,6 +18,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -32,6 +33,7 @@ public class WebSecurityConfig {
         http.csrf().disable().cors().disable().authorizeHttpRequests()
                 .requestMatchers("/api/v*/users/**").permitAll();
 
+
         http.authorizeHttpRequests().requestMatchers("/api/v*/instructions/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
@@ -40,6 +42,21 @@ public class WebSecurityConfig {
         return http.build();
     }
 
+    @Configuration
+    public class RequestLoggingFilterConfig {
+
+        @Bean
+        public CommonsRequestLoggingFilter logFilter() {
+            CommonsRequestLoggingFilter filter
+                    = new CommonsRequestLoggingFilter();
+            filter.setIncludeQueryString(true);
+            filter.setIncludePayload(true);
+            filter.setMaxPayloadLength(10000);
+            filter.setIncludeHeaders(false);
+            filter.setAfterMessagePrefix("REQUEST DATA : ");
+            return filter;
+        }
+    }
 
 
 }

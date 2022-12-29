@@ -8,16 +8,21 @@
 package com.brendanharan.instructionarsenalbackend.officialInstructions;
 
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 @Repository @Transactional(readOnly = true)
 public interface OfficialInstructionsRepository extends JpaRepository<OfficialInstructions, Long> {
 
 
-    OfficialInstructions findByTitle(String title);
+    List<OfficialInstructions> findByTitle(String title);
+
+    OfficialInstructions findAllById(Long id);
 
    // OfficialInstructions findbyCompany(String company);
 

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import java.util.*;
 
 import java.util.List;
 
@@ -37,5 +38,20 @@ public class OfficialInstructionsController {
         return ResponseEntity.ok().body(postService.getPosts());
     }
 
+    @GetMapping("/{id}")
+    OfficialInstructions findPostByID(@PathVariable Long id) {
+        return postService.findPostByID(id);
+    }
+
+    @GetMapping("/title/{title}")
+    List<OfficialInstructions> findPostByTitle(@PathVariable String title) {
+        try {
+            return postService.findPostByTitle(title);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
 
 }
