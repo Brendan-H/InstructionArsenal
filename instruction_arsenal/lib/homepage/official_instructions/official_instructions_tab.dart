@@ -13,6 +13,7 @@ class OfficialInstructionsTab extends StatefulWidget {
 }
 
 class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
+  final TextEditingController _titleController = TextEditingController();
 
 
   @override
@@ -50,14 +51,15 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
                     children: [
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
+                        children: [
                           Icon(Icons.search),
                           //search box
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                              padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                               child: TextField(
-                                decoration: InputDecoration(
+                                controller: _titleController,
+                                decoration: const InputDecoration(
                                   border: InputBorder.none,
                                   hintText: 'Search for official instructions',
                                 ),
@@ -71,10 +73,11 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
                         child: ElevatedButton(
                           onPressed: () async {
                             var firebaseid = await FirebaseAuth.instance.currentUser?.getIdToken();
+                            print(firebaseid);
                             try {
                            var dio = Dio();
                               final response = await dio.get(
-                                "http://10.0.2.2:8080/api/v1/instructions/officialinstructions",
+                                "http://10.0.2.2:8080/api/v1/instructions/officialinstructions/title/${_titleController.text}",
                                 options: Options(
                                     headers: {
                                       'Authorization': 'Bearer $firebaseid',
