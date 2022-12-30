@@ -28,12 +28,12 @@ public class OfficialInstructionsController {
 
     @PostMapping()
     public ResponseEntity createPost(@RequestBody OfficialInstructions officialInstructions)  {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         officialInstructionsService.saveOfficialInstructions(officialInstructions);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    @GetMapping()
+    @GetMapping("/all")
     public ResponseEntity<List<OfficialInstructions>> getPosts() {
         return ResponseEntity.ok().body(officialInstructionsService.getOfficialInstructions());
     }
@@ -41,6 +41,12 @@ public class OfficialInstructionsController {
     @GetMapping("/{id}")
     OfficialInstructions findPostByID(@PathVariable Long id) {
         return officialInstructionsService.findOfficialInstructionsByID(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deletePostByID(@PathVariable Long id) {
+        officialInstructionsService.deleteOfficialInstructions(id);
+        return ResponseEntity.ok("Official Instruction Deleted");
     }
 
     @GetMapping("/title/{title}")

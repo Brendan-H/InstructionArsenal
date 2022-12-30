@@ -33,6 +33,11 @@ public class OfficialInstructionsService {
         officialInstructionsRepository.save(officialInstructions);
     }
 
+    public void deleteOfficialInstructions(Long id) {
+        officialInstructionsRepository.deleteById(id);
+       // officialInstructionsRepository.deleteOfficialInstructionsById(id);
+    }
+
     public List<OfficialInstructions> getOfficialInstructions(){
         return officialInstructionsRepository.findAll();
     }
