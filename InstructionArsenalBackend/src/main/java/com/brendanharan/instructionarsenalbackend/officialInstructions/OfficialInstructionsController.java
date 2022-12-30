@@ -24,34 +24,44 @@ import java.util.List;
 public class OfficialInstructionsController {
 
 
-    private final OfficialInstructionsService postService;
+    private final OfficialInstructionsService officialInstructionsService;
 
     @PostMapping()
     public ResponseEntity createPost(@RequestBody OfficialInstructions officialInstructions)  {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        postService.savePost(officialInstructions);
+        officialInstructionsService.saveOfficialInstructions(officialInstructions);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @GetMapping()
     public ResponseEntity<List<OfficialInstructions>> getPosts() {
-        return ResponseEntity.ok().body(postService.getPosts());
+        return ResponseEntity.ok().body(officialInstructionsService.getOfficialInstructions());
     }
 
     @GetMapping("/{id}")
     OfficialInstructions findPostByID(@PathVariable Long id) {
-        return postService.findPostByID(id);
+        return officialInstructionsService.findOfficialInstructionsByID(id);
     }
 
     @GetMapping("/title/{title}")
     List<OfficialInstructions> findPostByTitle(@PathVariable String title) {
-        try {
-            return postService.findPostByTitle(title);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-
+            return officialInstructionsService.findOfficialInstructionsByTitle(title);
     }
+
+    @GetMapping("/createdby/{createdBy}")
+    List<OfficialInstructions> findPostByCreatedBy(@PathVariable String createdBy) {
+        return officialInstructionsService.findOfficialInstructionsByCreatedBy(createdBy);
+    }
+
+    @GetMapping("/company/{company}")
+    List<OfficialInstructions> findPostByCompany(@PathVariable String company) {
+        return officialInstructionsService.findOfficialInstructionsByCompany(company);
+    }
+//    @GetMapping("/companynear/{company}")
+//    List<OfficialInstructions> findPostByCompanyNear(@PathVariable String company) {
+//        return officialInstructionsService.findOfficialInstructionsByCompanyNear(company);
+//    }
+
+
 
 }

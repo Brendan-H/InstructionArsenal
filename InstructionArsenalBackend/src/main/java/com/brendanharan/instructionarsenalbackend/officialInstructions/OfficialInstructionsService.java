@@ -29,20 +29,32 @@ public class OfficialInstructionsService {
 
 
 
-    public void savePost(OfficialInstructions officialInstructions) {
+    public void saveOfficialInstructions(OfficialInstructions officialInstructions) {
         officialInstructionsRepository.save(officialInstructions);
     }
 
-    public List<OfficialInstructions> getPosts(){
+    public List<OfficialInstructions> getOfficialInstructions(){
         return officialInstructionsRepository.findAll();
     }
 
 
-    public OfficialInstructions findPostByID(Long id) {
+    public List<OfficialInstructions> findOfficialInstructionsByTitle(String title) {
+        return officialInstructionsRepository.findByTitle(title);
+    }
+
+    public OfficialInstructions findOfficialInstructionsByID(Long id) {
         return officialInstructionsRepository.findAllById(id);
     }
 
-    public List<OfficialInstructions> findPostByTitle(String title) {
-        return officialInstructionsRepository.findByTitle(title);
+    public List<OfficialInstructions> findOfficialInstructionsByCreatedBy(String createdBy) {
+        return officialInstructionsRepository.findAllByCreatedBy(createdBy);
     }
+
+    public List<OfficialInstructions> findOfficialInstructionsByCompany(String company) {
+        return officialInstructionsRepository.findAllByCompany(company);
+    }
+//    public List<OfficialInstructions> findOfficialInstructionsByCompanyNear(String company) {
+//        return officialInstructionsRepository.findAllByCompanyNear(company);
+//    }
 }
+

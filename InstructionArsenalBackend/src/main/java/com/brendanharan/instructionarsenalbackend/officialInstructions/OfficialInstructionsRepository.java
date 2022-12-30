@@ -10,6 +10,7 @@ package com.brendanharan.instructionarsenalbackend.officialInstructions;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,11 +21,16 @@ import java.util.List;
 public interface OfficialInstructionsRepository extends JpaRepository<OfficialInstructions, Long> {
 
 
+   // List<OfficialInstructions> findByTitleNear(String title);
     List<OfficialInstructions> findByTitle(String title);
+
 
     OfficialInstructions findAllById(Long id);
 
-   // OfficialInstructions findbyCompany(String company);
+    List<OfficialInstructions> findAllByCreatedBy(String createdBy);
+
+   List<OfficialInstructions> findAllByCompany(String company);
+   //List<OfficialInstructions> findAllByCompanyNear(String company);
 
 
 

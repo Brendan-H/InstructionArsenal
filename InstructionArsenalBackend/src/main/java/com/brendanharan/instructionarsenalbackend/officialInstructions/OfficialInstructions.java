@@ -46,6 +46,9 @@ public class OfficialInstructions {
     @Column(name="Instructions")
     private String instructions;
 
+    @Column(name="CreatedBy")
+    private String createdBy;
+
 //    @Lob
 //    @Column(name = "file")
 //    private byte[] file;
@@ -61,16 +64,16 @@ public class OfficialInstructions {
                 ", company='" + company + '\'' +
                 ", postCreatedAt=" + postCreatedAt +
                 ", instructions='" + instructions + '\'' +
+                ", createdBy='" + createdBy + '\'' +
                 '}';
     }
 
-    public OfficialInstructions(String title, String description, String company, LocalDateTime postCreatedAt, String instructions) {
+    public OfficialInstructions(String title, String description, String company, LocalDateTime postCreatedAt, String instructions, String createdBy) {
         this.title = title;
         this.description = description;
         this.company = company;
         this.postCreatedAt = postCreatedAt;
         this.instructions = instructions;
+        this.createdBy = createdBy;
     }
-
-
 }
