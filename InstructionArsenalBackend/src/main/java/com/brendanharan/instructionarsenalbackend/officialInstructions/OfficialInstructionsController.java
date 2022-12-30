@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URLDecoder;
 import java.util.*;
 
 import java.util.List;
@@ -52,6 +54,13 @@ public class OfficialInstructionsController {
     @GetMapping("/title/{title}")
     List<OfficialInstructions> findPostByTitle(@PathVariable String title) {
             return officialInstructionsService.findOfficialInstructionsByTitle(title);
+    }
+    @GetMapping("/titlelike/{title}")
+    List<OfficialInstructions> findPostByTitleLike(@PathVariable String title) {
+        var newTitle = title.replaceAll("%20", "%");
+        var newerTitle = title.replaceAll(" ", "%");
+        //System.out.println("'" + newerTitle + "'");
+        return officialInstructionsService.findOfficialInstructionsByTitleLike(newerTitle);
     }
 
     @GetMapping("/createdby/{createdBy}")
