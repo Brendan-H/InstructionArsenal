@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:instruction_arsenal/homepage/official_instructions/official_instructions_tab.dart';
-import 'package:instruction_arsenal/homepage/profile/profile_page.dart';
 import 'package:instruction_arsenal/login_page/login_page.dart';
+
+import 'main_drawer.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
@@ -35,43 +36,7 @@ class _HomepageState extends State<Homepage> with TickerProviderStateMixin{
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            SizedBox(
-              height: 120.0,
-              child: DrawerHeader(
-                decoration: BoxDecoration(
-                ),
-                child: Text(
-                  FirebaseAuth.instance.currentUser?.email ?? "Email",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24,
-                  ),
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text('Profile'),
-              onTap: () async{
-                await Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ProfilePage(),
-              ),
-                  (r) => false,
-            );},
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Settings'),
-            ),
-          ],
-        ),
-      ),
+      drawer: const MainDrawer(),
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(icon: const Icon(Icons.account_circle_rounded, color: Colors.black), onPressed: () {_scaffoldKey.currentState!.openDrawer();}),
@@ -104,12 +69,12 @@ class _HomepageState extends State<Homepage> with TickerProviderStateMixin{
                 await Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => LoginPageWidget(),
+                    builder: (context) => const LoginPageWidget(),
                   ),
                       (r) => false,
                 );
               },
-              child: Text("Logout"))
+              child: const Text("Logout"))
           ),
         ],
       ),

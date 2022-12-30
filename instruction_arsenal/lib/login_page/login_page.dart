@@ -333,7 +333,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
                                   child: BrendanButtonWidget(
 
                                     onPressed: () async {
-                                      if (loginPasswordController!.text.isEmpty || loginEmailAddressController!.text.isEmpty) {
+                                      if (loginPasswordController.text.isEmpty || loginEmailAddressController.text.isEmpty) {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           const SnackBar(
@@ -357,7 +357,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
                                         await Navigator.pushAndRemoveUntil(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => Homepage(),
+                                            builder: (context) => const Homepage(),
                                           ),
                                               (r) => false,
                                         );
@@ -741,7 +741,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
                                       await Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => CompleteProfileWidget(),
+                                          builder: (context) => const CompleteProfileWidget(),
                                         ),
                                             (r) => false,
                                       );

@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:instruction_arsenal/homepage/homepage.dart';
 
 import '../utils/widgets.dart';
-import '../main.dart';
 import 'package:flutter/material.dart';
 
 class CompleteProfileWidget extends StatefulWidget {
@@ -39,7 +38,7 @@ class _CompleteProfileWidgetState extends State<CompleteProfileWidget> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
-        title: Text(
+        title: const Text(
           'Complete Profile',
           style: TextStyle(
             fontFamily: 'Lexend Deca',
@@ -48,7 +47,7 @@ class _CompleteProfileWidgetState extends State<CompleteProfileWidget> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        actions: [],
+        actions: const [],
         centerTitle: true,
         elevation: 4,
       ),
@@ -118,7 +117,7 @@ class _CompleteProfileWidgetState extends State<CompleteProfileWidget> {
             //   ),
             // ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(20, 16, 20, 0),
+              padding: const EdgeInsetsDirectional.fromSTEB(20, 16, 20, 0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -130,7 +129,7 @@ class _CompleteProfileWidgetState extends State<CompleteProfileWidget> {
                       decoration: InputDecoration(
                         labelText: 'Name',
                         labelStyle:
-                        TextStyle(
+                        const TextStyle(
                           fontFamily: 'Lexend Deca',
                           color: Color(0xFF95A1AC),
                           fontSize: 14,
@@ -138,35 +137,35 @@ class _CompleteProfileWidgetState extends State<CompleteProfileWidget> {
                         ),
                         hintText: 'Enter your full name here...',
                         hintStyle:
-                        TextStyle(
+                        const TextStyle(
                           fontFamily: 'Lexend Deca',
                           color: Color(0xFF95A1AC),
                           fontSize: 14,
                           fontWeight: FontWeight.normal,
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Color(0xFFDBE2E7),
                             width: 2,
                           ),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Color(0xFFDBE2E7),
                             width: 2,
                           ),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Color(0x00000000),
                             width: 2,
                           ),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Color(0x00000000),
                             width: 2,
                           ),
@@ -175,7 +174,7 @@ class _CompleteProfileWidgetState extends State<CompleteProfileWidget> {
                         filled: true,
                         fillColor: Colors.white,
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: 'Lexend Deca',
                         color: Color(0xFF2B343A),
                         fontSize: 14,
@@ -187,7 +186,7 @@ class _CompleteProfileWidgetState extends State<CompleteProfileWidget> {
               ),
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+              padding: const EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
               child: BrendanButtonWidget(
                 onPressed: () async {
                   FirebaseAuth.instance.currentUser!.updateDisplayName(addNameController!.text);
@@ -195,13 +194,13 @@ class _CompleteProfileWidgetState extends State<CompleteProfileWidget> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          Homepage()
+                          const Homepage()
                     ),
                         (r) => false,
                   );
                 },
                 text: 'Save Profile',
-                options: BrendanButtonOptions(
+                options: const BrendanButtonOptions(
                   width: 230,
                   height: 50,
                   color: Color(0xFF090F13),

@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -91,7 +90,7 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(Icons.search),
+                          const Icon(Icons.search),
                           //search box
                           Expanded(
                             child: Padding(
@@ -146,7 +145,7 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
                            //  print(" $e\n");
                            //  }
                           },
-                          child: Text(
+                          child: const Text(
                           "Search"
                         ),
                         ),
@@ -172,8 +171,8 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
                                   elevation: 2,
                                   child: ListTile(
                                     title: Text(
-                                      officialInstruction!.title!.length > 100 ? officialInstruction!.title!.substring(0, 100) +'...' : officialInstruction.title ?? "Title",
-                                      style: TextStyle(
+                                      officialInstruction.title!.length > 100 ? '${officialInstruction.title!.substring(0, 100)}...' : officialInstruction.title ?? "Title",
+                                      style: const TextStyle(
                                         fontFamily: 'Poppins',
                                         fontSize: 18,
                                       ),
@@ -182,7 +181,7 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
                                       padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                                       child: Text(
                                         "Company: ${officialInstruction.company}" ?? '',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontFamily: 'Poppins',
                                           fontSize: 15,
                                         ),

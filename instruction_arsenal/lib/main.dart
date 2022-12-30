@@ -44,10 +44,10 @@ Future<Widget> getLandingPage() async {
     stream: _auth.authStateChanges(),
     builder: (BuildContext context, snapshot) {
       if (snapshot.hasData) {
-        return Homepage();
+        return const Homepage();
       }
 
-      return LoginPageWidget();
+      return const LoginPageWidget();
     },
   );
 }

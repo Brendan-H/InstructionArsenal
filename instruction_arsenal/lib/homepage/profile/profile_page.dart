@@ -21,7 +21,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<List<OfficialInstructions>?> fetchOfficialInstructions() async {
     var idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
     var dio = Dio();
-    var email = await FirebaseAuth.instance.currentUser!.email;
+    var email = FirebaseAuth.instance.currentUser!.email;
     var response = await dio.get('http://10.0.2.2:8080/api/v1/instructions/officialinstructions/createdby/$email',
         options: Options(
           headers: {
@@ -67,13 +67,13 @@ class _ProfilePageState extends State<ProfilePage> {
             await Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => Homepage(),
+                builder: (context) => const Homepage(),
               ),
                   (r) => false,
             );
           },
         ),
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         centerTitle: true,
         backgroundColor: Colors.white,
         title: const Text('Profile',
@@ -85,7 +85,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
       body: SafeArea(
-        child: Container(
+        child: SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: Column(
@@ -93,27 +93,8 @@ class _ProfilePageState extends State<ProfilePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 20,),
-              const SizedBox(height: 20,),
-               Text(
-                FirebaseAuth.instance.currentUser!.email ?? 'Email not found',
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 35,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 20,),
-               Text(
-                FirebaseAuth.instance.currentUser!.displayName ?? 'Name not found',
-                style: const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 27,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 20,),
               const Text(
-                "Your Posts:",
+                "Your Instructions:",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 30,
@@ -133,8 +114,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             elevation: 2,
                             child: ListTile(
                               title: Text(
-                                officialInstruction!.title!.length > 100 ? officialInstruction!.title!.substring(0, 100) +'...' : officialInstruction.title ?? "Title",
-                                style: TextStyle(
+                                officialInstruction.title!.length > 100 ? '${officialInstruction.title!.substring(0, 100)}...' : officialInstruction.title ?? "Title",
+                                style: const TextStyle(
                                   fontFamily: 'Poppins',
                                   fontSize: 18,
                                 ),
@@ -143,7 +124,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                                 child: Text(
                                   "Company: ${officialInstruction.company}" ?? '',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontFamily: 'Poppins',
                                     fontSize: 15,
                                   ),
