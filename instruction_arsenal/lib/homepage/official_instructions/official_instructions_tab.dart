@@ -20,7 +20,7 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
   Future<List<OfficialInstructions>?> fetchOfficialInstructions() async {
     var idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
     var dio = Dio();
-    var response = await dio.get('http://10.0.2.2:8080/api/v1/instructions/officialinstructions/all',
+    var response = await dio.get('http://10.0.2.2:8080/api/v1/instructions/officialinstructions/1',
         options: Options(
           headers: {
             'Authorization': "Bearer $idToken",
@@ -33,8 +33,6 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
         officialInstructions.add(OfficialInstructions.fromJson(officialInstructionsJson));
       }
       print(officialInstructions);
-      var post1 = officialInstructions[0].title;
-      print("Post1 = $post1");
       return officialInstructions;
 
     }
