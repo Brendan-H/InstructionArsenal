@@ -194,6 +194,7 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => OfficialInstructionsInfoPage(
+                                            isMyPost: false,
                                             officialInstructions: officialInstruction,
                                           ),
                                         ),

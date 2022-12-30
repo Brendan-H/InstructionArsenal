@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:instruction_arsenal/backend/models/official_instructions.dart';
@@ -10,8 +11,10 @@ class OfficialInstructionsInfoPage extends StatefulWidget {
 
 
   final OfficialInstructions officialInstructions;
+
+  final bool isMyPost;
   
-  const OfficialInstructionsInfoPage({Key? key, required this.officialInstructions}) : super(key: key);
+  const OfficialInstructionsInfoPage({Key? key, required this.officialInstructions, required this.isMyPost}) : super(key: key);
 
 
 
@@ -23,6 +26,7 @@ class OfficialInstructionsInfoPage extends StatefulWidget {
 
 
 class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 
   String getCreatedBy() {
@@ -34,13 +38,85 @@ class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoP
     }
 
   }
+  showAlertDialog(BuildContext context) {
 
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed:  () async {Navigator.pop(context);},
+    );
+    Widget continueButton = TextButton(
+      child: Text("Continue"),
+      onPressed:  () async {
+        var idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+        var dio = Dio();
+        await dio.delete(
+            "http://10.0.2.2:8080/api/v1/instructions/officialinstructions/${widget.officialInstructions.id}",
+            options: Options(
+              headers: {
+                'Authorization': "Bearer $idToken",
+              },
+            )
+        );
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Post Deleted")));
+        Navigator.pop(context);
 
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Delete Post"),
+      content: const Text("Are you sure you would like to delete this post?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
+        actions: [
+          Visibility(
+            visible: widget.isMyPost,
+            child: PopupMenuButton<int>(
+              onSelected: (widget) {
+                showAlertDialog(context);
+              },
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: 1,
+                  child: Row(
+                    children: [
+                      Icon(Icons.delete),
+                      SizedBox(
+                        // sized box with width 10
+                        width: 10,
+                      ),
+                      Text("Delete this post")
+                    ],
+                  ),
+                ),
+              ],
+              offset: Offset(0, 100),
+              color: Colors.white,
+              elevation: 2,
+            ),
+          ),
+        ],
         centerTitle: true,
         backgroundColor: Colors.white,
         leading: IconButton(
