@@ -37,7 +37,7 @@ class _MainDrawerState extends State<MainDrawer> {
                     FirebaseAuth.instance.currentUser!.displayName ?? 'Name not found',
                     style: const TextStyle(
                       color: Colors.grey,
-                      fontSize: 27,
+                      fontSize: 24,
                       fontWeight: FontWeight.w600,
                     ),
                   ),

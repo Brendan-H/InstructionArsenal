@@ -2,6 +2,7 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:instruction_arsenal/homepage/official_instructions/official_instructions_info_page.dart';
 
 import '../../backend/models/official_instructions.dart';
 
@@ -19,7 +20,7 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
   Future<List<OfficialInstructions>?> fetchOfficialInstructions() async {
     var idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
     var dio = Dio();
-    var response = await dio.get('http://10.0.2.2:8080/api/v1/instructions/officialinstructions/1',
+    var response = await dio.get('http://10.0.2.2:8080/api/v1/instructions/officialinstructions/all',
         options: Options(
           headers: {
             'Authorization': "Bearer $idToken",
@@ -189,15 +190,14 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
                                     ),
 
                                     onTap: () {
-                                      null;
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) => PostInfoPage(
-                                      //       post: post,
-                                      //     ),
-                                      //   ),
-                                      // );
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => OfficialInstructionsInfoPage(
+                                            officialInstructions: officialInstruction,
+                                          ),
+                                        ),
+                                      );
                                     },
                                   ),
                                 );
