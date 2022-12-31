@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:instruction_arsenal/homepage/profile/profile_page.dart';
+import 'package:instruction_arsenal/profile/profile_page.dart';
+
+import '../login_page/login_page.dart';
 
 class MainDrawer extends StatefulWidget {
   const MainDrawer({Key? key}) : super(key: key);
@@ -60,6 +62,20 @@ class _MainDrawerState extends State<MainDrawer> {
           const ListTile(
             leading: Icon(Icons.settings),
             title: Text('Settings'),
+          ),
+           ListTile(
+            leading: const Icon(Icons.logout),
+            title: Text('Log Out'),
+             onTap: () async {
+               await FirebaseAuth.instance.signOut();
+               await Navigator.pushAndRemoveUntil(
+                 context,
+                 MaterialPageRoute(
+                   builder: (context) => const LoginPageWidget(),
+                 ),
+                     (r) => false,
+               );
+             },
           ),
         ],
       ),

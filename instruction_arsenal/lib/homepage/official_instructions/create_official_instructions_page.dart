@@ -1,0 +1,482 @@
+import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:instruction_arsenal/homepage/homepage.dart';
+import 'package:instruction_arsenal/homepage/official_instructions/official_instructions_tab.dart';
+
+import '../../utils/widgets.dart';
+
+class CreateOfficialInstructionsPage extends StatefulWidget {
+  const CreateOfficialInstructionsPage({Key? key}) : super(key: key);
+
+  @override
+  State<CreateOfficialInstructionsPage> createState() => _CreateOfficialInstructionsPageState();
+}
+
+class _CreateOfficialInstructionsPageState extends State<CreateOfficialInstructionsPage> {
+  DateTime? datePicked;
+  TextEditingController? companyNameController;
+  TextEditingController? titleController;
+  TextEditingController? descriptionController;
+  TextEditingController? instructionsController;
+  int? hoursControllerValue;
+  final formKey = GlobalKey<FormState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  var dio = Dio();
+
+  void createPost() async {
+    try {
+      var idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+      var dio = Dio();
+      var response = await dio.post('http://10.0.2.2:8080/api/v1/instructions/officialinstructions',
+          data: {
+            'title':titleController?.text,
+            'description':descriptionController?.text,
+            'company':companyNameController?.text,
+            'instructions':instructionsController?.text,
+            'createdBy': FirebaseAuth.instance.currentUser!.email,
+          },
+          options: Options(
+            headers: {
+              'Authorization': "Bearer $idToken",
+            },
+          ));
+      if (response.statusCode == 201) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Official Instructions Created")));
+        await Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Homepage(),
+          ),
+              (r) => false,
+        );
+      }
+      if (response.statusCode == 404) {
+        print('404');
+      }
+      if (response.statusCode == 401) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("401 Unauthorized. Try logging out and logging back in.")));
+      }
+
+    } on Exception catch (e) {
+      throw Exception(e);
+    }
+
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    companyNameController = TextEditingController();
+    titleController = TextEditingController();
+    descriptionController = TextEditingController();
+    instructionsController = TextEditingController();
+  }
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: formKey,
+      autovalidateMode: AutovalidateMode.always,
+      child: Scaffold(
+
+        key: scaffoldKey,
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () async {
+              await Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Homepage(),
+                ),
+                    (r) => false,
+              );
+            },
+          ),
+          iconTheme: const IconThemeData(color: Colors.black),
+          backgroundColor: Colors.white,
+
+          automaticallyImplyLeading: false,
+          flexibleSpace: Align(
+            alignment: AlignmentDirectional(0, 0.5),
+            child: Text(
+              'Add Official Instructions',
+              style: TextStyle(
+                color: Color(0xFF090F13),
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          actions: [],
+          elevation: 5,
+        ),
+//        backgroundColor: Colors.white,
+        // Changed from white to off-white (f5f5f5)
+        backgroundColor: Color(0xFFf5f5f5),
+        body: SafeArea(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            scrollDirection: Axis.vertical,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 12),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.94,
+                      decoration: BoxDecoration(),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Padding(
+                            padding:
+                            EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    enableInteractiveSelection: true,
+                                    controller: titleController,
+                                    obscureText: false,
+                                    decoration: InputDecoration(
+                                      hintText: 'Title',
+                                      hintStyle:
+                                      TextStyle(
+                                        fontFamily: 'Lexend Deca',
+                                        color: Color(0xFF8B97A2),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0xFFDBE2E7),
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0xFFDBE2E7),
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      contentPadding:
+                                      EdgeInsetsDirectional.fromSTEB(
+                                          20, 32, 12, 0),
+                                    ),
+                                    style: TextStyle(
+                                      fontFamily: 'Lexend Deca',
+                                      color: Color(0xFF090F13),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                    textAlign: TextAlign.start,
+                                    maxLines: 2,
+                                    validator: (val) {
+                                      if (val!.isEmpty) {
+                                        return 'Title is required';
+                                      }
+
+                                      return null;
+                                    },
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 12),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.94,
+                      decoration: BoxDecoration(
+                        //                       color: Colors.white
+
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Padding(
+                            padding:
+                            EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    enableInteractiveSelection: true,
+                                    controller: descriptionController,
+                                    obscureText: false,
+                                    decoration: InputDecoration(
+                                      hintText: 'Description',
+                                      hintStyle:
+                                      TextStyle(
+                                        fontFamily: 'Lexend Deca',
+                                        color: Color(0xFF8B97A2),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0xFFDBE2E7),
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0xFFDBE2E7),
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      contentPadding:
+                                      EdgeInsetsDirectional.fromSTEB(
+                                          20, 32, 20, 0),
+                                    ),
+                                    style: TextStyle(
+                                      fontFamily: 'Lexend Deca',
+                                      color: Color(0xFF090F13),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                    textAlign: TextAlign.start,
+                                    maxLines: 8,
+                                    validator: (val) {
+                                      if (val!.isEmpty) {
+                                        return 'Description is required';
+                                      }
+
+                                      return null;
+                                    },
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 12),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.94,
+                      decoration: BoxDecoration(),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Padding(
+                            padding:
+                            EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    enableInteractiveSelection: true,
+                                    controller: companyNameController,
+                                    obscureText: false,
+                                    decoration: InputDecoration(
+                                      hintText: 'Company Name',
+                                      hintStyle:
+                                      TextStyle(
+                                        fontFamily: 'Lexend Deca',
+                                        color: Color(0xFF8B97A2),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0xFFDBE2E7),
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0xFFDBE2E7),
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      contentPadding:
+                                      EdgeInsetsDirectional.fromSTEB(
+                                          20, 32, 12, 0),
+                                    ),
+                                    style: TextStyle(
+                                      fontFamily: 'Lexend Deca',
+                                      color: Color(0xFF090F13),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                    textAlign: TextAlign.start,
+                                    maxLines: 1,
+                                    validator: (val) {
+                                      if (val!.isEmpty) {
+                                        return 'Company is required';
+                                      }
+
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 12),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.94,
+                      decoration: BoxDecoration(
+                        //                       color: Colors.white
+
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Padding(
+                            padding:
+                            EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    enableInteractiveSelection: true,
+                                    controller: instructionsController,
+                                    obscureText: false,
+                                    maxLines: null,
+                                    decoration: InputDecoration(
+                                      hintText: 'Instructions',
+                                      hintStyle:
+                                      TextStyle(
+                                        fontFamily: 'Lexend Deca',
+                                        color: Color(0xFF8B97A2),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0xFFDBE2E7),
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0xFFDBE2E7),
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      contentPadding:
+                                      EdgeInsetsDirectional.fromSTEB(
+                                          20, 32, 20, 0),
+                                    ),
+                                    style: TextStyle(
+                                      fontFamily: 'Lexend Deca',
+                                      color: Color(0xFF090F13),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                    textAlign: TextAlign.start,
+                                    validator: (val) {
+                                      if (val!.isEmpty) {
+                                        return 'Instructions are required';
+                                      }
+
+                                      return null;
+                                    },
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+
+
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                child: BrendanButtonWidget(
+                  onPressed: () async {
+                    if (!formKey.currentState!.validate()) {
+                      return;
+                    }
+                    createPost();
+/*
+                    await Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NavBarPage(
+                            initialPage: 'opportunitiesPage'),
+                      ),
+                          (r) => false,
+                    );
+*/
+                  },
+                  text: 'Add Official Instructions',
+                  options: BrendanButtonOptions(
+                    width: 270,
+                    height: MediaQuery.of(context).size.height * 0.1,
+                    color: Colors.white,
+                    textStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    elevation: 4,
+                    borderSide: BorderSide(
+                      color: Colors.transparent,
+                      width: 1,
+                    ),
+                    borderRadius: 0,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

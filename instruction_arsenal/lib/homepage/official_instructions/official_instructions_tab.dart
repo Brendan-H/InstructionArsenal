@@ -2,6 +2,7 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:instruction_arsenal/homepage/official_instructions/create_official_instructions_page.dart';
 import 'package:instruction_arsenal/homepage/official_instructions/official_instructions_info_page.dart';
 
 import '../../backend/models/official_instructions.dart';
@@ -48,6 +49,41 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
     }  else var response = null;
 
   }
+  showAlertDialog(BuildContext context) {
+
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: const Text("Cancel"),
+      onPressed:  () async {Navigator.pop(context);},
+    );
+    Widget continueButton = TextButton(
+      child: const Text("Continue"),
+      onPressed:  () async {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Post Deleted")));
+        Navigator.pop(context);
+
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Delete Post"),
+      content: const Text("Are you sure you would like to delete this post?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 
   late Future<List<OfficialInstructions>?> futureOfficialInstructions;
 
@@ -63,6 +99,42 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.black,
+        onPressed: () {  },
+        child: PopupMenuButton<int>(
+          icon: const Icon(Icons.add),
+          onSelected: (widget) async {
+            await Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const CreateOfficialInstructionsPage(),
+              ),
+                  (r) => false,
+            );
+          },
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              value: 1,
+              child: Row(
+                children: const [
+                  Icon(Icons.add,
+                  color: Colors.black,),
+                  SizedBox(
+                    // sized box with width 10
+                    width: 10,
+                  ),
+                  Text("Add Official Instructions")
+                ],
+              ),
+            ),
+          ],
+          offset: const Offset(0, 100),
+          color: Colors.white,
+          elevation: 2,
+        ),
+
+      ),
       backgroundColor: Colors.white60,
       body: LayoutBuilder(
         builder: (context, constraints) => SizedBox(
@@ -134,6 +206,9 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.65,
                         child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                          ),
                           onPressed: () async {
                             var firebaseid = await FirebaseAuth.instance.currentUser?.getIdToken();
                             if (_titleController!.text.length <
