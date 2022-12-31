@@ -41,7 +41,6 @@ public class OfficialInstructionsService {
 
     public void deleteOfficialInstructions(Long id) {
         officialInstructionsRepository.deleteById(id);
-       // officialInstructionsRepository.deleteOfficialInstructionsById(id);
     }
 
     public List<OfficialInstructions> getOfficialInstructions(){
@@ -49,20 +48,20 @@ public class OfficialInstructionsService {
     }
 
 
-    public List<OfficialInstructions> findOfficialInstructionsByTitle(String title) {
-        return officialInstructionsRepository.findByTitle(title);
-    }
-
     public OfficialInstructions findOfficialInstructionsByID(Long id) {
         return officialInstructionsRepository.findAllById(id);
     }
 
     public List<OfficialInstructions> findOfficialInstructionsByCreatedBy(String createdBy) {
-        return officialInstructionsRepository.findAllByCreatedBy(createdBy);
+        return officialInstructionsRepository.findAllByCreatedByLikeIgnoreCase(createdBy);
     }
 
     public List<OfficialInstructions> findOfficialInstructionsByCompany(String company) {
-        return officialInstructionsRepository.findAllByCompany(company);
+        return officialInstructionsRepository.findAllByCompanyLikeIgnoreCase(company);
+    }
+
+    public List<OfficialInstructions> findOfficialInstructionsByCreatedByExact(String createdBy) {
+        return officialInstructionsRepository.findAllByCreatedBy(createdBy);
     }
 //    public List<OfficialInstructions> findOfficialInstructionsByCompanyNear(String company) {
 //        return officialInstructionsRepository.findAllByCompanyNear(company);

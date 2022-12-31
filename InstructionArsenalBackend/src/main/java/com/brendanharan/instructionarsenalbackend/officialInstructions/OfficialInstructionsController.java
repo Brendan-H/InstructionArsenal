@@ -54,16 +54,17 @@ public class OfficialInstructionsController {
 
     @GetMapping("/title/{title}")
     List<OfficialInstructions> findPostByTitle(@PathVariable String title) {
-            return officialInstructionsService.findOfficialInstructionsByTitle(title);
-    }
-    @GetMapping("/titlelike/{title}")
-    List<OfficialInstructions> findPostByTitleLike(@PathVariable String title) {
         return officialInstructionsService.findOfficialInstructionsByTitleLike(title);
     }
+
 
     @GetMapping("/createdby/{createdBy}")
     List<OfficialInstructions> findPostByCreatedBy(@PathVariable String createdBy) {
         return officialInstructionsService.findOfficialInstructionsByCreatedBy(createdBy);
+    }
+    @GetMapping("/createdbyexact/{createdBy}")
+    List<OfficialInstructions> findPostByCreatedByExact(@PathVariable String createdBy) {
+        return officialInstructionsService.findOfficialInstructionsByCreatedByExact(createdBy);
     }
 
     @GetMapping("/company/{company}")

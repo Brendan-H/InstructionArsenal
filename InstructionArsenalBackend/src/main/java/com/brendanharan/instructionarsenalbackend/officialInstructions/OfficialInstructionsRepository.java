@@ -20,19 +20,17 @@ import java.util.List;
 public interface OfficialInstructionsRepository extends JpaRepository<OfficialInstructions, Long> {
 
 
-   // List<OfficialInstructions> findByTitleNear(String title);
-    List<OfficialInstructions> findByTitle(String title);
-
     @Query(value = "SELECT o1_0 FROM OfficialInstructions o1_0 WHERE o1_0.title LIKE %:title%", nativeQuery = false)
     List<OfficialInstructions> findByTitleLikeIgnoreCase(String title);
 
     OfficialInstructions findAllById(Long id);
 
+    @Query(value = "SELECT o1_0 FROM OfficialInstructions o1_0 WHERE o1_0.createdBy LIKE %:createdBy%", nativeQuery = false)
+    List<OfficialInstructions> findAllByCreatedByLikeIgnoreCase(String createdBy);
+
+    @Query(value = "SELECT o1_0 FROM OfficialInstructions o1_0 WHERE o1_0.company LIKE %:company%", nativeQuery = false)
+   List<OfficialInstructions> findAllByCompanyLikeIgnoreCase(String company);
+
+
     List<OfficialInstructions> findAllByCreatedBy(String createdBy);
-
-   List<OfficialInstructions> findAllByCompany(String company);
-   //List<OfficialInstructions> findAllByCompanyNear(String company);
-
-
-
 }
