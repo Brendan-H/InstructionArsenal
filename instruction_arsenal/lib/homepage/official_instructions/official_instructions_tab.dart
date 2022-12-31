@@ -24,7 +24,7 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
     var title = _titleController.text;
     var company = _companyController.text;
     if (_titleController.text.length > 0 && _companyController.text.isNotEmpty) {
-      var response = await dio.get('http://10.0.2.2:8080/api/v1/instructions/officialinstructions/titleandcompany/Haran/blah',
+      var response = await dio.get('http://10.0.2.2:8080/api/v1/instructions/officialinstructions/titleandcompany/$company/$title',
           options: Options(
             headers: {
               'Authorization': "Bearer $idToken",
@@ -136,6 +136,30 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
                         child: ElevatedButton(
                           onPressed: () async {
                             var firebaseid = await FirebaseAuth.instance.currentUser?.getIdToken();
+                            if (_titleController!.text.length <
+                                4) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    "Title must be at least 4 characters long!",
+                                  ),
+                                ),
+                              );
+                              return;
+                            }
+                            if (_companyController!.text.length <
+                                2) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    "You must enter a company name!",
+                                  ),
+                                ),
+                              );
+                              return;
+                            }
                             setState(() {
                             _buttonPressed = true;
                             futureOfficialInstructions = fetchOfficialInstructions();
