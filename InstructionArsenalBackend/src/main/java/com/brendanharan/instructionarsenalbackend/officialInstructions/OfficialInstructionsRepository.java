@@ -23,7 +23,8 @@ public interface OfficialInstructionsRepository extends JpaRepository<OfficialIn
    // List<OfficialInstructions> findByTitleNear(String title);
     List<OfficialInstructions> findByTitle(String title);
 
-    List<OfficialInstructions> findByTitleLike(String title);
+    @Query(value = "SELECT o1_0 FROM OfficialInstructions o1_0 WHERE o1_0.title LIKE %:title%", nativeQuery = false)
+    List<OfficialInstructions> findByTitleLikeIgnoreCase(String title);
 
     OfficialInstructions findAllById(Long id);
 

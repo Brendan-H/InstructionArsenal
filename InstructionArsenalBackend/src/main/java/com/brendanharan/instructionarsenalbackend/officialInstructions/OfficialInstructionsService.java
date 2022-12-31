@@ -10,16 +10,9 @@ package com.brendanharan.instructionarsenalbackend.officialInstructions;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service @AllArgsConstructor
 public class OfficialInstructionsService {
@@ -30,10 +23,16 @@ public class OfficialInstructionsService {
 
 
     //find out how to fix this
-    @Query(value = "SELECT * FROM official_instructions WHERE title LIKE :title", nativeQuery = true)
+//    @Query(value = "SELECT * FROM official_instructions WHERE title LIKE :title", nativeQuery = true)
+//    public List<OfficialInstructions> findOfficialInstructionsByTitleLike(String title) {
+//        System.out.println("\n\n\n\n\n" + title);
+//        return officialInstructionsRepository.findByTitle(title);
+//    }
+
+    //@Query(value = "SELECT * FROM official_instructions WHERE title LIKE :title", nativeQuery = true)
+
     public List<OfficialInstructions> findOfficialInstructionsByTitleLike(String title) {
-        System.out.println("\n\n\n\n\n" + title);
-        return officialInstructionsRepository.findByTitle(title);
+        return officialInstructionsRepository.findByTitleLikeIgnoreCase(title);
     }
 
     public void saveOfficialInstructions(OfficialInstructions officialInstructions) {

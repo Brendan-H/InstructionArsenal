@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -42,11 +41,11 @@ class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoP
 
     // set up the buttons
     Widget cancelButton = TextButton(
-      child: Text("Cancel"),
+      child: const Text("Cancel"),
       onPressed:  () async {Navigator.pop(context);},
     );
     Widget continueButton = TextButton(
-      child: Text("Continue"),
+      child: const Text("Continue"),
       onPressed:  () async {
         var idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
         var dio = Dio();
@@ -59,7 +58,7 @@ class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoP
             )
         );
         Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Post Deleted")));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Post Deleted")));
         Navigator.pop(context);
 
       },
@@ -67,7 +66,7 @@ class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoP
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Delete Post"),
+      title: const Text("Delete Post"),
       content: const Text("Are you sure you would like to delete this post?"),
       actions: [
         cancelButton,
@@ -100,7 +99,7 @@ class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoP
                 PopupMenuItem(
                   value: 1,
                   child: Row(
-                    children: [
+                    children: const [
                       Icon(Icons.delete),
                       SizedBox(
                         // sized box with width 10
@@ -111,7 +110,7 @@ class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoP
                   ),
                 ),
               ],
-              offset: Offset(0, 100),
+              offset: const Offset(0, 100),
               color: Colors.white,
               elevation: 2,
             ),
@@ -132,7 +131,7 @@ class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoP
           },
         ),
         iconTheme: const IconThemeData(color: Colors.black),
-        title: Text("Official Instruction",
+        title: const Text("Official Instruction",
         style: TextStyle(color: Colors.black),
         ),
       ),
@@ -142,18 +141,18 @@ class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoP
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(20, 12, 20, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(20, 12, 20, 0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Expanded(
                       child: Text(
                         widget.officialInstructions.title ?? "Title",
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontFamily: 'Roboto',
                           color: Color(0xFF0F1113),
                           fontSize: 24,
@@ -165,14 +164,14 @@ class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoP
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(20, 12, 20, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(20, 12, 20, 0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Expanded(
                       child: Text(
                         widget.officialInstructions.company ?? "Company",
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontFamily: 'Outfit',
                           color: Color(0xFF57636C),
                           fontSize: 15,
@@ -184,14 +183,14 @@ class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoP
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(20, 12, 20, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(20, 12, 20, 0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Expanded(
                       child: Column(
                         children: [
-                          Text(
+                          const Text(
                             "Description:",
                             style: TextStyle(
                               fontFamily: 'Poppins',
@@ -201,7 +200,7 @@ class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoP
                           ),
                           Text(
                             "${widget.officialInstructions.description}",
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 15,
                             ),
@@ -214,14 +213,14 @@ class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoP
               ),
               //service hours
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(20, 12, 20, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(20, 12, 20, 0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Expanded(
                       child: Column(
                         children: [
-                          Text(
+                          const Text(
                             "Created By:",
                             style: TextStyle(
                               fontFamily: 'Poppins',
@@ -231,7 +230,7 @@ class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoP
                           ),
                           Text(
                             getCreatedBy(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 15,
                             ),
@@ -243,14 +242,14 @@ class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoP
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(20, 12, 20, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(20, 12, 20, 0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Expanded(
                       child: Column(
                         children: [
-                          Text(
+                          const Text(
                             "Instructions:",
                             style: TextStyle(
                               fontFamily: 'Poppins',
@@ -260,7 +259,7 @@ class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoP
                           ),
                           Text(
                             "${widget.officialInstructions.instructions}",
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 15,
                             ),

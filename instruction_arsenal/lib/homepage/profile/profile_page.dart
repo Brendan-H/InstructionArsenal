@@ -77,7 +77,7 @@ class _ProfilePageState extends State<ProfilePage> {
         iconTheme: const IconThemeData(color: Colors.black),
         centerTitle: true,
         backgroundColor: Colors.white,
-        title: const Text('Profile',
+        title: const Text('Your Instructions',
           style: TextStyle(
             color: Colors.black,
             fontSize: 24,
@@ -93,15 +93,7 @@ class _ProfilePageState extends State<ProfilePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 20,),
-              const Text(
-                "Your Instructions:",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              const SizedBox(height: 10),
               Expanded(
                 child: FutureBuilder<List<OfficialInstructions>?>(
                   future: futureOfficialInstructions,

@@ -8,6 +8,7 @@
 package com.brendanharan.instructionarsenalbackend.officialInstructions;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -57,10 +58,7 @@ public class OfficialInstructionsController {
     }
     @GetMapping("/titlelike/{title}")
     List<OfficialInstructions> findPostByTitleLike(@PathVariable String title) {
-        var newTitle = title.replaceAll("%20", "%");
-        var newerTitle = title.replaceAll(" ", "%");
-        //System.out.println("'" + newerTitle + "'");
-        return officialInstructionsService.findOfficialInstructionsByTitleLike(newerTitle);
+        return officialInstructionsService.findOfficialInstructionsByTitleLike(title);
     }
 
     @GetMapping("/createdby/{createdBy}")
