@@ -56,6 +56,10 @@ public class OfficialInstructionsController {
     List<OfficialInstructions> findPostByTitle(@PathVariable String title) {
         return officialInstructionsService.findOfficialInstructionsByTitleLike(title);
     }
+    @GetMapping("/titleandcompany/{company}/{title}")
+    List<OfficialInstructions> findPostByTitleAndCompany(@PathVariable String title, @PathVariable String company) {
+        return officialInstructionsService.findOfficialInstructionsByTitleAndCompanyLike(title, company);
+    }
 
 
     @GetMapping("/createdby/{createdBy}")

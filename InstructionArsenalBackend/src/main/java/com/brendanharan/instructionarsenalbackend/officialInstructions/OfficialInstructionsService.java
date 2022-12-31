@@ -34,6 +34,9 @@ public class OfficialInstructionsService {
     public List<OfficialInstructions> findOfficialInstructionsByTitleLike(String title) {
         return officialInstructionsRepository.findByTitleLikeIgnoreCase(title);
     }
+    public List<OfficialInstructions> findOfficialInstructionsByTitleAndCompanyLike(String title, String company) {
+        return officialInstructionsRepository.findAllByTitleAndCompanyLikeIgnoreCase(title, company);
+    }
 
     public void saveOfficialInstructions(OfficialInstructions officialInstructions) {
         officialInstructionsRepository.save(officialInstructions);
