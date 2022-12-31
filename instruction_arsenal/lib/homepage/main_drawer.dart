@@ -17,7 +17,7 @@ class _MainDrawerState extends State<MainDrawer> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           SizedBox(
-            height: 140.0,
+            height: MediaQuery.of(context).size.height * .175,
             child: DrawerHeader(
               decoration: const BoxDecoration(
               ),

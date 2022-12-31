@@ -16,32 +16,37 @@ class OfficialInstructionsTab extends StatefulWidget {
 
 class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
   final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _companyController = TextEditingController();
 
   Future<List<OfficialInstructions>?> fetchOfficialInstructions() async {
     var idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
     var dio = Dio();
-    var response = await dio.get('http://10.0.2.2:8080/api/v1/instructions/officialinstructions/all',
-        options: Options(
-          headers: {
-            'Authorization': "Bearer $idToken",
-          },
-        ));
+    var title = _titleController.text;
+    var company = _companyController.text;
+    if (_titleController.text.length > 0 && _companyController.text.isNotEmpty) {
+      var response = await dio.get('http://10.0.2.2:8080/api/v1/instructions/officialinstructions/titleandcompany/Haran/blah',
+          options: Options(
+            headers: {
+              'Authorization': "Bearer $idToken",
+            },
+          ));
+      if (response.statusCode == 200) {
+        var officialInstructions = <OfficialInstructions>[];
+        for (var officialInstructionsJson in response.data) {
+          officialInstructions.add(OfficialInstructions.fromJson(officialInstructionsJson));
+        }
+        print(officialInstructions);
+        return officialInstructions;
 
-    if (response.statusCode == 200) {
-      var officialInstructions = <OfficialInstructions>[];
-      for (var officialInstructionsJson in response.data) {
-        officialInstructions.add(OfficialInstructions.fromJson(officialInstructionsJson));
       }
-      print(officialInstructions);
-      return officialInstructions;
+      else {
+        if (response.statusCode == 404) {
+          print('404');
+        }
+        throw Exception('An error occurred');
+      }
+    }  else var response = null;
 
-    }
-    else {
-      if (response.statusCode == 404) {
-        print('404');
-      }
-      throw Exception('An error occurred');
-    }
   }
 
   late Future<List<OfficialInstructions>?> futureOfficialInstructions;
@@ -68,7 +73,7 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.175,
+                height: MediaQuery.of(context).size.height * 0.2,
                 width: MediaQuery.of(context).size.width * 0.8,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -78,7 +83,7 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
                       color: Colors.black.withOpacity(0.2),
                       spreadRadius: 5,
                       blurRadius: 7,
-                      offset: const Offset(0, 3), // changes position of shadow
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
@@ -100,7 +105,26 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
                                 controller: _titleController,
                                 decoration: const InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: 'Search for official instructions',
+                                  hintText: 'Instruction Title',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.search),
+                          //search box
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                              child: TextField(
+                                controller: _companyController,
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Company',
                                 ),
                               ),
                             ),
@@ -113,7 +137,8 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
                           onPressed: () async {
                             var firebaseid = await FirebaseAuth.instance.currentUser?.getIdToken();
                             setState(() {
-                            _buttonPressed = !_buttonPressed;
+                            _buttonPressed = true;
+                            futureOfficialInstructions = fetchOfficialInstructions();
                             });
 
                             print(firebaseid);
@@ -158,8 +183,8 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
                 )
               ),
               Visibility(
-                  visible: _buttonPressed,
-                  child:  Expanded(
+                  visible: _titleController.text.isNotEmpty && _companyController.text.isNotEmpty && _buttonPressed == true,
+                  child: Expanded(
                       child: FutureBuilder<List<OfficialInstructions>?>(
                         future: futureOfficialInstructions,
                         builder: (context, snapshot) {
