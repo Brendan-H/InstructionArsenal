@@ -3,6 +3,9 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:instruction_arsenal/backend/models/official_instructions.dart';
+import 'package:intl/intl.dart';
+import 'package:timeago/timeago.dart' as timeago;
+
 
 import '../homepage.dart';
 
@@ -26,6 +29,7 @@ class OfficialInstructionsInfoPage extends StatefulWidget {
 
 class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
 
 
   String getCreatedBy() {
@@ -85,6 +89,25 @@ class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoP
 
   @override
   Widget build(BuildContext context) {
+    String dateTimeFormat(String format, DateTime? dateTime) {
+      if (dateTime == null) {
+        return '';
+      }
+      if (format == 'relative') {
+        return timeago.format(dateTime);
+      }
+      return DateFormat(format).format(dateTime);
+    }
+
+    final createdAtDate = dateTimeFormat(
+      //  "yyyy-MM-dd'T'HH:mm:ss.SSSZ",
+      // "hh:mma MMMM dd, yyyy",
+        "MMMM dd, yyyy hh:mma",
+        DateTime.parse(widget.officialInstructions.postCreatedAt ?? "Cannot retrieve time when post was created"));
+
+
+
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -231,6 +254,40 @@ class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoP
                           Text(
                             getCreatedBy(),
                             style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(20, 5, 20, 0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        children: [
+                          const Text(
+                            "Created At:",
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 17,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          Text(
+                            createdAtDate.substring(0, 17) +
+                                " at " +
+                                createdAtDate.substring(18, 23) +
+                            " " + createdAtDate.substring(23)
+                            
+                            ,
+                            style: TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 15,
                             ),
