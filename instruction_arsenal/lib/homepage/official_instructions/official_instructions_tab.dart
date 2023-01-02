@@ -24,7 +24,7 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
     var dio = Dio();
     var title = _titleController.text;
     var company = _companyController.text;
-    if (_titleController.text.length > 0 && _companyController.text.isNotEmpty) {
+    if (_titleController.text.isNotEmpty && _companyController.text.isNotEmpty) {
       var response = await dio.get('http://10.0.2.2:8080/api/v1/instructions/officialinstructions/titleandcompany/$company/$title',
           options: Options(
             headers: {
@@ -46,7 +46,10 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
         }
         throw Exception('An error occurred');
       }
-    }  else var response = null;
+    }  else {
+      var response;
+    return null;
+    }
 
   }
   showAlertDialog(BuildContext context) {
@@ -211,7 +214,7 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
                           ),
                           onPressed: () async {
                             var firebaseid = await FirebaseAuth.instance.currentUser?.getIdToken();
-                            if (_titleController!.text.length <
+                            if (_titleController.text.length <
                                 4) {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(
@@ -223,7 +226,7 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
                               );
                               return;
                             }
-                            if (_companyController!.text.length <
+                            if (_companyController.text.length <
                                 2) {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(
@@ -241,34 +244,6 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
                             });
 
                             print(firebaseid);
-                           //  try {
-                           // var dio = Dio();
-                           //    final response = await dio.get(
-                           //      "http://10.0.2.2:8080/api/v1/instructions/officialinstructions/title/${_titleController.text}",
-                           //      options: Options(
-                           //          headers: {
-                           //            'Authorization': 'Bearer $firebaseid',
-                           //          }
-                           //      ),
-                           //
-                           //      //TODO fix it not taking authorization header
-                           //    );
-                           //    print(response);
-                           //  } catch (e) {
-                           //    if (e is DioError) {
-                           //      if (e.response != null) {
-                           //        print('Dio error!');
-                           //        print('STATUS: ${e.response?.statusCode}');
-                           //        print('DATA: ${e.response?.data}');
-                           //        print('HEADERS: ${e.response?.headers}');
-                           //      } else {
-                           //        // Error due to setting up or sending the request
-                           //        print('Error sending request!');
-                           //        print(e.message);
-                           //      }
-                           //    }
-                           //  print(" $e\n");
-                           //  }
                           },
                           child: const Text(
                           "Search"

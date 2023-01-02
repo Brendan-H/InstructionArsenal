@@ -65,7 +65,7 @@ class _MainDrawerState extends State<MainDrawer> {
           ),
            ListTile(
             leading: const Icon(Icons.logout),
-            title: Text('Log Out'),
+            title: const Text('Log Out'),
              onTap: () async {
                await FirebaseAuth.instance.signOut();
                await Navigator.pushAndRemoveUntil(

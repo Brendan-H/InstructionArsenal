@@ -281,13 +281,10 @@ class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoP
                             ),
                           ),
                           Text(
-                            createdAtDate.substring(0, 17) +
-                                " at " +
-                                createdAtDate.substring(18, 23) +
-                            " " + createdAtDate.substring(23)
+                            "${createdAtDate.substring(0, 17)} at ${createdAtDate.substring(18, 23)} ${createdAtDate.substring(23)}"
                             
                             ,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 15,
                             ),

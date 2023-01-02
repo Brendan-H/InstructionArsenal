@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:instruction_arsenal/homepage/community_made_instructions/community_made_instructions_tab.dart';
 import 'package:instruction_arsenal/homepage/official_instructions/official_instructions_tab.dart';
 import 'package:instruction_arsenal/login_page/login_page.dart';
 
@@ -60,22 +61,9 @@ class _HomepageState extends State<Homepage> with TickerProviderStateMixin{
       ),
       body: TabBarView(
         controller: _tabController,
-        children: [
-          const OfficialInstructionsTab(),
-          Center(
-              child: ElevatedButton(
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                await Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LoginPageWidget(),
-                  ),
-                      (r) => false,
-                );
-              },
-              child: const Text("Logout"))
-          ),
+        children: const [
+          OfficialInstructionsTab(),
+          CommunityMadeInstructionsTab(),
         ],
       ),
     );

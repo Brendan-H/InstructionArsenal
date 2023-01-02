@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:instruction_arsenal/homepage/homepage.dart';
-import 'package:instruction_arsenal/homepage/official_instructions/official_instructions_tab.dart';
 
 import '../../utils/widgets.dart';
 
@@ -42,7 +41,7 @@ class _CreateOfficialInstructionsPageState extends State<CreateOfficialInstructi
             },
           ));
       if (response.statusCode == 201) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Official Instructions Created")));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Official Instructions Created")));
         await Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -55,7 +54,7 @@ class _CreateOfficialInstructionsPageState extends State<CreateOfficialInstructi
         print('404');
       }
       if (response.statusCode == 401) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("401 Unauthorized. Try logging out and logging back in.")));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("401 Unauthorized. Try logging out and logging back in.")));
       }
 
     } on Exception catch (e) {
@@ -100,7 +99,7 @@ class _CreateOfficialInstructionsPageState extends State<CreateOfficialInstructi
           backgroundColor: Colors.white,
 
           automaticallyImplyLeading: false,
-          flexibleSpace: Align(
+          flexibleSpace: const Align(
             alignment: AlignmentDirectional(0, 0.5),
             child: Text(
               'Add Official Instructions',
@@ -111,12 +110,12 @@ class _CreateOfficialInstructionsPageState extends State<CreateOfficialInstructi
               ),
             ),
           ),
-          actions: [],
+          actions: const [],
           elevation: 5,
         ),
 //        backgroundColor: Colors.white,
         // Changed from white to off-white (f5f5f5)
-        backgroundColor: Color(0xFFf5f5f5),
+        backgroundColor: const Color(0xFFf5f5f5),
         body: SafeArea(
           child: ListView(
             padding: EdgeInsets.zero,
@@ -127,16 +126,16 @@ class _CreateOfficialInstructionsPageState extends State<CreateOfficialInstructi
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 12),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 12),
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.94,
-                      decoration: BoxDecoration(),
+                      decoration: const BoxDecoration(),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Padding(
                             padding:
-                            EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+                            const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
@@ -148,31 +147,31 @@ class _CreateOfficialInstructionsPageState extends State<CreateOfficialInstructi
                                     decoration: InputDecoration(
                                       hintText: 'Title',
                                       hintStyle:
-                                      TextStyle(
+                                      const TextStyle(
                                         fontFamily: 'Lexend Deca',
                                         color: Color(0xFF8B97A2),
                                         fontSize: 14,
                                         fontWeight: FontWeight.normal,
                                       ),
                                       enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Color(0xFFDBE2E7),
                                           width: 2,
                                         ),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Color(0xFFDBE2E7),
                                           width: 2,
                                         ),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       contentPadding:
-                                      EdgeInsetsDirectional.fromSTEB(
+                                      const EdgeInsetsDirectional.fromSTEB(
                                           20, 32, 12, 0),
                                     ),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontFamily: 'Lexend Deca',
                                       color: Color(0xFF090F13),
                                       fontSize: 14,
@@ -203,10 +202,10 @@ class _CreateOfficialInstructionsPageState extends State<CreateOfficialInstructi
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 12),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 12),
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.94,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         //                       color: Colors.white
 
                       ),
@@ -215,7 +214,7 @@ class _CreateOfficialInstructionsPageState extends State<CreateOfficialInstructi
                         children: [
                           Padding(
                             padding:
-                            EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+                            const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
@@ -227,31 +226,31 @@ class _CreateOfficialInstructionsPageState extends State<CreateOfficialInstructi
                                     decoration: InputDecoration(
                                       hintText: 'Description',
                                       hintStyle:
-                                      TextStyle(
+                                      const TextStyle(
                                         fontFamily: 'Lexend Deca',
                                         color: Color(0xFF8B97A2),
                                         fontSize: 14,
                                         fontWeight: FontWeight.normal,
                                       ),
                                       enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Color(0xFFDBE2E7),
                                           width: 2,
                                         ),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Color(0xFFDBE2E7),
                                           width: 2,
                                         ),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       contentPadding:
-                                      EdgeInsetsDirectional.fromSTEB(
+                                      const EdgeInsetsDirectional.fromSTEB(
                                           20, 32, 20, 0),
                                     ),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontFamily: 'Lexend Deca',
                                       color: Color(0xFF090F13),
                                       fontSize: 14,
@@ -282,16 +281,16 @@ class _CreateOfficialInstructionsPageState extends State<CreateOfficialInstructi
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 12),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 12),
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.94,
-                      decoration: BoxDecoration(),
+                      decoration: const BoxDecoration(),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Padding(
                             padding:
-                            EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+                            const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
 
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
@@ -304,31 +303,31 @@ class _CreateOfficialInstructionsPageState extends State<CreateOfficialInstructi
                                     decoration: InputDecoration(
                                       hintText: 'Company Name',
                                       hintStyle:
-                                      TextStyle(
+                                      const TextStyle(
                                         fontFamily: 'Lexend Deca',
                                         color: Color(0xFF8B97A2),
                                         fontSize: 14,
                                         fontWeight: FontWeight.normal,
                                       ),
                                       enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Color(0xFFDBE2E7),
                                           width: 2,
                                         ),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Color(0xFFDBE2E7),
                                           width: 2,
                                         ),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       contentPadding:
-                                      EdgeInsetsDirectional.fromSTEB(
+                                      const EdgeInsetsDirectional.fromSTEB(
                                           20, 32, 12, 0),
                                     ),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontFamily: 'Lexend Deca',
                                       color: Color(0xFF090F13),
                                       fontSize: 14,
@@ -359,10 +358,10 @@ class _CreateOfficialInstructionsPageState extends State<CreateOfficialInstructi
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 12),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 12),
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.94,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         //                       color: Colors.white
 
                       ),
@@ -371,7 +370,7 @@ class _CreateOfficialInstructionsPageState extends State<CreateOfficialInstructi
                         children: [
                           Padding(
                             padding:
-                            EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+                            const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
@@ -384,31 +383,31 @@ class _CreateOfficialInstructionsPageState extends State<CreateOfficialInstructi
                                     decoration: InputDecoration(
                                       hintText: 'Instructions',
                                       hintStyle:
-                                      TextStyle(
+                                      const TextStyle(
                                         fontFamily: 'Lexend Deca',
                                         color: Color(0xFF8B97A2),
                                         fontSize: 14,
                                         fontWeight: FontWeight.normal,
                                       ),
                                       enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Color(0xFFDBE2E7),
                                           width: 2,
                                         ),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Color(0xFFDBE2E7),
                                           width: 2,
                                         ),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       contentPadding:
-                                      EdgeInsetsDirectional.fromSTEB(
+                                      const EdgeInsetsDirectional.fromSTEB(
                                           20, 32, 20, 0),
                                     ),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontFamily: 'Lexend Deca',
                                       color: Color(0xFF090F13),
                                       fontSize: 14,
@@ -436,7 +435,7 @@ class _CreateOfficialInstructionsPageState extends State<CreateOfficialInstructi
 
 
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
                 child: BrendanButtonWidget(
                   onPressed: () async {
                     if (!formKey.currentState!.validate()) {
@@ -459,13 +458,13 @@ class _CreateOfficialInstructionsPageState extends State<CreateOfficialInstructi
                     width: 270,
                     height: MediaQuery.of(context).size.height * 0.1,
                     color: Colors.white,
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       color: Colors.black,
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
                     elevation: 4,
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Colors.transparent,
                       width: 1,
                     ),
