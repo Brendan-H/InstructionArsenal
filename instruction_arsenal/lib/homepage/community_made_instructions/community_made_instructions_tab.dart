@@ -3,6 +3,10 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:instruction_arsenal/backend/models/community_made_instructions.dart';
+import 'package:instruction_arsenal/homepage/community_made_instructions/get_icon.dart';
+import 'package:instruction_arsenal/homepage/community_made_instructions/star_difficulty.dart';
+import 'package:intl/intl.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class CommunityMadeInstructionsTab extends StatefulWidget {
   const CommunityMadeInstructionsTab({Key? key}) : super(key: key);
@@ -54,6 +58,7 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
           communityMadeInstructions.add(CommunityMadeInstructions.fromJson(communityMadeInstructionsJson));
         }
         print(communityMadeInstructions);
+
         return communityMadeInstructions;
 
       }
@@ -143,6 +148,19 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
 
   @override
   Widget build(BuildContext context) {
+    String dateTimeFormat(String format, DateTime? dateTime) {
+      if (dateTime == null) {
+        return '';
+      }
+      if (format == 'relative') {
+        return timeago.format(dateTime);
+      }
+      return DateFormat(format).format(dateTime);
+    }
+
+
+
+
     return Scaffold(
       backgroundColor: Colors.white60,
       body: LayoutBuilder(
@@ -154,7 +172,16 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                 child: SmartSelect<String>.single(
+                  modalHeaderStyle: S2ModalHeaderStyle(
+                    backgroundColor: Colors.black,
+                    textStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+
                   choiceStyle: const S2ChoiceStyle(
+                    color: Colors.black,
                     titleStyle: TextStyle(
                       fontSize: 20,
                     ),
@@ -271,11 +298,9 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
                                       Padding(
                                         padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                                         child: Row(
-                                          children: const [
+                                          children: [
                                             Text("Difficulty: "),
-                                            Icon(Icons.star, color: Colors.red,),
-                                            Icon(Icons.star, color: Colors.red,),
-                                            Icon(Icons.star, color: Colors.red,),
+                                            StarDifficulty(difficulty: communityMadeInstruction.difficulty as int),
                                             Spacer(),
                                             Text("Time to Complete: 30 minutes"),
                                           ],
@@ -283,13 +308,20 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
                                       ),
                                       Row(
                                         children: [
-                                          Icon(Icons.phone_android),
+                                          GetIcon(category: communityMadeInstruction.category ?? "Other"),
                                           Padding(
                                             padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
                                             child: Text("Category: ${communityMadeInstruction.category}"),
                                           ),
                                           Spacer(),
-                                          Text("Date Created: 1/3/2023"),
+                                          Icon(Icons.favorite_border, color: Colors.red,),
+                                          Text((communityMadeInstruction.likes!.toInt() - communityMadeInstruction.dislikes!.toInt()).toString()),
+                                          Spacer(),
+                                          Text(dateTimeFormat(
+                                          //  "yyyy-MM-dd'T'HH:mm:ss.SSSZ",
+                                          // "hh:mma MMMM dd, yyyy",
+                                          "MMMM dd, yyyy hh:mma",
+                                          DateTime.parse(communityMadeInstruction.postCreatedAt ?? "Cannot retrieve time when post was created")))
                                         ],
                                       ),
 
@@ -304,6 +336,7 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
                       return Text("${snapshot.error}");
                     }
                     return const Text('Something went wrong');
+
                   },
                 ),
               )

@@ -24,7 +24,7 @@ class CommunityMadeInstructions {
       num? likes, 
       num? dislikes, 
       String? tags, 
-      String? difficulty, 
+      num? difficulty,
       String? timeToComplete, 
       bool? sponsored,}){
     _id = id;
@@ -67,7 +67,7 @@ class CommunityMadeInstructions {
   num? _likes;
   num? _dislikes;
   String? _tags;
-  String? _difficulty;
+  num? _difficulty;
   String? _timeToComplete;
   bool? _sponsored;
 CommunityMadeInstructions copyWith({  num? id,
@@ -80,7 +80,7 @@ CommunityMadeInstructions copyWith({  num? id,
   num? likes,
   num? dislikes,
   String? tags,
-  String? difficulty,
+  num? difficulty,
   String? timeToComplete,
   bool? sponsored,
 }) => CommunityMadeInstructions(  id: id ?? _id,
@@ -107,7 +107,7 @@ CommunityMadeInstructions copyWith({  num? id,
   num? get likes => _likes;
   num? get dislikes => _dislikes;
   String? get tags => _tags;
-  String? get difficulty => _difficulty;
+  num? get difficulty => _difficulty;
   String? get timeToComplete => _timeToComplete;
   bool? get sponsored => _sponsored;
 
