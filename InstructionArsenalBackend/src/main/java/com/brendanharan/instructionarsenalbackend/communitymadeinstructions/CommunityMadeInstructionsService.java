@@ -28,8 +28,8 @@ public class CommunityMadeInstructionsService {
         communityMadeInstructionsRepository.save(CommunityMadeInstructions);
     }
 
-    public List<CommunityMadeInstructions> findCommunityMadeInstructionsByTitleAndCategoryAndSubcategoryLike(String title, String category, String subCategory) {
-        return communityMadeInstructionsRepository.findAllByTitleAndCategoryAndSubCategoryLikeIgnoreCase(title, category, subCategory);
+    public List<CommunityMadeInstructions> findCommunityMadeInstructionsByTitleAndCategoryLike(String title, String category) {
+        return communityMadeInstructionsRepository.findAllByTitleAndCategoryLikeIgnoreCase(title, category);
     }
 
     public void deleteCommunityMadeInstructions(Long id) {

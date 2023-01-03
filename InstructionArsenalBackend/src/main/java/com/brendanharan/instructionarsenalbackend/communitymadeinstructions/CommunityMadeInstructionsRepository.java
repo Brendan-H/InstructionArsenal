@@ -25,9 +25,8 @@ public interface CommunityMadeInstructionsRepository extends JpaRepository<Commu
 
     CommunityMadeInstructions findAllById(Long id);
 
-    @Query(value = "SELECT o1_0 FROM CommunityMadeInstructions o1_0 WHERE o1_0.title LIKE %:title% AND o1_0.category LIKE %:category% AND o1_0.subCategory LIKE %:subCategory%", nativeQuery = false)
-    List<CommunityMadeInstructions> findAllByTitleAndCategoryAndSubCategoryLikeIgnoreCase(String title, String category, String subCategory);
+    @Query(value = "SELECT o1_0 FROM CommunityMadeInstructions o1_0 WHERE o1_0.title LIKE %:title% AND o1_0.category LIKE %:category%", nativeQuery = false)
+    List<CommunityMadeInstructions> findAllByTitleAndCategoryLikeIgnoreCase(String title, String category);
 
     List<CommunityMadeInstructions> findAllByCreatedBy(String createdBy);
 }
-//TODO search by title and category

@@ -49,9 +49,6 @@ public class CommunityMadeInstructions {
     @Column(name="Category")
     private String category;
 
-    @Column(name="SubCategory")
-    private String subCategory;
-
     @Column(name="Likes")
     private int likes;
 
@@ -86,7 +83,6 @@ public class CommunityMadeInstructions {
                 ", instructions='" + instructions + '\'' +
                 ", createdBy='" + createdBy + '\'' +
                 ", category='" + category + '\'' +
-                ", subCategory='" + subCategory + '\'' +
                 ", likes=" + likes +
                 ", dislikes=" + dislikes +
                 ", tags='" + tags + '\'' +
@@ -98,7 +94,7 @@ public class CommunityMadeInstructions {
 
     public CommunityMadeInstructions(String title, String description,
                                      LocalDateTime postCreatedAt, String instructions,
-                                     String createdBy, String category, String subCategory,
+                                     String createdBy, String category,
                                      int likes, int dislikes, String tags, String difficulty,
                                      String timeToComplete, boolean isSponsored) {
         this.title = title;
@@ -107,7 +103,6 @@ public class CommunityMadeInstructions {
         this.instructions = instructions;
         this.createdBy = createdBy;
         this.category = category;
-        this.subCategory = subCategory;
         this.likes = likes;
         this.dislikes = dislikes;
         this.tags = tags;

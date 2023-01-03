@@ -57,8 +57,8 @@ public class CommunityMadeInstructionsController {
     }
 
     @GetMapping("/titleandcategoryandsubcategory/{title}/{category}/{subCategory}")
-    List<CommunityMadeInstructions> findPostByTitleAndCategoryAndSubCategory(@PathVariable String title, @PathVariable String category, @PathVariable String subCategory) {
-        return communityMadeInstructionsService.findCommunityMadeInstructionsByTitleAndCategoryAndSubcategoryLike(title, category, subCategory);
+    List<CommunityMadeInstructions> findPostByTitleAndCategory(@PathVariable String title, @PathVariable String category, @PathVariable String subCategory) {
+        return communityMadeInstructionsService.findCommunityMadeInstructionsByTitleAndCategoryLike(title, category);
     }
 
 
