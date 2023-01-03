@@ -5,28 +5,27 @@
  *
  */
 
-package com.brendanharan.instructionarsenalbackend.officialInstructions;
+package com.brendanharan.instructionarsenalbackend.communitymadeinstructions;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 
 import java.time.LocalDateTime;
 
 @Getter @Setter @NoArgsConstructor @Entity
-public class OfficialInstructions {
+public class CommunityMadeInstructions {
 
     @SequenceGenerator(
-            name = "official_instructions_sequence",
-            sequenceName = "official_instructions_sequence",
+            name = "community_made_instructions_sequence",
+            sequenceName = "community_made_instructions_sequence",
             allocationSize = 1
     )
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "official_instructions_sequence"
+            generator = "community_made_instructions_sequence"
     )
     private Long id;
 
@@ -49,6 +48,9 @@ public class OfficialInstructions {
     @Column(name="CreatedBy")
     private String createdBy;
 
+    @Column(name="Category")
+    private String category;
+
 //    @Lob
 //    @Column(name = "file")
 //    private byte[] file;
@@ -68,7 +70,7 @@ public class OfficialInstructions {
                 '}';
     }
 
-    public OfficialInstructions(String title, String description, String company, LocalDateTime postCreatedAt, String instructions, String createdBy) {
+    public CommunityMadeInstructions(String title, String description, String company, LocalDateTime postCreatedAt, String instructions, String createdBy) {
         this.title = title;
         this.description = description;
         this.company = company;

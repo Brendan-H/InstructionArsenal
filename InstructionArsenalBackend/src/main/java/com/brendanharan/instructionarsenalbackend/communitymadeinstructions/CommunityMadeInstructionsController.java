@@ -5,8 +5,10 @@
  *
  */
 
-package com.brendanharan.instructionarsenalbackend.officialInstructions;
+package com.brendanharan.instructionarsenalbackend.communitymadeinstructions;
 
+import com.brendanharan.instructionarsenalbackend.officialInstructions.OfficialInstructions;
+import com.brendanharan.instructionarsenalbackend.officialInstructions.OfficialInstructionsService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,7 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping("api/v1/instructions/officialinstructions")
 @AllArgsConstructor
-public class OfficialInstructionsController {
+public class CommunityMadeInstructionsController {
 
 
     private final OfficialInstructionsService officialInstructionsService;

@@ -5,9 +5,11 @@
  *
  */
 
-package com.brendanharan.instructionarsenalbackend.officialInstructions;
+package com.brendanharan.instructionarsenalbackend.communitymadeinstructions;
 
 
+import com.brendanharan.instructionarsenalbackend.officialInstructions.OfficialInstructions;
+import com.brendanharan.instructionarsenalbackend.officialInstructions.OfficialInstructionsRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service @AllArgsConstructor
-public class OfficialInstructionsService {
+public class CommunityMadeInstructionsService {
 
     @Autowired
     private OfficialInstructionsRepository officialInstructionsRepository;

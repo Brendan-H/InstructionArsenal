@@ -5,7 +5,7 @@
  *
  */
 
-package com.brendanharan.instructionarsenalbackend.officialInstructions;
+package com.brendanharan.instructionarsenalbackend.communitymadeinstructions;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,23 +17,24 @@ import java.util.List;
 
 
 @Repository @Transactional(readOnly = true)
-public interface OfficialInstructionsRepository extends JpaRepository<OfficialInstructions, Long> {
+public interface CommunityMadeInstructionsRepository extends JpaRepository<CommunityMadeInstructions, Long> {
 
 
     @Query(value = "SELECT o1_0 FROM CommunityMadeInstructions o1_0 WHERE o1_0.title LIKE %:title%", nativeQuery = false)
-    List<OfficialInstructions> findByTitleLikeIgnoreCase(String title);
+    List<CommunityMadeInstructions> findByTitleLikeIgnoreCase(String title);
 
     @Query(value = "SELECT o1_0 FROM CommunityMadeInstructions o1_0 WHERE o1_0.title LIKE %:title% AND o1_0.company LIKE %:company%", nativeQuery = false)
-    List<OfficialInstructions> findAllByTitleAndCompanyLikeIgnoreCase(String title, String company);
+    List<CommunityMadeInstructions> findAllByTitleAndCompanyLikeIgnoreCase(String title, String company);
 
-    OfficialInstructions findAllById(Long id);
+    CommunityMadeInstructions findAllById(Long id);
 
     @Query(value = "SELECT o1_0 FROM CommunityMadeInstructions o1_0 WHERE o1_0.createdBy LIKE %:createdBy%", nativeQuery = false)
-    List<OfficialInstructions> findAllByCreatedByLikeIgnoreCase(String createdBy);
+    List<CommunityMadeInstructions> findAllByCreatedByLikeIgnoreCase(String createdBy);
 
     @Query(value = "SELECT o1_0 FROM CommunityMadeInstructions o1_0 WHERE o1_0.company LIKE %:company%", nativeQuery = false)
-   List<OfficialInstructions> findAllByCompanyLikeIgnoreCase(String company);
+   List<CommunityMadeInstructions> findAllByCompanyLikeIgnoreCase(String company);
 
 
-    List<OfficialInstructions> findAllByCreatedBy(String createdBy);
+    List<CommunityMadeInstructions> findAllByCreatedBy(String createdBy);
 }
+//TODO search by title and category
