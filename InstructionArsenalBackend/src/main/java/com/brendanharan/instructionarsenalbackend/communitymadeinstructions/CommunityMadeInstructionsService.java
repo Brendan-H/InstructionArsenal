@@ -8,8 +8,6 @@
 package com.brendanharan.instructionarsenalbackend.communitymadeinstructions;
 
 
-import com.brendanharan.instructionarsenalbackend.officialInstructions.OfficialInstructions;
-import com.brendanharan.instructionarsenalbackend.officialInstructions.OfficialInstructionsRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,44 +18,34 @@ import java.util.List;
 public class CommunityMadeInstructionsService {
 
     @Autowired
-    private OfficialInstructionsRepository officialInstructionsRepository;
+    private CommunityMadeInstructionsRepository communityMadeInstructionsRepository;
 
 
-
-    public List<OfficialInstructions> findOfficialInstructionsByTitleLike(String title) {
-        return officialInstructionsRepository.findByTitleLikeIgnoreCase(title);
+    public List<CommunityMadeInstructions> findCommunityMadeInstructionsByTitleLike(String title) {
+        return communityMadeInstructionsRepository.findByTitleLikeIgnoreCase(title);
     }
-    public List<OfficialInstructions> findOfficialInstructionsByTitleAndCompanyLike(String title, String company) {
-        return officialInstructionsRepository.findAllByTitleAndCompanyLikeIgnoreCase(title, company);
-    }
-
-    public void saveOfficialInstructions(OfficialInstructions officialInstructions) {
-        officialInstructionsRepository.save(officialInstructions);
+    public void saveCommunityMadeInstructions(CommunityMadeInstructions CommunityMadeInstructions) {
+        communityMadeInstructionsRepository.save(CommunityMadeInstructions);
     }
 
-    public void deleteOfficialInstructions(Long id) {
-        officialInstructionsRepository.deleteById(id);
+    public List<CommunityMadeInstructions> findCommunityMadeInstructionsByTitleAndCategoryAndSubcategoryLike(String title, String category, String subCategory) {
+        return communityMadeInstructionsRepository.findAllByTitleAndCategoryAndSubCategoryLikeIgnoreCase(title, category, subCategory);
     }
 
-    public List<OfficialInstructions> getOfficialInstructions(){
-        return officialInstructionsRepository.findAll();
+    public void deleteCommunityMadeInstructions(Long id) {
+        communityMadeInstructionsRepository.deleteById(id);
     }
 
-
-    public OfficialInstructions findOfficialInstructionsByID(Long id) {
-        return officialInstructionsRepository.findAllById(id);
+    public List<CommunityMadeInstructions> getCommunityMadeInstructions(){
+        return communityMadeInstructionsRepository.findAll();
     }
 
-    public List<OfficialInstructions> findOfficialInstructionsByCreatedBy(String createdBy) {
-        return officialInstructionsRepository.findAllByCreatedByLikeIgnoreCase(createdBy);
+    public CommunityMadeInstructions findCommunityMadeInstructionsByID(Long id) {
+        return communityMadeInstructionsRepository.findAllById(id);
     }
 
-    public List<OfficialInstructions> findOfficialInstructionsByCompany(String company) {
-        return officialInstructionsRepository.findAllByCompanyLikeIgnoreCase(company);
-    }
-
-    public List<OfficialInstructions> findOfficialInstructionsByCreatedByExact(String createdBy) {
-        return officialInstructionsRepository.findAllByCreatedBy(createdBy);
+    public List<CommunityMadeInstructions> findCommunityMadeInstructionsByCreatedByExact(String createdBy) {
+        return communityMadeInstructionsRepository.findAllByCreatedBy(createdBy);
     }
 }
 

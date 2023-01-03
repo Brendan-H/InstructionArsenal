@@ -24,14 +24,13 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.csrf().disable().cors().disable().authorizeHttpRequests()
-                .requestMatchers("/api/v*/users/**").permitAll();
 
 
         http.authorizeHttpRequests().requestMatchers("/api/v*/instructions/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .oauth2ResourceServer().jwt();
+        //http.authorizeHttpRequests().requestMatchers("/api/v*/instructions/**").permitAll();
 
         return http.build();
     }

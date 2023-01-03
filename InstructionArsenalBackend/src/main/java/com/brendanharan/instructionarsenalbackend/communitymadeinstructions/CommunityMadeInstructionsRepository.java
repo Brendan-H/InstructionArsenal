@@ -23,17 +23,10 @@ public interface CommunityMadeInstructionsRepository extends JpaRepository<Commu
     @Query(value = "SELECT o1_0 FROM CommunityMadeInstructions o1_0 WHERE o1_0.title LIKE %:title%", nativeQuery = false)
     List<CommunityMadeInstructions> findByTitleLikeIgnoreCase(String title);
 
-    @Query(value = "SELECT o1_0 FROM CommunityMadeInstructions o1_0 WHERE o1_0.title LIKE %:title% AND o1_0.company LIKE %:company%", nativeQuery = false)
-    List<CommunityMadeInstructions> findAllByTitleAndCompanyLikeIgnoreCase(String title, String company);
-
     CommunityMadeInstructions findAllById(Long id);
 
-    @Query(value = "SELECT o1_0 FROM CommunityMadeInstructions o1_0 WHERE o1_0.createdBy LIKE %:createdBy%", nativeQuery = false)
-    List<CommunityMadeInstructions> findAllByCreatedByLikeIgnoreCase(String createdBy);
-
-    @Query(value = "SELECT o1_0 FROM CommunityMadeInstructions o1_0 WHERE o1_0.company LIKE %:company%", nativeQuery = false)
-   List<CommunityMadeInstructions> findAllByCompanyLikeIgnoreCase(String company);
-
+    @Query(value = "SELECT o1_0 FROM CommunityMadeInstructions o1_0 WHERE o1_0.title LIKE %:title% AND o1_0.category LIKE %:category% AND o1_0.subCategory LIKE %:subCategory%", nativeQuery = false)
+    List<CommunityMadeInstructions> findAllByTitleAndCategoryAndSubCategoryLikeIgnoreCase(String title, String category, String subCategory);
 
     List<CommunityMadeInstructions> findAllByCreatedBy(String createdBy);
 }

@@ -6,9 +6,6 @@
  */
 
 package com.brendanharan.instructionarsenalbackend.communitymadeinstructions;
-
-import com.brendanharan.instructionarsenalbackend.officialInstructions.OfficialInstructions;
-import com.brendanharan.instructionarsenalbackend.officialInstructions.OfficialInstructionsService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,59 +16,51 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("api/v1/instructions/officialinstructions")
+@RequestMapping("api/v1/instructions/communitymadeinstructions")
 @AllArgsConstructor
 public class CommunityMadeInstructionsController {
 
 
-    private final OfficialInstructionsService officialInstructionsService;
+    private final CommunityMadeInstructionsService communityMadeInstructionsService;
 
     @PostMapping()
-    public ResponseEntity createPost(@RequestBody OfficialInstructions officialInstructions)  {
-        //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        officialInstructionsService.saveOfficialInstructions(officialInstructions);
+    public ResponseEntity createPost(@RequestBody CommunityMadeInstructions communityMadeInstructions)  {
+        communityMadeInstructionsService.saveCommunityMadeInstructions(communityMadeInstructions);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<OfficialInstructions>> getPosts() {
-        return ResponseEntity.ok().body(officialInstructionsService.getOfficialInstructions());
+    public ResponseEntity<List<CommunityMadeInstructions>> getPosts() {
+        return ResponseEntity.ok().body(communityMadeInstructionsService.getCommunityMadeInstructions());
     }
 
     @GetMapping("/{id}")
-    OfficialInstructions findPostByID(@PathVariable Long id) {
-        return officialInstructionsService.findOfficialInstructionsByID(id);
+    CommunityMadeInstructions findPostByID(@PathVariable Long id) {
+        return communityMadeInstructionsService.findCommunityMadeInstructionsByID(id);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity deletePostByID(@PathVariable Long id) {
-        officialInstructionsService.deleteOfficialInstructions(id);
+        communityMadeInstructionsService.deleteCommunityMadeInstructions(id);
         return ResponseEntity.ok("Official Instruction Deleted");
     }
 
     @GetMapping("/title/{title}")
-    List<OfficialInstructions> findPostByTitle(@PathVariable String title) {
-        return officialInstructionsService.findOfficialInstructionsByTitleLike(title);
-    }
-    @GetMapping("/titleandcompany/{company}/{title}")
-    List<OfficialInstructions> findPostByTitleAndCompany(@PathVariable String title, @PathVariable String company) {
-        return officialInstructionsService.findOfficialInstructionsByTitleAndCompanyLike(title, company);
+    List<CommunityMadeInstructions> findPostByTitle(@PathVariable String title) {
+        return communityMadeInstructionsService.findCommunityMadeInstructionsByTitleLike(title);
     }
 
 
-    @GetMapping("/createdby/{createdBy}")
-    List<OfficialInstructions> findPostByCreatedBy(@PathVariable String createdBy) {
-        return officialInstructionsService.findOfficialInstructionsByCreatedBy(createdBy);
-    }
     @GetMapping("/createdbyexact/{createdBy}")
-    List<OfficialInstructions> findPostByCreatedByExact(@PathVariable String createdBy) {
-        return officialInstructionsService.findOfficialInstructionsByCreatedByExact(createdBy);
+    List<CommunityMadeInstructions> findPostByCreatedByExact(@PathVariable String createdBy) {
+        return communityMadeInstructionsService.findCommunityMadeInstructionsByCreatedByExact(createdBy);
     }
 
-    @GetMapping("/company/{company}")
-    List<OfficialInstructions> findPostByCompany(@PathVariable String company) {
-        return officialInstructionsService.findOfficialInstructionsByCompany(company);
+    @GetMapping("/titleandcategoryandsubcategory/{title}/{category}/{subCategory}")
+    List<CommunityMadeInstructions> findPostByTitleAndCategoryAndSubCategory(@PathVariable String title, @PathVariable String category, @PathVariable String subCategory) {
+        return communityMadeInstructionsService.findCommunityMadeInstructionsByTitleAndCategoryAndSubcategoryLike(title, category, subCategory);
     }
+
 
 
 }

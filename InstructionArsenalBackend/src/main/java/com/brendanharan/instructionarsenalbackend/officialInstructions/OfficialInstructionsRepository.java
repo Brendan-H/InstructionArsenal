@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2022 by Brendan Haran, All Rights Reserved.
  * Use of this file or any of its contents is strictly prohibited without prior written permission from Brendan Haran.
- * Current File (CommunityMadeInstructionsRepository.java) Last Modified on 12/22/22, 3:27 PM
+ * Current File (OfficialInstructionsRepository.java) Last Modified on 12/22/22, 3:27 PM
  *
  */
 
@@ -20,18 +20,18 @@ import java.util.List;
 public interface OfficialInstructionsRepository extends JpaRepository<OfficialInstructions, Long> {
 
 
-    @Query(value = "SELECT o1_0 FROM CommunityMadeInstructions o1_0 WHERE o1_0.title LIKE %:title%", nativeQuery = false)
+    @Query(value = "SELECT o1_0 FROM OfficialInstructions o1_0 WHERE o1_0.title LIKE %:title%", nativeQuery = false)
     List<OfficialInstructions> findByTitleLikeIgnoreCase(String title);
 
-    @Query(value = "SELECT o1_0 FROM CommunityMadeInstructions o1_0 WHERE o1_0.title LIKE %:title% AND o1_0.company LIKE %:company%", nativeQuery = false)
+    @Query(value = "SELECT o1_0 FROM OfficialInstructions o1_0 WHERE o1_0.title LIKE %:title% AND o1_0.company LIKE %:company%", nativeQuery = false)
     List<OfficialInstructions> findAllByTitleAndCompanyLikeIgnoreCase(String title, String company);
 
     OfficialInstructions findAllById(Long id);
 
-    @Query(value = "SELECT o1_0 FROM CommunityMadeInstructions o1_0 WHERE o1_0.createdBy LIKE %:createdBy%", nativeQuery = false)
+    @Query(value = "SELECT o1_0 FROM OfficialInstructions o1_0 WHERE o1_0.createdBy LIKE %:createdBy%", nativeQuery = false)
     List<OfficialInstructions> findAllByCreatedByLikeIgnoreCase(String createdBy);
 
-    @Query(value = "SELECT o1_0 FROM CommunityMadeInstructions o1_0 WHERE o1_0.company LIKE %:company%", nativeQuery = false)
+    @Query(value = "SELECT o1_0 FROM OfficialInstructions o1_0 WHERE o1_0.company LIKE %:company%", nativeQuery = false)
    List<OfficialInstructions> findAllByCompanyLikeIgnoreCase(String company);
 
 
