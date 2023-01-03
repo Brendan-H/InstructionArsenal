@@ -22,15 +22,6 @@ public class OfficialInstructionsService {
 
 
 
-    //find out how to fix this
-//    @Query(value = "SELECT * FROM official_instructions WHERE title LIKE :title", nativeQuery = true)
-//    public List<OfficialInstructions> findOfficialInstructionsByTitleLike(String title) {
-//        System.out.println("\n\n\n\n\n" + title);
-//        return officialInstructionsRepository.findByTitle(title);
-//    }
-
-    //@Query(value = "SELECT * FROM official_instructions WHERE title LIKE :title", nativeQuery = true)
-
     public List<OfficialInstructions> findOfficialInstructionsByTitleLike(String title) {
         return officialInstructionsRepository.findByTitleLikeIgnoreCase(title);
     }
@@ -66,8 +57,5 @@ public class OfficialInstructionsService {
     public List<OfficialInstructions> findOfficialInstructionsByCreatedByExact(String createdBy) {
         return officialInstructionsRepository.findAllByCreatedBy(createdBy);
     }
-//    public List<OfficialInstructions> findOfficialInstructionsByCompanyNear(String company) {
-//        return officialInstructionsRepository.findAllByCompanyNear(company);
-//    }
 }
 

@@ -8,15 +8,10 @@
 package com.brendanharan.instructionarsenalbackend.officialInstructions;
 
 import lombok.AllArgsConstructor;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URLDecoder;
-import java.util.*;
 
 import java.util.List;
 
@@ -75,11 +70,6 @@ public class OfficialInstructionsController {
     List<OfficialInstructions> findPostByCompany(@PathVariable String company) {
         return officialInstructionsService.findOfficialInstructionsByCompany(company);
     }
-//    @GetMapping("/companynear/{company}")
-//    List<OfficialInstructions> findPostByCompanyNear(@PathVariable String company) {
-//        return officialInstructionsService.findOfficialInstructionsByCompanyNear(company);
-//    }
-
 
 
 }

@@ -22,7 +22,7 @@ import java.io.InputStream;
 @Configuration
 public class FirebaseInitializer {
 
-    ///TODO FOR RUNNING IN HEROKU
+    ///TODO: THIS IS FOR RUNNING IN HEROKU
 
 //    @Value("${GOOGLE_CREDENTIALS}")
 //    private String gservicesConfig;
@@ -38,7 +38,7 @@ public class FirebaseInitializer {
 //        return FirebaseApp.initializeApp(options);
 //    }
 
-    ///TODO FOR RUNNING LOCALLY
+    ///TODO: THIS IS FOR RUNNING LOCALLY
     @Bean
     void initializeFirebaseApp() throws IOException {
 
