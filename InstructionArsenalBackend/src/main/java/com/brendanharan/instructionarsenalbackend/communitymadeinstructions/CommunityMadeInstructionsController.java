@@ -42,7 +42,7 @@ public class CommunityMadeInstructionsController {
     @DeleteMapping("/{id}")
     public ResponseEntity deletePostByID(@PathVariable Long id) {
         communityMadeInstructionsService.deleteCommunityMadeInstructions(id);
-        return ResponseEntity.ok("Official Instruction Deleted");
+        return ResponseEntity.ok("Community-Made Instruction Deleted");
     }
 
     @GetMapping("/title/{title}")
@@ -56,8 +56,8 @@ public class CommunityMadeInstructionsController {
         return communityMadeInstructionsService.findCommunityMadeInstructionsByCreatedByExact(createdBy);
     }
 
-    @GetMapping("/titleandcategoryandsubcategory/{title}/{category}/{subCategory}")
-    List<CommunityMadeInstructions> findPostByTitleAndCategory(@PathVariable String title, @PathVariable String category, @PathVariable String subCategory) {
+    @GetMapping("/titleandcategory/{title}/{category}")
+    List<CommunityMadeInstructions> findPostByTitleAndCategory(@PathVariable String title, @PathVariable String category) {
         return communityMadeInstructionsService.findCommunityMadeInstructionsByTitleAndCategoryLike(title, category);
     }
 

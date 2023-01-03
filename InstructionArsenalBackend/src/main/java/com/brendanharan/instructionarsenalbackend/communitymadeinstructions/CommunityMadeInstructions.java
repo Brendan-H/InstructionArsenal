@@ -59,7 +59,7 @@ public class CommunityMadeInstructions {
     private String tags;
 
     @Column(name="Difficulty")
-    private String difficulty;
+    private int difficulty;
 
     @Column(name="TimeToComplete")
     private String timeToComplete;
@@ -95,7 +95,7 @@ public class CommunityMadeInstructions {
     public CommunityMadeInstructions(String title, String description,
                                      LocalDateTime postCreatedAt, String instructions,
                                      String createdBy, String category,
-                                     int likes, int dislikes, String tags, String difficulty,
+                                     int likes, int dislikes, String tags, int difficulty,
                                      String timeToComplete, boolean isSponsored) {
         this.title = title;
         this.description = description;
