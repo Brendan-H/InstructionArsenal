@@ -49,6 +49,7 @@ dependencies:
   url_strategy: ^0.2.0
   timeago: ^3.3.0
   intl: ^0.17.0
+  awesome_select: ^6.0.0
 
 dev_dependencies:
   flutter_native_splash: ^2.2.16
