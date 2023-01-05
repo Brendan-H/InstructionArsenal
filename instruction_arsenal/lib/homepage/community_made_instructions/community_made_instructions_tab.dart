@@ -160,7 +160,6 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
 
 
 
-
     return Scaffold(
       backgroundColor: Colors.white60,
       body: LayoutBuilder(

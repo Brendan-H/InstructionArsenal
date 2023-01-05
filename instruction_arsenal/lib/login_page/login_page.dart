@@ -10,6 +10,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:instruction_arsenal/homepage/homepage.dart';
 import 'package:instruction_arsenal/login_page/complete_profile_widget.dart';
+import 'package:instruction_arsenal/login_page/forgot_password_page.dart';
 
 //import '../auth/auth_util.dart';
 //import '../forgot_password/forgot_password_widget.dart';
@@ -402,14 +403,14 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
                                   child: BrendanButtonWidget(
 
                                     onPressed: () async {
-                                      // await Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) =>
-                                      //         ForgotPasswordWidget(),
-                                      //   ),
-                                      // );
-                                      null;
+                                      await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ForgotPasswordPage(),
+                                        ),
+                                      );
+
                                     },
 
                                     text: 'Forgot Password?',
