@@ -730,15 +730,10 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
 
                                           email: createEmailController!.text,
                                           password: createPasswordController!.text);
+                                      await FirebaseAuth.instance.currentUser?.sendEmailVerification();
 
 
-                                      // await Navigator.pushAndRemoveUntil(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) => Homepage(),
-                                      //   ),
-                                      //       (r) => false,
-                                      // );
+
                                       await Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(

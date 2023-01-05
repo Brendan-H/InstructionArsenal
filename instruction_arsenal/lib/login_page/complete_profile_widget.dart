@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:instruction_arsenal/homepage/homepage.dart';
+import 'package:instruction_arsenal/login_page/login_page.dart';
 
 import '../utils/widgets.dart';
 import 'package:flutter/material.dart';
@@ -194,7 +195,7 @@ class _CompleteProfileWidgetState extends State<CompleteProfileWidget> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          const Homepage()
+                          const LoginPageWidget()
                     ),
                         (r) => false,
                   );

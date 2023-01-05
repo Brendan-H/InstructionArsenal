@@ -77,6 +77,32 @@ class _MainDrawerState extends State<MainDrawer> {
                );
              },
           ),
+          Visibility(
+            visible: FirebaseAuth.instance.currentUser!.emailVerified == false,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Text("Your email is not verified. You will not be able to post until you verify your email.",
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    ),
+                    ElevatedButton(
+                        onPressed: () async {
+                          await FirebaseAuth.instance.currentUser!.sendEmailVerification();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.red,
+                        ),
+                        child: Text("Verify Email")
+                    ),
+                  ],
+                ),
+              ),
+          ),
         ],
       ),
     );

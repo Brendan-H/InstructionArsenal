@@ -441,6 +441,14 @@ class _CreateOfficialInstructionsPageState extends State<CreateOfficialInstructi
                     if (!formKey.currentState!.validate()) {
                       return;
                     }
+                    if (FirebaseAuth.instance.currentUser!.emailVerified == false) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please verify your email'),
+                        ),
+                      );
+                      return;
+                    }
                     createPost();
 /*
                     await Navigator.pushAndRemoveUntil(
