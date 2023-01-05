@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:instruction_arsenal/homepage/community_made_instructions/community_made_instructions_tab.dart';
 import 'package:instruction_arsenal/homepage/official_instructions/official_instructions_tab.dart';
-import 'package:instruction_arsenal/login_page/login_page.dart';
 
 import 'main_drawer.dart';
 

@@ -83,7 +83,7 @@ class _MainDrawerState extends State<MainDrawer> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    Text("Your email is not verified. You will not be able to post until you verify your email.",
+                    const Text("Your email is not verified. You will not be able to post until you verify your email.",
                     style: TextStyle(
                       color: Colors.red,
                       fontSize: 16,
@@ -95,9 +95,9 @@ class _MainDrawerState extends State<MainDrawer> {
                           await FirebaseAuth.instance.currentUser!.sendEmailVerification();
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.red,
+                          backgroundColor: Colors.red,
                         ),
-                        child: Text("Verify Email")
+                        child: const Text("Verify Email")
                     ),
                   ],
                 ),

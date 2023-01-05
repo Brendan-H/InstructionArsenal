@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:instruction_arsenal/backend/models/community_made_instructions.dart';
+import 'package:instruction_arsenal/homepage/community_made_instructions/community_made_instructions_info_page.dart';
 import 'package:instruction_arsenal/homepage/community_made_instructions/get_icon.dart';
 import 'package:instruction_arsenal/homepage/community_made_instructions/star_difficulty.dart';
 import 'package:intl/intl.dart';
@@ -171,9 +172,9 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                 child: SmartSelect<String>.single(
-                  modalHeaderStyle: S2ModalHeaderStyle(
+                  modalHeaderStyle: const S2ModalHeaderStyle(
                     backgroundColor: Colors.black,
-                    textStyle: const TextStyle(
+                    textStyle: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
                     ),
@@ -242,91 +243,102 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, index) {
                           var communityMadeInstruction = snapshot.data![index];
-                          return Container(
-                            width: MediaQuery.of(context).size.width * .9945,
-                            height: MediaQuery.of(context).size.height * .33,
-                            child: Card(
-                                elevation: 2,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(0, 2, 0, 5),
-                                        child: Row(
-                                          children: [
-                                            Text("Created By: ${communityMadeInstruction.createdBy}"),
-                                            Spacer(),
-                                            Visibility(
-                                              visible: communityMadeInstruction.sponsored ?? false,
-                                              child: const Text("Sponsored",
-                                                  style: TextStyle(
-                                                      color: Colors.blue,
-                                                      fontWeight: FontWeight.bold)
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Text('${communityMadeInstruction.title}',
-                                        style: TextStyle(
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.w600
-                                        ),),
-                                       Padding(
-                                        padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                        child: Text(communityMadeInstruction.description ?? "description",
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                          ),),
-                                      ),
-                                       Padding(
-                                        padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                        child:
-                                        //Text(communityMadeInstruction.instructions ?? "instructions",
-                                        Text(communityMadeInstruction.instructions!.length > 200 ? '${communityMadeInstruction.instructions!.substring(0, 200)}...' : communityMadeInstruction.instructions ?? "Title",
-                                          //TODO only show first 100 characters and add "..." at the end
-                                          style: TextStyle(
-                                              fontSize: 13,
-                                              color: Colors.black54
-                                          ),),
-                                      ),
-
-                                      const Spacer(),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                        child: Row(
-                                          children: [
-                                            Text("Difficulty: "),
-                                            StarDifficulty(difficulty: communityMadeInstruction.difficulty as int),
-                                            Spacer(),
-                                            Text("Time to Complete: 30 minutes"),
-                                          ],
-                                        ),
-                                      ),
-                                      Row(
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CommunityMadeInstructionsInfoPage(communityMadeInstructions: communityMadeInstruction),
+                                ),
+                              );
+                            },
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width * .9945,
+                              height: MediaQuery.of(context).size.height * .33,
+                              child: Card(
+                                    elevation: 2,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          GetIcon(category: communityMadeInstruction.category ?? "Other"),
                                           Padding(
-                                            padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-                                            child: Text("Category: ${communityMadeInstruction.category}"),
+                                            padding: const EdgeInsets.fromLTRB(0, 2, 0, 5),
+                                            child: Row(
+                                              children: [
+                                                Text("Created By: ${communityMadeInstruction.createdBy}"),
+                                                const Spacer(),
+                                                Visibility(
+                                                  visible: communityMadeInstruction.sponsored ?? false,
+                                                  child: const Text("Sponsored",
+                                                      style: TextStyle(
+                                                          color: Colors.blue,
+                                                          fontWeight: FontWeight.bold)
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                          Spacer(),
-                                          Icon(Icons.favorite_border, color: Colors.red,),
-                                          Text((communityMadeInstruction.likes!.toInt() - communityMadeInstruction.dislikes!.toInt()).toString()),
-                                          Spacer(),
-                                          Text(dateTimeFormat(
-                                          //  "yyyy-MM-dd'T'HH:mm:ss.SSSZ",
-                                          // "hh:mma MMMM dd, yyyy",
-                                          "MMMM dd, yyyy hh:mma",
-                                          DateTime.parse(communityMadeInstruction.postCreatedAt ?? "Cannot retrieve time when post was created")))
+                                          Text('${communityMadeInstruction.title}',
+                                            style: const TextStyle(
+                                                fontSize: 22,
+                                                fontWeight: FontWeight.w600
+                                            ),),
+                                           Padding(
+                                            padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                            child: Text(communityMadeInstruction.description ?? "description",
+                                              style: const TextStyle(
+                                                fontSize: 15,
+                                              ),),
+                                          ),
+                                           Padding(
+                                            padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                            child:
+                                            //Text(communityMadeInstruction.instructions ?? "instructions",
+                                            Text(communityMadeInstruction.instructions!.length > 200 ? '${communityMadeInstruction.instructions!.substring(0, 200)}...' : communityMadeInstruction.instructions ?? "Title",
+                                              //TODO only show first 100 characters and add "..." at the end
+                                              style: const TextStyle(
+                                                  fontSize: 13,
+                                                  color: Colors.black54
+                                              ),),
+                                          ),
+
+                                          const Spacer(),
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                            child: Row(
+                                              children: [
+                                                const Text("Difficulty: "),
+                                                StarDifficulty(difficulty: communityMadeInstruction.difficulty as int),
+                                                const Spacer(),
+                                                const Text("Time to Complete: 30 minutes"),
+                                              ],
+                                            ),
+                                          ),
+                                          Row(
+                                            children: [
+                                              GetIcon(category: communityMadeInstruction.category ?? "Other"),
+                                              Padding(
+                                                padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                                                child: Text("Category: ${communityMadeInstruction.category}"),
+                                              ),
+                                              const Spacer(),
+                                              const Icon(Icons.favorite_border, color: Colors.red,),
+                                              Text((communityMadeInstruction.likes!.toInt() - communityMadeInstruction.dislikes!.toInt()).toString()),
+                                              const Spacer(),
+                                              Text(dateTimeFormat(
+                                              //  "yyyy-MM-dd'T'HH:mm:ss.SSSZ",
+                                              // "hh:mma MMMM dd, yyyy",
+                                              "MMMM dd, yyyy hh:mma",
+                                              DateTime.parse(communityMadeInstruction.postCreatedAt ?? "Cannot retrieve time when post was created")))
+                                            ],
+                                          ),
+
                                         ],
                                       ),
+                                    )
+                                ),
 
-                                    ],
-                                  ),
-                                )
                             ),
                           );
                         },
@@ -347,18 +359,3 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
     );
   }
 }
-
-// this.title = title;
-// this.description = description;
-// this.postCreatedAt = postCreatedAt;
-// this.instructions = instructions;
-// this.createdBy = createdBy;
-// this.category = category;
-// this.likes = likes;
-// this.dislikes = dislikes;
-// this.tags = tags;
-// this.difficulty = difficulty;
-// this.timeToComplete = timeToComplete;
-// this.isSponsored = isSponsored;
-
-//how to change the tire on a car Step 1: Park the car on a flat surface and turn off the engine. Make sure the car is in park and the parking brake is on. Step 2: Locate the jack and the lug wrench. Step 3: Remove the lug nuts from the tire. Step 4: Place the jack under the car and raise it until the tire is off the ground. Step 5: Remove the tire and replace it with the spare. Step 6: Replace the lug nuts and tighten them. Step 7: Lower the car and remove the jack. Step 8: Replace the lug wrench and jack in their original locations. Step 9: Turn on the car and drive away. Step 10: Go to a tire shop to get the flat tire fixed.
