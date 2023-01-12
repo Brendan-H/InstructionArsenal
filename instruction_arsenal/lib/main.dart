@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:instruction_arsenal/firebase_options.dart';
 import 'package:instruction_arsenal/homepage/homepage.dart';
 import 'package:instruction_arsenal/login_page/login_page.dart';
@@ -11,6 +14,15 @@ import 'package:url_strategy/url_strategy.dart';
 void main() async{
   setPathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
+  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform
   );
