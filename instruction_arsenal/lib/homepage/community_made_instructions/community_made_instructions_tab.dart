@@ -47,6 +47,7 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
           _pagingController.appendPage(communityMadeInstructions, nextPageKey);
           print(communityMadeInstructions[0].title);
         }
+
         print(communityMadeInstructions[0].title);
         return communityMadeInstructions;
       }
@@ -72,11 +73,9 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
         final isLastPage = communityMadeInstructions.length < _pageSize;
         if (isLastPage) {
           _pagingController.appendLastPage(communityMadeInstructions);
-          print(communityMadeInstructions[0].title);
         } else {
-          final nextPageKey = pageKey + communityMadeInstructions.length;
+          final nextPageKey = pageKey + 1;
           _pagingController.appendPage(communityMadeInstructions, nextPageKey);
-          print(communityMadeInstructions[0].title);
         }
         print(communityMadeInstructions);
 
@@ -151,6 +150,7 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
     _pagingController.addPageRequestListener((pageKey) {
       fetchCommunityMadeInstructions(pageKey);
     });
+
     super.initState();
     //futureCommunityMadeInstructions = fetchCommunityMadeInstructions();
   }
@@ -270,8 +270,10 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
               ),
               Expanded(
                 child: PagedListView<int, CommunityMadeInstructions>(
+
                   pagingController: _pagingController,
                   builderDelegate: PagedChildBuilderDelegate<CommunityMadeInstructions>(
+
                     itemBuilder: (context, item, index) => InkWell(
                       onTap: () {
                         Navigator.push(

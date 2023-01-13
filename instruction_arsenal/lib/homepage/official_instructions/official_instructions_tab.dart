@@ -42,7 +42,7 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
           _pagingController.appendLastPage(officialInstructions);
           print(officialInstructions[0].title);
         } else {
-          final nextPageKey = pageKey + officialInstructions.length;
+          final nextPageKey = pageKey + 1;
           _pagingController.appendPage(officialInstructions, nextPageKey);
         }
         print(officialInstructions);
@@ -323,5 +323,10 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
         ),
     )
     );
+  }
+  @override
+  void dispose() {
+    _pagingController.dispose();
+    super.dispose();
   }
 }
