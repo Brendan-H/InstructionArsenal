@@ -7,6 +7,7 @@
 
 package com.brendanharan.instructionarsenalbackend.communitymadeinstructions;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +31,8 @@ public class CommunityMadeInstructionsController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<CommunityMadeInstructions>> getPosts() {
-        return ResponseEntity.ok().body(communityMadeInstructionsService.getCommunityMadeInstructions());
+    public ResponseEntity<Page<CommunityMadeInstructions>> getPosts(@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize) {
+        return ResponseEntity.ok().body(communityMadeInstructionsService.getCommunityMadeInstructions(pageNo, pageSize));
     }
 
     @GetMapping("/{id}")
@@ -57,8 +58,8 @@ public class CommunityMadeInstructionsController {
     }
 
     @GetMapping("/titleandcategory/{title}/{category}")
-    List<CommunityMadeInstructions> findPostByTitleAndCategory(@PathVariable String title, @PathVariable String category) {
-        return communityMadeInstructionsService.findCommunityMadeInstructionsByTitleAndCategoryLike(title, category);
+    List<CommunityMadeInstructions> findPostByTitleAndCategory(@PathVariable String title, @PathVariable String category, @RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize) {
+        return communityMadeInstructionsService.findCommunityMadeInstructionsByTitleAndCategoryLike(title, category, pageNo, pageSize);
     }
 
 

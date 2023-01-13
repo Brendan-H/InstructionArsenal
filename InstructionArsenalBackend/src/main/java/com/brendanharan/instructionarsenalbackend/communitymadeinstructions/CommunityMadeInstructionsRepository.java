@@ -8,6 +8,8 @@
 package com.brendanharan.instructionarsenalbackend.communitymadeinstructions;
 
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -25,8 +27,10 @@ public interface CommunityMadeInstructionsRepository extends JpaRepository<Commu
 
     CommunityMadeInstructions findAllById(Long id);
 
+    Page<CommunityMadeInstructions> findAll(Pageable pageable);
+
     @Query(value = "SELECT o1_0 FROM CommunityMadeInstructions o1_0 WHERE o1_0.title LIKE %:title% AND o1_0.category LIKE %:category%", nativeQuery = false)
-    List<CommunityMadeInstructions> findAllByTitleAndCategoryLikeIgnoreCase(String title, String category);
+    List<CommunityMadeInstructions> findAllByTitleAndCategoryLikeIgnoreCase(String title, String category, Pageable pageable);
 
     List<CommunityMadeInstructions> findAllByCreatedBy(String createdBy);
 }
