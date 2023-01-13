@@ -9,7 +9,7 @@ import '../homepage.dart';
 
 class CommunityMadeInstructionsInfoPage extends StatefulWidget {
 
-  final CommunityMadeInstructions communityMadeInstructions;
+  final Content communityMadeInstructions;
   const CommunityMadeInstructionsInfoPage({Key? key, required this.communityMadeInstructions}) : super(key: key);
 
   @override
