@@ -46,6 +46,7 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
           final nextPageKey = pageKey + communityMadeInstructions.length;
           _pagingController.appendPage(communityMadeInstructions, nextPageKey);
         }
+        print(communityMadeInstructions);
         return communityMadeInstructions;
       }
       else {
@@ -55,7 +56,7 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
         throw Exception('An error occurred');
       }
     } else if (_searchController.text.isEmpty) {
-      var response = await dio.get('http://10.0.2.2:8080/api/v1/instructions/communitymadeinstructions/all?pageNo=0&pageSize=20',
+      var response = await dio.get('http://10.0.2.2:8080/api/v1/instructions/communitymadeinstructions/all?pageNo=$pageKey&pageSize=$_pageSize',
           options: Options(
             headers: {
               'Authorization': "Bearer $idToken",
@@ -264,7 +265,7 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CommunityMadeInstructionsInfoPage(communityMadeInstructions: item.content![index]),
+                            builder: (context) => CommunityMadeInstructionsInfoPage(communityMadeInstructions: item),
                           ),
                         );
                       },
@@ -282,10 +283,10 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
                                     padding: const EdgeInsets.fromLTRB(0, 2, 0, 5),
                                     child: Row(
                                       children: [
-                                        Text("Created By: ${item.content![index].createdBy}"),
+                                        Text("Created By: ${item.createdBy}"),
                                         const Spacer(),
                                         Visibility(
-                                          visible: item.content![index].sponsored ?? false,
+                                          visible: item.sponsored ?? false,
                                           child: const Text("Sponsored",
                                               style: TextStyle(
                                                   color: Colors.blue,
@@ -295,14 +296,14 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
                                       ],
                                     ),
                                   ),
-                                  Text('${item.content![index].title}',
+                                  Text('${item.title}',
                                     style: const TextStyle(
                                         fontSize: 22,
                                         fontWeight: FontWeight.w600
                                     ),),
                                   Padding(
                                     padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                    child: Text(item.content![index].description ?? "description",
+                                    child: Text(item.description ?? "description",
                                       style: const TextStyle(
                                         fontSize: 15,
                                       ),),
@@ -311,7 +312,7 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
                                     padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                                     child:
                                     //Text(communityMadeInstruction.instructions ?? "instructions",
-                                    Text(item.content![index].instructions!.length > 200 ? '${item.content![index].instructions!.substring(0, 200)}...' : item.content![index].instructions ?? "Title",
+                                    Text(item.instructions!.length > 200 ? '${item.instructions!.substring(0, 200)}...' : item.instructions ?? "Title",
                                       //TODO only show first 100 characters and add "..." at the end
                                       style: const TextStyle(
                                           fontSize: 13,
@@ -325,7 +326,7 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
                                     child: Row(
                                       children: [
                                         const Text("Difficulty: "),
-                                        StarDifficulty(difficulty: item.content![index].difficulty as int),
+                                        StarDifficulty(difficulty: item.difficulty as int),
                                         const Spacer(),
                                         const Text("Time to Complete: 30 minutes"),
                                       ],
@@ -333,20 +334,20 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
                                   ),
                                   Row(
                                     children: [
-                                      GetIcon(category: item.content![index].category ?? "Other"),
+                                      GetIcon(category: item.category ?? "Other"),
                                       Padding(
                                         padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                                        child: Text("Category: ${item.content![index].category}"),
+                                        child: Text("Category: ${item.category}"),
                                       ),
                                       const Spacer(),
                                       const Icon(Icons.favorite_border, color: Colors.red,),
-                                      Text((item.content![index].likes!.toInt() - item.content![index].dislikes!.toInt()).toString()),
+                                      Text((item.likes!.toInt() - item.dislikes!.toInt()).toString()),
                                       const Spacer(),
                                       Text(dateTimeFormat(
                                         //  "yyyy-MM-dd'T'HH:mm:ss.SSSZ",
                                         // "hh:mma MMMM dd, yyyy",
                                           "MMMM dd, yyyy hh:mma",
-                                          DateTime.parse(item.content![index].postCreatedAt ?? "Cannot retrieve time when post was created")))
+                                          DateTime.parse(item.postCreatedAt ?? "Cannot retrieve time when post was created")))
                                     ],
                                   ),
 
