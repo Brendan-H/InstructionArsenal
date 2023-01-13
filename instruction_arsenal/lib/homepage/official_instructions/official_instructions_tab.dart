@@ -2,6 +2,7 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:instruction_arsenal/homepage/official_instructions/create_official_instructions_page.dart';
 import 'package:instruction_arsenal/homepage/official_instructions/official_instructions_info_page.dart';
 
@@ -19,13 +20,13 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _companyController = TextEditingController();
 
-  Future<List<OfficialInstructions>?> fetchOfficialInstructions() async {
+  Future<List<OfficialInstructions>?> fetchOfficialInstructions(int pageKey) async {
     var idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
     var dio = Dio();
     var title = _titleController.text;
     var company = _companyController.text;
     if (_titleController.text.isNotEmpty && _companyController.text.isNotEmpty) {
-      var response = await dio.get('http://10.0.2.2:8080/api/v1/instructions/officialinstructions/titleandcompany/$company/$title',
+      var response = await dio.get('http://10.0.2.2:8080/api/v1/instructions/officialinstructions/titleandcompany/$company/$title?pageNo=$pageKey&pageSize=$_pageSize',
           options: Options(
             headers: {
               'Authorization': "Bearer $idToken",
@@ -35,6 +36,14 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
         var officialInstructions = <OfficialInstructions>[];
         for (var officialInstructionsJson in response.data) {
           officialInstructions.add(OfficialInstructions.fromJson(officialInstructionsJson));
+        }
+        final isLastPage = officialInstructions.length < _pageSize;
+        if (isLastPage) {
+          _pagingController.appendLastPage(officialInstructions);
+          print(officialInstructions[0].title);
+        } else {
+          final nextPageKey = pageKey + officialInstructions.length;
+          _pagingController.appendPage(officialInstructions, nextPageKey);
         }
         print(officialInstructions);
         return officialInstructions;
@@ -94,9 +103,17 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
 
   @override
   void initState() {
+    _pagingController.addPageRequestListener((pageKey) {
+      fetchOfficialInstructions(pageKey);
+    });
     super.initState();
-    futureOfficialInstructions = fetchOfficialInstructions();
+
+  //  futureOfficialInstructions = fetchOfficialInstructions();
   }
+  static const _pageSize = 20;
+
+  final PagingController<int, OfficialInstructions> _pagingController =
+  PagingController(firstPageKey: 0);
 
 
   @override
@@ -240,7 +257,7 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
                             }
                             setState(() {
                             _buttonPressed = true;
-                            futureOfficialInstructions = fetchOfficialInstructions();
+                         //   futureOfficialInstructions = fetchOfficialInstructions();
                             });
 
                             print(firebaseid);
@@ -259,56 +276,45 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
               Visibility(
                   visible: _titleController.text.isNotEmpty && _companyController.text.isNotEmpty && _buttonPressed == true,
                   child: Expanded(
-                      child: FutureBuilder<List<OfficialInstructions>?>(
-                        future: futureOfficialInstructions,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return ListView.builder(
-                              itemCount: snapshot.data!.length,
-                              itemBuilder: (context, index) {
-                                var officialInstruction = snapshot.data![index];
-                                return Card(
-                                  elevation: 2,
-                                  child: ListTile(
-                                    title: Text(
-                                      officialInstruction.title!.length > 100 ? '${officialInstruction.title!.substring(0, 100)}...' : officialInstruction.title ?? "Title",
-                                      style: const TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    subtitle: Padding(
-                                      padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                      child: Text(
-                                        "Company: ${officialInstruction.company}" ?? '',
-                                        style: const TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontSize: 15,
-                                        ),
-                                      ),
-                                    ),
+                      child: PagedListView<int, OfficialInstructions>(
+                        pagingController: _pagingController,
+                        builderDelegate: PagedChildBuilderDelegate<OfficialInstructions>(
+                          itemBuilder: (context, item, index) => Card(
+                            elevation: 2,
+                            child: ListTile(
+                              title: Text(
+                                item.title!.length > 100 ? '${item.title!.substring(0, 100)}...' : item.title ?? "Title",
+                                style: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 18,
+                                ),
+                              ),
+                              subtitle: Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                                child: Text(
+                                  "Company: ${item.company}" ?? '',
+                                  style: const TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
 
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => OfficialInstructionsInfoPage(
-                                            isMyPost: false,
-                                            officialInstructions: officialInstruction,
-                                          ),
-                                        ),
-                                      );
-                                    },
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => OfficialInstructionsInfoPage(
+                                      isMyPost: false,
+                                      officialInstructions: item,
+                                    ),
                                   ),
                                 );
                               },
-                            );
-                          } else if (snapshot.hasError) {
-                            return Text("${snapshot.error}");
-                          }
-                          return const Text('Something went wrong');
-                        },
-                      ),
+                            ),
+                          )
+                        ),
+                      )
                   )
               )
 
@@ -319,4 +325,3 @@ class _OfficialInstructionsTabState extends State<OfficialInstructionsTab> {
     );
   }
 }
-//search where it brings you to a new page with results
