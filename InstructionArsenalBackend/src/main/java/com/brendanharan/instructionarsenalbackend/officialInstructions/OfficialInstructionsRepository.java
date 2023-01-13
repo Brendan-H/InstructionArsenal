@@ -8,6 +8,7 @@
 package com.brendanharan.instructionarsenalbackend.officialInstructions;
 
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -24,7 +25,7 @@ public interface OfficialInstructionsRepository extends JpaRepository<OfficialIn
     List<OfficialInstructions> findByTitleLikeIgnoreCase(String title);
 
     @Query(value = "SELECT o1_0 FROM OfficialInstructions o1_0 WHERE o1_0.title LIKE %:title% AND o1_0.company LIKE %:company%", nativeQuery = false)
-    List<OfficialInstructions> findAllByTitleAndCompanyLikeIgnoreCase(String title, String company);
+    List<OfficialInstructions> findAllByTitleAndCompanyLikeIgnoreCase(String title, String company, Pageable pageable);
 
     OfficialInstructions findAllById(Long id);
 

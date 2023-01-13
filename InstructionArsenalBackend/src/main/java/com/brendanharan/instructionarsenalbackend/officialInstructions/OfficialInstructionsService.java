@@ -10,6 +10,7 @@ package com.brendanharan.instructionarsenalbackend.officialInstructions;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,8 +26,8 @@ public class OfficialInstructionsService {
     public List<OfficialInstructions> findOfficialInstructionsByTitleLike(String title) {
         return officialInstructionsRepository.findByTitleLikeIgnoreCase(title);
     }
-    public List<OfficialInstructions> findOfficialInstructionsByTitleAndCompanyLike(String title, String company) {
-        return officialInstructionsRepository.findAllByTitleAndCompanyLikeIgnoreCase(title, company);
+    public List<OfficialInstructions> findOfficialInstructionsByTitleAndCompanyLike(String title, String company, Integer pageNo, Integer pageSize) {
+        return officialInstructionsRepository.findAllByTitleAndCompanyLikeIgnoreCase(title, company, PageRequest.of(pageNo, pageSize));
     }
 
     public void saveOfficialInstructions(OfficialInstructions officialInstructions) {
