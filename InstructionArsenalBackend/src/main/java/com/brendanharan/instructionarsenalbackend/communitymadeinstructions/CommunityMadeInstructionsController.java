@@ -31,7 +31,7 @@ public class CommunityMadeInstructionsController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Page<CommunityMadeInstructions>> getPosts(@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize) {
+    public ResponseEntity<List<CommunityMadeInstructions>> getPosts(@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize) {
         return ResponseEntity.ok().body(communityMadeInstructionsService.getCommunityMadeInstructions(pageNo, pageSize));
     }
 
@@ -58,7 +58,7 @@ public class CommunityMadeInstructionsController {
     }
 
     @GetMapping("/titleandcategory/{title}/{category}")
-    Page<CommunityMadeInstructions> findPostByTitleAndCategory(@PathVariable String title, @PathVariable String category, @RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize) {
+    List<CommunityMadeInstructions> findPostByTitleAndCategory(@PathVariable String title, @PathVariable String category, @RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize) {
         return communityMadeInstructionsService.findCommunityMadeInstructionsByTitleAndCategoryLike(title, category, pageNo, pageSize);
     }
 

@@ -30,7 +30,7 @@ public class CommunityMadeInstructionsService {
         communityMadeInstructionsRepository.save(CommunityMadeInstructions);
     }
 
-    public Page<CommunityMadeInstructions> findCommunityMadeInstructionsByTitleAndCategoryLike(String title, String category, Integer pageNo, Integer pageSize) {
+    public List<CommunityMadeInstructions> findCommunityMadeInstructionsByTitleAndCategoryLike(String title, String category, Integer pageNo, Integer pageSize) {
         return communityMadeInstructionsRepository.findAllByTitleAndCategoryLikeIgnoreCase(title, category, PageRequest.of(pageNo, pageSize));
     }
 
@@ -38,8 +38,8 @@ public class CommunityMadeInstructionsService {
         communityMadeInstructionsRepository.deleteById(id);
     }
 
-    public Page<CommunityMadeInstructions> getCommunityMadeInstructions(Integer pageNo, Integer pageSize) {
-        return communityMadeInstructionsRepository.findAll(PageRequest.of(pageNo, pageSize));
+    public List<CommunityMadeInstructions> getCommunityMadeInstructions(Integer pageNo, Integer pageSize) {
+        return  communityMadeInstructionsRepository.findAll(PageRequest.of(pageNo, pageSize)).getContent();
     }
 
     public CommunityMadeInstructions findCommunityMadeInstructionsByID(Long id) {
