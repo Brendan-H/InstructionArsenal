@@ -38,15 +38,16 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
         for (var communityMadeInstructionsJson in response.data) {
           communityMadeInstructions.add(CommunityMadeInstructions.fromJson(communityMadeInstructionsJson));
         }
-        print(communityMadeInstructions);
         final isLastPage = communityMadeInstructions.length < _pageSize;
         if (isLastPage) {
           _pagingController.appendLastPage(communityMadeInstructions);
+          print(communityMadeInstructions[0].title);
         } else {
           final nextPageKey = pageKey + communityMadeInstructions.length;
           _pagingController.appendPage(communityMadeInstructions, nextPageKey);
+          print(communityMadeInstructions[0].title);
         }
-        print(communityMadeInstructions);
+        print(communityMadeInstructions[0].title);
         return communityMadeInstructions;
       }
       else {
@@ -67,6 +68,15 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
         var communityMadeInstructions = <CommunityMadeInstructions>[];
         for (var communityMadeInstructionsJson in response.data) {
           communityMadeInstructions.add(CommunityMadeInstructions.fromJson(communityMadeInstructionsJson));
+        }
+        final isLastPage = communityMadeInstructions.length < _pageSize;
+        if (isLastPage) {
+          _pagingController.appendLastPage(communityMadeInstructions);
+          print(communityMadeInstructions[0].title);
+        } else {
+          final nextPageKey = pageKey + communityMadeInstructions.length;
+          _pagingController.appendPage(communityMadeInstructions, nextPageKey);
+          print(communityMadeInstructions[0].title);
         }
         print(communityMadeInstructions);
 
@@ -210,7 +220,8 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
                   ),
                   onSelect: (selected, state) {
                     print(categoryChoice);
-            //        fetchCommunityMadeInstructions();
+                    _pagingController.refresh();
+
                   },
                   title: 'Category',
                   selectedValue: categoryChoice,
@@ -241,8 +252,9 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
                     ),
                     onPressed: () async {
                       var firebaseid = await FirebaseAuth.instance.currentUser?.getIdToken();
+                      _pagingController.refresh();
                       setState(() {
-                   //     futureCommunityMadeInstructions = fetchCommunityMadeInstructions();
+                        _pagingController.refresh();
                       });
 
                       print(firebaseid);
