@@ -58,7 +58,7 @@ public class CommunityMadeInstructionsController {
     }
 
     @GetMapping("/titleandcategory/{title}/{category}")
-    List<CommunityMadeInstructions> findPostByTitleAndCategory(@PathVariable String title, @PathVariable String category, @RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize) {
+    Page<CommunityMadeInstructions> findPostByTitleAndCategory(@PathVariable String title, @PathVariable String category, @RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize) {
         return communityMadeInstructionsService.findCommunityMadeInstructionsByTitleAndCategoryLike(title, category, pageNo, pageSize);
     }
 

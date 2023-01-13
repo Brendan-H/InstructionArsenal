@@ -30,7 +30,7 @@ public class CommunityMadeInstructionsService {
         communityMadeInstructionsRepository.save(CommunityMadeInstructions);
     }
 
-    public List<CommunityMadeInstructions> findCommunityMadeInstructionsByTitleAndCategoryLike(String title, String category, Integer pageNo, Integer pageSize) {
+    public Page<CommunityMadeInstructions> findCommunityMadeInstructionsByTitleAndCategoryLike(String title, String category, Integer pageNo, Integer pageSize) {
         return communityMadeInstructionsRepository.findAllByTitleAndCategoryLikeIgnoreCase(title, category, PageRequest.of(pageNo, pageSize));
     }
 

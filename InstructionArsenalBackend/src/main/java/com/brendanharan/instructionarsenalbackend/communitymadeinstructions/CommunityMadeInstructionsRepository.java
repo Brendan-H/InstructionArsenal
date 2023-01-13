@@ -30,7 +30,7 @@ public interface CommunityMadeInstructionsRepository extends JpaRepository<Commu
     Page<CommunityMadeInstructions> findAll(Pageable pageable);
 
     @Query(value = "SELECT o1_0 FROM CommunityMadeInstructions o1_0 WHERE o1_0.title LIKE %:title% AND o1_0.category LIKE %:category%", nativeQuery = false)
-    List<CommunityMadeInstructions> findAllByTitleAndCategoryLikeIgnoreCase(String title, String category, Pageable pageable);
+    Page<CommunityMadeInstructions> findAllByTitleAndCategoryLikeIgnoreCase(String title, String category, Pageable pageable);
 
     List<CommunityMadeInstructions> findAllByCreatedBy(String createdBy);
 }
