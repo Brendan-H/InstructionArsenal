@@ -128,6 +128,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>instructionarsenal-docker</finalName>
     </build>
 
 </project>
