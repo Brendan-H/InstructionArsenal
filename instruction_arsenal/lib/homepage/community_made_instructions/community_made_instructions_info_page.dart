@@ -2,10 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:instruction_arsenal/backend/models/community_made_instructions.dart';
+import 'package:instruction_arsenal/homepage/community_made_instructions/star_difficulty.dart';
 import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../homepage.dart';
+import 'get_icon.dart';
 
 class CommunityMadeInstructionsInfoPage extends StatefulWidget {
 
@@ -99,7 +101,8 @@ class _CommunityMadeInstructionsInfoPageState extends State<CommunityMadeInstruc
 
 
 
-
+    /// id : 12
+    /// tags : "cars, tire, automotive, wheels, repair"
 
     return Scaffold(
       appBar: AppBar(
@@ -148,27 +151,92 @@ class _CommunityMadeInstructionsInfoPageState extends State<CommunityMadeInstruc
         iconTheme: const IconThemeData(color: Colors.black),
         title: const Text('Community Made Instruction'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Text(widget.communityMadeInstructions.title ?? "Cannot retrieve title",
-            style: const TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-            ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-              child: Text(widget.communityMadeInstructions.description ?? "Cannot retrieve title",
-                style: const TextStyle(
-                  fontSize: 20,
-                ),
-              ),
-            ),
-          ],
-        ),
-      )
+       body: Card(
+           elevation: 2,
+           child: Padding(
+             padding: const EdgeInsets.all(10.0),
+             child: Column(
+               crossAxisAlignment: CrossAxisAlignment.start,
+               children: [
+                 Padding(
+                   padding: const EdgeInsets.fromLTRB(0, 2, 0, 5),
+                   child: Row(
+                     children: [
+                       Text("Created By: ${widget.communityMadeInstructions.createdBy}"),
+                       const Spacer(),
+                       Visibility(
+                         visible: widget.communityMadeInstructions.sponsored ?? false,
+                         child: const Text("Sponsored",
+                             style: TextStyle(
+                                 color: Colors.blue,
+                                 fontWeight: FontWeight.bold)
+                         ),
+                       ),
+                     ],
+                   ),
+                 ),
+                 Text('${widget.communityMadeInstructions.title}',
+                   style: const TextStyle(
+                       fontSize: 22,
+                       fontWeight: FontWeight.w600
+                   ),),
+                 Padding(
+                   padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                   child: Text(widget.communityMadeInstructions.description ?? "description",
+                     style: const TextStyle(
+                       fontSize: 15,
+                     ),),
+                 ),
+                 Padding(
+                   padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                   child: Text(widget.communityMadeInstructions.instructions ?? "Instructions",
+                     style: const TextStyle(
+                         fontSize: 13,
+                         color: Colors.black54
+                     ),),
+                 ),
+
+                 const Spacer(),
+                 Text("Tags: ${widget.communityMadeInstructions.tags}",
+                   style: const TextStyle(
+                       fontSize: 13,
+                       color: Colors.black54
+                   ),),
+                 Padding(
+                   padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                   child: Row(
+                     children: [
+                       const Text("Difficulty: "),
+                       StarDifficulty(difficulty: widget.communityMadeInstructions.difficulty as int),
+                       const Spacer(),
+                       const Text("Time to Complete: 30 minutes"),
+                     ],
+                   ),
+                 ),
+                 Row(
+                   children: [
+                     GetIcon(category: widget.communityMadeInstructions.category ?? "Other"),
+                     Padding(
+                       padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                       child: Text("Category: ${widget.communityMadeInstructions.category}"),
+                     ),
+                     const Spacer(),
+                     const Icon(Icons.favorite_border, color: Colors.red,),
+                     Text((widget.communityMadeInstructions.likes!.toInt() - widget.communityMadeInstructions.dislikes!.toInt()).toString()),
+                     const Spacer(),
+                     Text(dateTimeFormat(
+                       //  "yyyy-MM-dd'T'HH:mm:ss.SSSZ",
+                       // "hh:mma MMMM dd, yyyy",
+                         "MMMM dd, yyyy hh:mma",
+                         DateTime.parse(widget.communityMadeInstructions.postCreatedAt ?? "Cannot retrieve time when post was created")))
+                   ],
+                 ),
+
+
+               ],
+             ),
+           )
+       ),
     );
   }
 }
