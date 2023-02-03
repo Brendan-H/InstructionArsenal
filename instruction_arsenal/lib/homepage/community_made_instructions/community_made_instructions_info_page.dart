@@ -12,7 +12,8 @@ import 'get_icon.dart';
 class CommunityMadeInstructionsInfoPage extends StatefulWidget {
 
   final CommunityMadeInstructions communityMadeInstructions;
-  const CommunityMadeInstructionsInfoPage({Key? key, required this.communityMadeInstructions}) : super(key: key);
+  final bool isMyPost;
+  const CommunityMadeInstructionsInfoPage({Key? key, required this.communityMadeInstructions, required this.isMyPost}) : super(key: key);
 
   @override
   State<CommunityMadeInstructionsInfoPage> createState() => _CommunityMadeInstructionsInfoPageState();
@@ -108,7 +109,7 @@ class _CommunityMadeInstructionsInfoPageState extends State<CommunityMadeInstruc
       appBar: AppBar(
         actions: [
           Visibility(
-       //     visible: widget.isMyPost,
+            visible: widget.isMyPost,
             child: PopupMenuButton<int>(
               onSelected: (widget) {
                 showAlertDialog(context);
@@ -129,7 +130,7 @@ class _CommunityMadeInstructionsInfoPageState extends State<CommunityMadeInstruc
                 ),
               ],
               offset: const Offset(0, 100),
-              color: Colors.white,
+              icon: const Icon(Icons.more_vert, color: Colors.black,),
               elevation: 2,
             ),
           ),

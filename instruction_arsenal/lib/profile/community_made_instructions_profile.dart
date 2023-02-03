@@ -107,7 +107,8 @@ class _CommunityMadeInstructionsProfileState extends State<CommunityMadeInstruct
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => CommunityMadeInstructionsInfoPage(
-                                          communityMadeInstructions: communityMadeInstruction
+                                          communityMadeInstructions: communityMadeInstruction,
+                                        isMyPost: true,
                                     ),
                                   )
                                   );

@@ -279,7 +279,10 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CommunityMadeInstructionsInfoPage(communityMadeInstructions: item),
+                            builder: (context) => CommunityMadeInstructionsInfoPage(
+                                communityMadeInstructions: item,
+                              isMyPost: false,
+                            ),
                           ),
                         );
                       },

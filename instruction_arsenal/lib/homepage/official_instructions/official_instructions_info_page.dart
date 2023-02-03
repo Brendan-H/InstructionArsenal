@@ -134,7 +134,7 @@ class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoP
                 ),
               ],
               offset: const Offset(0, 100),
-              color: Colors.white,
+              icon: const Icon(Icons.more_vert, color: Colors.black,),
               elevation: 2,
             ),
           ),
