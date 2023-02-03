@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:instruction_arsenal/backend/models/community_made_instructions.dart';
 import 'package:instruction_arsenal/homepage/homepage.dart';
 import 'package:instruction_arsenal/homepage/official_instructions/official_instructions_info_page.dart';
 
@@ -19,35 +20,49 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
 
-  Future<List<OfficialInstructions>?> fetchOfficialInstructions() async {
+  Future<List> fetchOfficialInstructions() async {
     var idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
     var dio = Dio();
     var email = FirebaseAuth.instance.currentUser!.email;
-    var response = await dio.get('http://10.0.2.2:8080/api/v1/instructions/officialinstructions/createdby/$email',
+    var officialresponse = await dio.get('http://10.0.2.2:8080/api/v1/instructions/officialinstructions/createdby/$email',
+        options: Options(
+          headers: {
+            'Authorization': "Bearer $idToken",
+          },
+        ));
+    var communitymaderesponse = await dio.get('http://10.0.2.2:8080/api/v1/instructions/communitymadeinstructions/createdbyexact/$email',
         options: Options(
           headers: {
             'Authorization': "Bearer $idToken",
           },
         ));
 
-    if (response.statusCode == 200) {
-      var officialInstructions = <OfficialInstructions>[];
-      for (var officialInstructionsJson in response.data) {
+
+    if (officialresponse.statusCode == 200) {
+      var officialInstructions = <dynamic>[];
+      for (var officialInstructionsJson in officialresponse.data) {
         officialInstructions.add(OfficialInstructions.fromJson(officialInstructionsJson));
       }
+      var communityMadeInstructions = <dynamic>[];
+      for (var communityMadeInstructionJson in communitymaderesponse.data) {
+        officialInstructions.add(OfficialInstructions.fromJson(communityMadeInstructionJson));
+      }
+      var results = officialInstructions + communityMadeInstructions;
       print(officialInstructions);
-      return officialInstructions;
+      return results;
 
     }
     else {
-      if (response.statusCode == 404) {
+      if (officialresponse.statusCode == 404) {
         print('404');
       }
       throw Exception('An error occurred');
     }
+
   }
 
-  late Future<List<OfficialInstructions>?> futureOfficialInstructions;
+  //late Future<List<OfficialInstructions>?> futureOfficialInstructions;
+  late Future<List<dynamic>?> futureOfficialInstructions;
 
 
 
@@ -95,7 +110,8 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               const SizedBox(height: 10),
               Expanded(
-                child: FutureBuilder<List<OfficialInstructions>?>(
+                //child: FutureBuilder<List<OfficialInstructions>?>(
+                  child: FutureBuilder<List<dynamic>?>(
                   future: futureOfficialInstructions,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
