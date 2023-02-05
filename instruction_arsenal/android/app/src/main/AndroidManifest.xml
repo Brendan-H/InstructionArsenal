@@ -36,7 +36,7 @@
 
                 <data
                     android:scheme="http"
-                    android:host="instructionarsenal.brendanharan.com" />
+                    android:host="instructionarsenal.brendanharan.com/go/" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -46,7 +46,7 @@
 
                 <data
                     android:scheme="http"
-                    android:host="instructionarsenal.brendanharan.com" />
+                    android:host="instructionarsenal.brendanharan.com/go/" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

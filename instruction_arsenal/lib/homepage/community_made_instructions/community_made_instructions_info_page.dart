@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:instruction_arsenal/backend/models/community_made_instructions.dart';
 import 'package:instruction_arsenal/homepage/community_made_instructions/star_difficulty.dart';
 import 'package:intl/intl.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+import '../../utils/dynamic_links_service.dart';
 import '../homepage.dart';
 import 'get_icon.dart';
 
@@ -99,11 +101,8 @@ class _CommunityMadeInstructionsInfoPageState extends State<CommunityMadeInstruc
       // "hh:mma MMMM dd, yyyy",
         "MMMM dd, yyyy hh:mma",
         DateTime.parse(widget.communityMadeInstructions.postCreatedAt ?? "Cannot retrieve time when post was created"));
+    final DynamicLinkService _dynamicLinkService = DynamicLinkService();
 
-
-
-    /// id : 12
-    /// tags : "cars, tire, automotive, wheels, repair"
 
     return Scaffold(
       appBar: AppBar(
@@ -198,6 +197,36 @@ class _CommunityMadeInstructionsInfoPageState extends State<CommunityMadeInstruc
                  ),
 
                  const Spacer(),
+                 Padding(
+                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+                   child: Row(
+                     crossAxisAlignment: CrossAxisAlignment.center,
+                     children: [
+                       const Spacer(),
+                       Container(
+                          height: MediaQuery.of(context).size.height * 0.05,
+                         width: MediaQuery.of(context).size.width * 0.4,
+                         child: ElevatedButton(
+
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              backgroundColor: Colors.black,
+                            ),
+                           onPressed: () async {
+                              var link = await _dynamicLinkService.createDynamicLink(widget.communityMadeInstructions.id ?? 1);
+                              Share.share(link.toString());
+
+                           },
+                           child: Text("Share Instructions"),
+
+                        ),
+                       ),
+                       const Spacer()
+                     ],
+                   ),
+                 ),
                  Text("Tags: ${widget.communityMadeInstructions.tags}",
                    style: const TextStyle(
                        fontSize: 13,
@@ -241,3 +270,5 @@ class _CommunityMadeInstructionsInfoPageState extends State<CommunityMadeInstruc
     );
   }
 }
+
+//TODO Share posts button
