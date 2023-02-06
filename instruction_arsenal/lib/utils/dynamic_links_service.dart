@@ -16,6 +16,7 @@ class DynamicLinkService {
 
       if (deepLink != null) {
           String? id = deepLink.queryParameters["id"] ?? "1";
+         // final strings = deepLink.path.split("id/");
 
 
           await Navigator.of(context).push(MaterialPageRoute(builder: (context) => CommunityMadeInstructionsDynamicLinkInfoPage(
@@ -39,8 +40,10 @@ class DynamicLinkService {
 
   Future<Uri> createDynamicLink(num id) async {
     final DynamicLinkParameters parameters = DynamicLinkParameters(
-      uriPrefix: 'https://instructionarsenal.brendanharan.com/go/',
-      link: Uri.parse('https://instructionarsenal.brendanharan.com/go/?id=$id'),
+      // uriPrefix: 'https://instructionarsenal.brendanharan.com/go/',
+      // link: Uri.parse('https://instructionarsenal.brendanharan.com/go/id/$id'),
+      uriPrefix: 'https://instructionarsenal.page.link',
+      link: Uri.parse('https://instructionarsenal.page.link/id?id=$id'),
       androidParameters: const AndroidParameters(
         packageName: 'com.brendanharan.instructionarsenal',
         minimumVersion: 1,
@@ -51,9 +54,11 @@ class DynamicLinkService {
       //   appStoreId: 'your_app_store_id',
       // ),
     );
-    var dynamicUrl = await FirebaseDynamicLinks.instance.buildShortLink(parameters);
+     var dynamicUrl = await FirebaseDynamicLinks.instance.buildShortLink(parameters);
+   // var dynamicUrl = await FirebaseDynamicLinks.instance.buildLink(parameters);
     final Uri shortUrl = dynamicUrl.shortUrl;
     return shortUrl;
+   // return dynamicUrl;
   }
 
 }

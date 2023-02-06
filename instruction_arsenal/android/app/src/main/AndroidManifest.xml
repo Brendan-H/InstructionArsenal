@@ -36,7 +36,7 @@
 
                 <data
                     android:scheme="http"
-                    android:host="instructionarsenal.brendanharan.com/go/" />
+                    android:host="instructionarsenal.page.link" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -46,27 +46,7 @@
 
                 <data
                     android:scheme="http"
-                    android:host="instructionarsenal.brendanharan.com/go/" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:scheme="https"
-                    android:host="instructionarsenal.brendanharan.com" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:scheme="https"
-                    android:host="instructionarsenal.brendanharan.com" />
+                    android:host="instructionarsenal.page.link" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
