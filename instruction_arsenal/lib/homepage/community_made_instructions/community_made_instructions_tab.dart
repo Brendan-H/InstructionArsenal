@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:instruction_arsenal/backend/models/community_made_instructions.dart';
+import 'package:instruction_arsenal/homepage/community_made_instructions/CommunityMadeInstructionsCategorySliver.dart';
+import 'package:instruction_arsenal/homepage/community_made_instructions/CommunityMadeInstructionsSearchSliver.dart';
 import 'package:instruction_arsenal/homepage/community_made_instructions/community_made_instructions_info_page.dart';
 import 'package:instruction_arsenal/homepage/community_made_instructions/get_icon.dart';
 import 'package:instruction_arsenal/homepage/community_made_instructions/star_difficulty.dart';
@@ -20,6 +22,24 @@ class CommunityMadeInstructionsTab extends StatefulWidget {
 
 class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructionsTab> {
   final TextEditingController _searchController = TextEditingController();
+
+  final List<CommunityMadeInstructions> exampleCommunityMadeInstructions = <CommunityMadeInstructions>[
+    CommunityMadeInstructions(
+      id: 999,
+      title: 'Example Community Made Instructions',
+      description: 'This is an example of a community made instructions',
+      category: 'Other',
+      difficulty: 1,
+      postCreatedAt : "2023-01-03T16:54:30.756846",
+      createdBy: "bjharan7@gmail.com",
+      instructions: "Step 1: Example Step 1. Step 2: Example Step 2. Step 3: Example Step 3.ldsjbflbfkjsbfkjjbdsfkjbdskjfbskdjfbksdjbfksdjbfkjsdbfkdjsbdkjfbkdjsbjbdksfkjbdskjsbdfkjbdskfjbdsjkfbdsjfbds",
+      likes: 155,
+      dislikes: 11,
+      tags: "example, cars, tire, automotive, wheels, repair",
+      timeToComplete: "30 Minutes",
+      sponsored: true,
+    )
+  ];
 
   Future<List<CommunityMadeInstructions>?> fetchCommunityMadeInstructions(int pageKey) async {
     var idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
@@ -55,6 +75,7 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
         if (response.statusCode == 404) {
           print('404');
         }
+       // return exampleCommunityMadeInstructions;
         throw Exception('An error occurred');
       }
     } else if (_searchController.text.isEmpty) {
@@ -86,9 +107,11 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
         if (response.statusCode == 404) {
           print('404');
         }
-        throw Exception('An error occurred');
+        return exampleCommunityMadeInstructions;
+       // throw Exception('An error occurred');
       }
     } else {
+      //return exampleCommunityMadeInstructions;
       return null;
     }
 
@@ -143,7 +166,7 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
   late Future<List<CommunityMadeInstructions>?> futureCommunityMadeInstructions;
 
 
-  var categoryChoice = "other";
+  var categoryChoice = "Automotive";
 
   @override
   void initState() {
@@ -201,182 +224,134 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
       width: MediaQuery.of(context).size.width,
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                child: SmartSelect<String>.single(
-                  modalHeaderStyle: const S2ModalHeaderStyle(
-                    backgroundColor: Colors.black,
-                    textStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),
-                  ),
-
-                  choiceStyle: const S2ChoiceStyle(
-                    color: Colors.black,
-                    titleStyle: TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-                  onSelect: (selected, state) {
-                    print(categoryChoice);
-                    _pagingController.refresh();
-
-                  },
-                  title: 'Category',
-                  selectedValue: categoryChoice,
-                  choiceItems: categoryChoiceOptions,
-                  onChange: (state) => setState(() {
-                    categoryChoice = state.value;
-                  }),
-                ),
-              ),
-              TextField(
-                controller: _searchController,
-                decoration: InputDecoration(
-                  hintText: 'Search',
-                  prefixIcon: const Icon(Icons.search),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.75,
-                  height: MediaQuery.of(context).size.height * 0.05,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
-                    ),
-                    onPressed: () async {
-                      var firebaseid = await FirebaseAuth.instance.currentUser?.getIdToken();
-                      _pagingController.refresh();
-                      setState(() {
-                        _pagingController.refresh();
-                      });
-
-                      print(firebaseid);
-                    },
-                    child: const Text(
-                        "Search",
-                      style: TextStyle(
-                          fontSize: 20,
-                        )
-                    ),
-                  ),
-                ),
-              ),
               Expanded(
-                child: PagedListView<int, CommunityMadeInstructions>(
-
-                  pagingController: _pagingController,
-                  builderDelegate: PagedChildBuilderDelegate<CommunityMadeInstructions>(
-
-                    itemBuilder: (context, item, index) => InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CommunityMadeInstructionsInfoPage(
-                                communityMadeInstructions: item,
-                              isMyPost: false,
-                            ),
-                          ),
-                        );
+                child: CustomScrollView(
+                  slivers: <Widget> [
+                    CommunityMadeInstructionsSearchSliver(
+                      onChanged: (value) {
+                        setState(() {
+                          _searchController.text = value;
+                          _pagingController.refresh();
+                        });
                       },
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width * .9945,
-                        height: MediaQuery.of(context).size.height * .33,
-                        child: Card(
-                            elevation: 2,
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(0, 2, 0, 5),
-                                    child: Row(
-                                      children: [
-                                        Text("Created By: ${item.createdBy}"),
-                                        const Spacer(),
-                                        Visibility(
-                                          visible: item.sponsored ?? false,
-                                          child: const Text("Sponsored",
-                                              style: TextStyle(
-                                                  color: Colors.blue,
-                                                  fontWeight: FontWeight.bold)
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Text('${item.title}',
-                                    style: const TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w600
-                                    ),),
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                    child: Text(item.description ?? "description",
-                                      style: const TextStyle(
-                                        fontSize: 15,
-                                      ),),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                    child:
-                                    //Text(communityMadeInstruction.instructions ?? "instructions",
-                                    Text(item.instructions!.length > 200 ? '${item.instructions!.substring(0, 200)}...' : item.instructions ?? "Title",
-                                      //TODO only show first 100 characters and add "..." at the end
-                                      style: const TextStyle(
-                                          fontSize: 13,
-                                          color: Colors.black54
-                                      ),),
-                                  ),
-
-                                  const Spacer(),
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                    child: Row(
-                                      children: [
-                                        const Text("Difficulty: "),
-                                        StarDifficulty(difficulty: item.difficulty as int),
-                                        const Spacer(),
-                                        const Text("Time to Complete: 30 minutes"),
-                                      ],
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      GetIcon(category: item.category ?? "Other"),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                                        child: Text("Category: ${item.category}"),
-                                      ),
-                                      const Spacer(),
-                                      const Icon(Icons.favorite_border, color: Colors.red,),
-                                      Text((item.likes!.toInt() - item.dislikes!.toInt()).toString()),
-                                      const Spacer(),
-                                      Text(dateTimeFormat(
-                                        //  "yyyy-MM-dd'T'HH:mm:ss.SSSZ",
-                                        // "hh:mma MMMM dd, yyyy",
-                                          "MMMM dd, yyyy hh:mma",
-                                          DateTime.parse(item.postCreatedAt ?? "Cannot retrieve time when post was created")))
-                                    ],
-                                  ),
-
-                                ],
-                              ),
-                            )
-                        ),
-
-                      ),
                     ),
-                  ),
+                    CommunityMadeInstructionsCategorySliver(
+                      onChanged: (value) {
+                        setState(() {
+                          categoryChoice = value;
+                          _pagingController.refresh();
+                        });
+                      },
+                    ),
+                    PagedSliverList<int, CommunityMadeInstructions>(
+                    pagingController: _pagingController,
+                    builderDelegate: PagedChildBuilderDelegate<CommunityMadeInstructions>(
+                      itemBuilder: (context, item, index) => InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CommunityMadeInstructionsInfoPage(
+                                  communityMadeInstructions: item,
+                                isMyPost: false,
+                              ),
+                            ),
+                          );
+                        },
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * .9945,
+                          height: MediaQuery.of(context).size.height * .33,
+                          child: Card(
+                              elevation: 2,
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(0, 2, 0, 5),
+                                      child: Row(
+                                        children: [
+                                          Text("Created By: ${item.createdBy}"),
+                                          const Spacer(),
+                                          Visibility(
+                                            visible: item.sponsored ?? false,
+                                            child: const Text("Sponsored",
+                                                style: TextStyle(
+                                                    color: Colors.blue,
+                                                    fontWeight: FontWeight.bold)
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Text('${item.title}',
+                                      style: const TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.w600
+                                      ),),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                      child: Text(item.description ?? "description",
+                                        style: const TextStyle(
+                                          fontSize: 15,
+                                        ),),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                      child:
+                                      //Text(communityMadeInstruction.instructions ?? "instructions",
+                                      Text(item.instructions!.length > 200 ? '${item.instructions!.substring(0, 200)}...' : item.instructions ?? "Title",
+                                        //TODO only show first 100 characters and add "..." at the end
+                                        style: const TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.black54
+                                        ),),
+                                    ),
 
+                                    const Spacer(),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                      child: Row(
+                                        children: [
+                                          const Text("Difficulty: "),
+                                          StarDifficulty(difficulty: item.difficulty as int),
+                                          const Spacer(),
+                                          const Text("Time to Complete: 30 minutes"),
+                                        ],
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        GetIcon(category: item.category ?? "Other"),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                                          child: Text("Category: ${item.category}"),
+                                        ),
+                                        const Spacer(),
+                                        const Icon(Icons.favorite_border, color: Colors.red,),
+                                        Text((item.likes!.toInt() - item.dislikes!.toInt()).toString()),
+                                        const Spacer(),
+                                        Text(dateTimeFormat(
+                                          //  "yyyy-MM-dd'T'HH:mm:ss.SSSZ",
+                                          // "hh:mma MMMM dd, yyyy",
+                                            "MMMM dd, yyyy hh:mma",
+                                            DateTime.parse(item.postCreatedAt ?? "Cannot retrieve time when post was created")))
+                                      ],
+                                    ),
+
+                                  ],
+                                ),
+                              )
+                          ),
+
+                        ),
+                      ),
+
+                    ),
+
+                  ),
+                  ]
                 )
 
 

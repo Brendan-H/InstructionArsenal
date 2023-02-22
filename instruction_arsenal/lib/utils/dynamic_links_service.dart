@@ -17,8 +17,7 @@ class DynamicLinkService {
       if (deepLink != null) {
           String? id = deepLink.queryParameters["id"] ?? "1";
          // final strings = deepLink.path.split("id/");
-
-
+          
           await Navigator.of(context).push(MaterialPageRoute(builder: (context) => CommunityMadeInstructionsDynamicLinkInfoPage(
             id: id,
             isMyPost: false
