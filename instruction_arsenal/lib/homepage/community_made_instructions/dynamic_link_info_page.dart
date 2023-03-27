@@ -176,7 +176,7 @@ class _CommunityMadeInstructionsDynamicLinkInfoPageState extends State<Community
             // "hh:mma MMMM dd, yyyy",
               "MMMM dd, yyyy hh:mma",
               DateTime.parse(communityMadeInstruction?.postCreatedAt ?? "Cannot retrieve time when post was created"));
-          final DynamicLinkService _dynamicLinkService = DynamicLinkService();
+          final DynamicLinkService dynamicLinkService = DynamicLinkService();
 
           String getCreatedBy() {
             if (FirebaseAuth.instance.currentUser!.email == communityMadeInstruction?.createdBy) {
@@ -240,7 +240,7 @@ class _CommunityMadeInstructionsDynamicLinkInfoPageState extends State<Community
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             const Spacer(),
-                            Container(
+                            SizedBox(
                               height: MediaQuery.of(context).size.height * 0.05,
                               width: MediaQuery.of(context).size.width * 0.4,
                               child: ElevatedButton(
@@ -252,11 +252,11 @@ class _CommunityMadeInstructionsDynamicLinkInfoPageState extends State<Community
                                   backgroundColor: Colors.black,
                                 ),
                                 onPressed: () async {
-                                  var link = await _dynamicLinkService.createDynamicLink(communityMadeInstruction?.id ?? 1);
+                                  var link = await dynamicLinkService.createDynamicLink(communityMadeInstruction?.id ?? 1);
                                   Share.share(link.toString());
 
                                 },
-                                child: Text("Share Instructions"),
+                                child: const Text("Share Instructions"),
 
                               ),
                             ),

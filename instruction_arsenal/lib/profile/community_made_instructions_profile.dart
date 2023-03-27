@@ -3,10 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:instruction_arsenal/backend/models/community_made_instructions.dart';
 import 'package:instruction_arsenal/homepage/community_made_instructions/community_made_instructions_info_page.dart';
-import 'package:instruction_arsenal/homepage/homepage.dart';
-import 'package:instruction_arsenal/homepage/official_instructions/official_instructions_info_page.dart';
 
-import '../../backend/models/official_instructions.dart';
 
 class CommunityMadeInstructionsProfile extends StatefulWidget {
   const CommunityMadeInstructionsProfile({Key? key}) : super(key: key);

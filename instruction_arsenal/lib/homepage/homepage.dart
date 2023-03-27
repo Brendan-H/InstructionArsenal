@@ -46,9 +46,7 @@ class _HomepageState extends State<Homepage> with TickerProviderStateMixin, Widg
   void dispose() {
     _tabController.dispose();
     WidgetsBinding.instance.removeObserver(this);
-    if (_timerLink != null) {
-      _timerLink.cancel();
-    }
+    _timerLink.cancel();
     super.dispose();
   }
 

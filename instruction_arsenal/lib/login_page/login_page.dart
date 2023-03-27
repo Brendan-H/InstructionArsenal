@@ -77,10 +77,6 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
 
 
 
-  @override
-  dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

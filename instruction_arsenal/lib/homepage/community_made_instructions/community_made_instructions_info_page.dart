@@ -101,7 +101,7 @@ class _CommunityMadeInstructionsInfoPageState extends State<CommunityMadeInstruc
       // "hh:mma MMMM dd, yyyy",
         "MMMM dd, yyyy hh:mma",
         DateTime.parse(widget.communityMadeInstructions.postCreatedAt ?? "Cannot retrieve time when post was created"));
-    final DynamicLinkService _dynamicLinkService = DynamicLinkService();
+    final DynamicLinkService dynamicLinkService = DynamicLinkService();
 
 
     return Scaffold(
@@ -203,7 +203,7 @@ class _CommunityMadeInstructionsInfoPageState extends State<CommunityMadeInstruc
                      crossAxisAlignment: CrossAxisAlignment.center,
                      children: [
                        const Spacer(),
-                       Container(
+                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.05,
                          width: MediaQuery.of(context).size.width * 0.4,
                          child: ElevatedButton(
@@ -215,11 +215,11 @@ class _CommunityMadeInstructionsInfoPageState extends State<CommunityMadeInstruc
                               backgroundColor: Colors.black,
                             ),
                            onPressed: () async {
-                              var link = await _dynamicLinkService.createDynamicLink(widget.communityMadeInstructions.id ?? 1);
+                              var link = await dynamicLinkService.createDynamicLink(widget.communityMadeInstructions.id ?? 1);
                               Share.share(link.toString());
 
                            },
-                           child: Text("Share Instructions"),
+                           child: const Text("Share Instructions"),
 
                         ),
                        ),

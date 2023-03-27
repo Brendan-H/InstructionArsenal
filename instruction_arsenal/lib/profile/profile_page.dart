@@ -1,13 +1,7 @@
-import 'package:dio/dio.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:instruction_arsenal/backend/models/community_made_instructions.dart';
 import 'package:instruction_arsenal/homepage/homepage.dart';
-import 'package:instruction_arsenal/homepage/official_instructions/official_instructions_info_page.dart';
 import 'package:instruction_arsenal/profile/community_made_instructions_profile.dart';
 
-import '../../backend/models/official_instructions.dart';
-import '../homepage/community_made_instructions/community_made_instructions_tab.dart';
 import 'official_instructions_profile.dart';
 
 class ProfilePage extends StatefulWidget {

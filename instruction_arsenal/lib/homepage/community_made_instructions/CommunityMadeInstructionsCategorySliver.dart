@@ -38,15 +38,24 @@ class _CommunityMadeInstructionsCategorySliverState
 
   @override
   void initState() {
+    // _categoryChangesSubscription = _categoryChangeStreamController.stream
+    //     .debounceTime(
+    //   widget.debounceTime ?? const Duration(seconds: 1),
+    // )
+    //     .distinct()
+    //     .listen((text) {
+    //   final onChanged = widget.onChanged;
+    //   if (onChanged != null) {
+    //     onChanged(text);
+    //   }
+    // });
     _categoryChangesSubscription = _categoryChangeStreamController.stream
         .debounceTime(
       widget.debounceTime ?? const Duration(seconds: 1),
-    )
-        .distinct()
-        .listen((text) {
+    ) .distinct() .listen((event) {
       final onChanged = widget.onChanged;
       if (onChanged != null) {
-        onChanged(text);
+        onChanged(event);
       }
     });
 
@@ -81,21 +90,15 @@ class _CommunityMadeInstructionsCategorySliverState
         title: 'Category',
         selectedValue: categoryChoice,
         choiceItems: categoryChoiceOptions,
+        onModalClose: (state,bool confirmed ) => setState(() {
+          _categoryChangeStreamController.add;
+        }),
         onChange: (state) => setState(() {
           categoryChoice = state.value;
+          _categoryChangeStreamController.add;
         }),
       ),
     ),
-    // child: Padding(
-    //   padding: const EdgeInsets.all(16),
-    //   child: TextField(
-    //     decoration: const InputDecoration(
-    //       prefixIcon: Icon(Icons.search),
-    //       labelText: 'Search Instructions',
-    //     ),
-    //     onChanged: _textChangeStreamController.add,
-    //   ),
-    // ),
   );
 
   @override

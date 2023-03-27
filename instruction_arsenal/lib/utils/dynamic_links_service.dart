@@ -1,11 +1,7 @@
-import 'package:dio/dio.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
-import 'package:instruction_arsenal/homepage/community_made_instructions/community_made_instructions_info_page.dart';
 import 'package:instruction_arsenal/homepage/community_made_instructions/dynamic_link_info_page.dart';
 
-import '../backend/models/community_made_instructions.dart';
 
 class DynamicLinkService {
 

@@ -7,11 +7,11 @@ import 'package:instruction_arsenal/backend/models/community_made_instructions.d
 import 'package:instruction_arsenal/homepage/community_made_instructions/CommunityMadeInstructionsCategorySliver.dart';
 import 'package:instruction_arsenal/homepage/community_made_instructions/CommunityMadeInstructionsSearchSliver.dart';
 import 'package:instruction_arsenal/homepage/community_made_instructions/community_made_instructions_info_page.dart';
+import 'package:instruction_arsenal/homepage/community_made_instructions/create_community_made_instructions.dart';
 import 'package:instruction_arsenal/homepage/community_made_instructions/get_icon.dart';
 import 'package:instruction_arsenal/homepage/community_made_instructions/star_difficulty.dart';
 import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:visibility_detector/visibility_detector.dart';
 
 class CommunityMadeInstructionsTab extends StatefulWidget {
   const CommunityMadeInstructionsTab({Key? key}) : super(key: key);
@@ -217,6 +217,42 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
 
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.black,
+        onPressed: () {  },
+        child: PopupMenuButton<int>(
+          icon: const Icon(Icons.add),
+          onSelected: (widget) async {
+            await Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const CreateCommunityMadeInstructionsPage(),
+              ),
+                  (r) => false,
+            );
+          },
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              value: 1,
+              child: Row(
+                children: const [
+                  Icon(Icons.add,
+                    color: Colors.black,),
+                  SizedBox(
+                    // sized box with width 10
+                    width: 15,
+                  ),
+                  Text("Add Instructions")
+                ],
+              ),
+            ),
+          ],
+          offset: const Offset(0, 100),
+          color: Colors.white,
+          elevation: 2,
+        ),
+
+      ),
       backgroundColor: Colors.white60,
       body: LayoutBuilder(
         builder: (context, constraints) => SizedBox(
