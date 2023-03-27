@@ -23,7 +23,7 @@ class _CreateCommunityMadeInstructionsPageState extends State<CreateCommunityMad
   TextEditingController? titleController;
   TextEditingController? descriptionController;
   TextEditingController? instructionsController;
-  late int hoursControllerValue = 0;
+  TextEditingController? hoursController;
   late int difficulty = 0;
 
   final formKey = GlobalKey<FormState>();
@@ -54,7 +54,7 @@ class _CreateCommunityMadeInstructionsPageState extends State<CreateCommunityMad
             'createdBy': FirebaseAuth.instance.currentUser!.email,
             'category': categoryChoice,
             'difficulty': difficulty,
-            'hours': hoursControllerValue,
+            'hours': hoursController?.text,
             'isSponsored': isSponsored,
           },
           options: Options(
@@ -92,6 +92,7 @@ class _CreateCommunityMadeInstructionsPageState extends State<CreateCommunityMad
     titleController = TextEditingController();
     descriptionController = TextEditingController();
     instructionsController = TextEditingController();
+    hoursController = TextEditingController();
   }
 
 
@@ -189,24 +190,6 @@ class _CreateCommunityMadeInstructionsPageState extends State<CreateCommunityMad
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text("How long will it take to complete these instructions? (in hours)"),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  //hours slider
-                  Slider(
-                    value: hoursControllerValue.toDouble(),
-                    min: 0,
-                    max: 24,
-                    divisions: 24,
-                    label: hoursControllerValue.toString(),
-                    onChanged: (value) {
-                      setState(() {
-                        hoursControllerValue = value.toInt();
-                      });
-                    },
-                  ),
                 ],
               ),
               Column(
@@ -451,6 +434,84 @@ class _CreateCommunityMadeInstructionsPageState extends State<CreateCommunityMad
                                     validator: (val) {
                                       if (val!.isEmpty) {
                                         return 'Instructions are required';
+                                      }
+
+                                      return null;
+                                    },
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 12),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.94,
+                      decoration: const BoxDecoration(
+                        //                       color: Colors.white
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Padding(
+                            padding:
+                            const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    enableInteractiveSelection: true,
+                                    controller: hoursController,
+                                    obscureText: false,
+                                    maxLines: null,
+                                    decoration: InputDecoration(
+                                      hintText: 'Time to Complete',
+                                      hintStyle:
+                                      const TextStyle(
+                                        fontFamily: 'Lexend Deca',
+                                        color: Color(0xFF8B97A2),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                          color: Color(0xFFDBE2E7),
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                          color: Color(0xFFDBE2E7),
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      contentPadding:
+                                      const EdgeInsetsDirectional.fromSTEB(
+                                          20, 32, 20, 0),
+                                    ),
+                                    style: const TextStyle(
+                                      fontFamily: 'Lexend Deca',
+                                      color: Color(0xFF090F13),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                    textAlign: TextAlign.start,
+                                    validator: (val) {
+                                      if (val!.isEmpty) {
+                                        return 'Time to complete is required';
                                       }
 
                                       return null;
