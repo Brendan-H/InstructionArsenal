@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2023 by Brendan Haran, All Rights Reserved.
+ * Use of this file or any of its contents is strictly prohibited without prior written permission from Brendan Haran.
+ * Current File (get_icon.dart) Last Modified on 1/3/23, 5:11 PM
+ *
+ */
+
 import 'package:flutter/material.dart';
 
 class GetIcon extends StatefulWidget {

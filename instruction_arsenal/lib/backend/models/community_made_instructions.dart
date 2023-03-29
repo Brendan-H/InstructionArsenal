@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2023 by Brendan Haran, All Rights Reserved.
+ * Use of this file or any of its contents is strictly prohibited without prior written permission from Brendan Haran.
+ * Current File (community_made_instructions.dart) Last Modified on 1/12/23, 7:25 PM
+ *
+ */
+
 /// id : 12
 /// title : "2 How to change the tire on a car"
 /// description : "This tutorial will show you the exact steps for safely replacing the tire on any car. It will be demonstrated on a 2017 Toyota Camry"

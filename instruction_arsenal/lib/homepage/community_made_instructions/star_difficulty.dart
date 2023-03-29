@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2023 by Brendan Haran, All Rights Reserved.
+ * Use of this file or any of its contents is strictly prohibited without prior written permission from Brendan Haran.
+ * Current File (star_difficulty.dart) Last Modified on 1/3/23, 4:58 PM
+ *
+ */
+
 import 'package:flutter/material.dart';
 
 class StarDifficulty extends StatefulWidget {

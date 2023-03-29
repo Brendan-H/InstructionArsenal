@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2023 by Brendan Haran, All Rights Reserved.
+ * Use of this file or any of its contents is strictly prohibited without prior written permission from Brendan Haran.
+ * Current File (official_instructions.dart) Last Modified on 12/29/22, 6:39 PM
+ *
+ */
+
 /// id : 1
 /// title : "Title"
 /// description : "description"
