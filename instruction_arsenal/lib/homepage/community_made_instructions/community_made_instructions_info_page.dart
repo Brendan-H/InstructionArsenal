@@ -222,7 +222,7 @@ class _CommunityMadeInstructionsInfoPageState extends State<CommunityMadeInstruc
                               backgroundColor: Colors.black,
                             ),
                            onPressed: () async {
-                              var link = await dynamicLinkService.createDynamicLink(widget.communityMadeInstructions.id ?? 1);
+                              var link = await DynamicLinkService().createDynamicLink(widget.communityMadeInstructions.id ?? 1);
                               Share.share(link.toString());
 
                            },

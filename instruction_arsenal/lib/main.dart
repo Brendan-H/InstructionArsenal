@@ -16,6 +16,7 @@ import 'package:instruction_arsenal/firebase_options.dart';
 import 'package:instruction_arsenal/homepage/community_made_instructions/dynamic_link_info_page.dart';
 import 'package:instruction_arsenal/homepage/homepage.dart';
 import 'package:instruction_arsenal/login_page/login_page.dart';
+import 'package:instruction_arsenal/utils/dynamic_links_service.dart';
 import 'package:instruction_arsenal/utils/theme.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -25,6 +26,10 @@ void main() async{
   setPathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
+  await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform
+  );
+  final initialLink = await FirebaseDynamicLinks.instance.getInitialLink();
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };
@@ -33,10 +38,6 @@ void main() async{
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform
-  );
-  final PendingDynamicLinkData? initialLink = await FirebaseDynamicLinks.instance.getInitialLink();
   runApp(MyApp(initialLink)
       // MaterialApp(
       //   builder: (context, child) => ResponsiveWrapper.builder(
@@ -67,24 +68,7 @@ Widget getLandingPage(initialLink) {
     stream: _auth.authStateChanges(),
     builder: (BuildContext context, snapshot) {
       if (initialLink != null) {
-        try {
-          final Uri? deepLink = initialLink?.link;
-          print(deepLink);
-
-          if (deepLink != null) {
-            String? id = deepLink.queryParameters["id"] ?? "1";
-            return CommunityMadeInstructionsDynamicLinkInfoPage(
-                id: id,
-                isMyPost: false
-            );
-            // final strings = deepLink.path.split("id/");
-          }
-
-
-
-        } catch (e) {
-          print(e.toString());
-        }
+        DynamicLinkService.handleDynamicLinks(initialLink);
       }
       if (snapshot.hasData) {
         return const Homepage();
@@ -96,14 +80,21 @@ Widget getLandingPage(initialLink) {
 }
 
 class MyApp extends StatefulWidget {
+  final PendingDynamicLinkData? initialLink;
   const MyApp(this.initialLink, {Key? key}) : super(key: key);
-  final initialLink;
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+
+  @override
+  void initState() {
+    super.initState();
+    DynamicLinkService.handleDynamicLinks(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

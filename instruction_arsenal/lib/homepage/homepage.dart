@@ -43,7 +43,7 @@ class _HomepageState extends State<Homepage> with TickerProviderStateMixin, Widg
       _timerLink = Timer(
         const Duration(milliseconds: 1000),
             () {
-          _dynamicLinkService.retrieveDynamicLink(context);
+          DynamicLinkService.handleDynamicLinks(context);
         },
       );
     }

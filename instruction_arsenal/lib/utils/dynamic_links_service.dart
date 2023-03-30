@@ -5,62 +5,88 @@
  *
  */
 
+import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
-import 'package:instruction_arsenal/homepage/community_made_instructions/dynamic_link_info_page.dart';
+import 'package:instruction_arsenal/homepage/community_made_instructions/community_made_instructions_info_page.dart';
+
+import '../backend/models/community_made_instructions.dart';
 
 
 class DynamicLinkService {
+  static Future<void> handleDynamicLinks(BuildContext context) async {
+    final PendingDynamicLinkData? data =
+    await FirebaseDynamicLinks.instance.getInitialLink();
 
-  Future<void> retrieveDynamicLink(BuildContext context) async {
-    try {
-      final PendingDynamicLinkData? initialLink = await FirebaseDynamicLinks.instance.getInitialLink();
-      final Uri? deepLink = initialLink?.link;
+    _handleLinkData(data, context);
 
-      if (deepLink != null) {
-          String? id = deepLink.queryParameters["id"] ?? "1";
-         // final strings = deepLink.path.split("id/");
-          
-          await Navigator.of(context).push(MaterialPageRoute(builder: (context) => CommunityMadeInstructionsDynamicLinkInfoPage(
-            id: id,
-            isMyPost: false
-               )
-             )
-           );
+    FirebaseDynamicLinks.instance.onLink.listen(
+        (PendingDynamicLinkData? dynamicLink) async {
+          _handleLinkData(dynamicLink, context);
+        }, onError: (e) async {
+      print('Dynamic Link Failed: ${e.message}');
+    });
+  }
+
+  static Future<void> _handleLinkData(
+      PendingDynamicLinkData? data, BuildContext context) async {
+    final Uri? deepLink = data?.link;
+
+    if (deepLink != null) {
+      final postId = deepLink.queryParameters['postId'];
+      var idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+      var dio = Dio();
+        var response = await dio.get('http://10.0.2.2:8080/api/v1/instructions/communitymadeinstructions/id/$postId',
+            options: Options(
+              headers: {
+                'Authorization': "Bearer $idToken",
+              },
+            ));
+        if (response.statusCode == 200) {
+    var communityMadeInstructions = CommunityMadeInstructions.fromJson(response.data);
+
+    await Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CommunityMadeInstructionsInfoPage(
+            communityMadeInstructions: communityMadeInstructions, isMyPost: false),
+      ),
+          (r) => false,
+    );
+        }
+
+
 
       }
-
-      // FirebaseDynamicLinks.instance.onLink(onSuccess: (PendingDynamicLinkData dynamicLink) async {
-      //   Navigator.of(context).push(MaterialPageRoute(builder: (context) => TestScreen()));
-      // });
-
-
-    } catch (e) {
-      print(e.toString());
     }
-  }
-
-  Future<Uri> createDynamicLink(num id) async {
-    final DynamicLinkParameters parameters = DynamicLinkParameters(
+  Future<Uri> createDynamicLink(num postId) async {
+    final parameters = DynamicLinkParameters(
       // uriPrefix: 'https://instructionarsenal.brendanharan.com/go/',
       // link: Uri.parse('https://instructionarsenal.brendanharan.com/go/id/$id'),
-      uriPrefix: 'https://instructionarsenal.page.link',
-      link: Uri.parse('https://instructionarsenal.page.link/id?id=$id'),
-      androidParameters: const AndroidParameters(
-        packageName: 'com.brendanharan.instructionarsenal',
-        minimumVersion: 1,
-      ),
+      uriPrefix: 'https://instructionarsenal.brendanharan.com/go',
+      link: Uri.parse('https://instructionarsenal.brendanharan.com/go/post?postId=$postId'),
+      androidParameters: AndroidParameters(
+          packageName: 'com.brendanharan.instructionarsenal',
+          minimumVersion: 0),
       // iosParameters: IosParameters(
-      //   bundleId: 'your_ios_bundle_identifier',
-      //   minimumVersion: '1',
-      //   appStoreId: 'your_app_store_id',
+      //     bundleId: 'com.your.bundle.id',
+      //     minimumVersion: '0'),
+      // dynamicLinkParametersOptions: DynamicLinkParametersOptions(
+      //   shortDynamicLinkPathLength: ShortDynamicLinkPathLength.unguessable,
       // ),
+      // socialMetaTagParameters: SocialMetaTagParameters(
+      //   title: 'Your Post Title',
+      //   description: 'Your Post Description',
+      //   imageUrl: Uri.parse('https://your-image-url.com'),
+      // )
     );
-     var dynamicUrl = await FirebaseDynamicLinks.instance.buildShortLink(parameters);
-   // var dynamicUrl = await FirebaseDynamicLinks.instance.buildLink(parameters);
+
+    var dynamicUrl = await FirebaseDynamicLinks.instance.buildShortLink(parameters);
+    // var dynamicUrl = await FirebaseDynamicLinks.instance.buildLink(parameters);
     final Uri shortUrl = dynamicUrl.shortUrl;
     return shortUrl;
-   // return dynamicUrl;
+  }
   }
 
-}
+
