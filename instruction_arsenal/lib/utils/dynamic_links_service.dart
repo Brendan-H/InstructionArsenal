@@ -37,7 +37,7 @@ class DynamicLinkService {
       final postId = deepLink.queryParameters['postId'];
       var idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
       var dio = Dio();
-        var response = await dio.get('http://10.0.2.2:8080/api/v1/instructions/communitymadeinstructions/id/$postId',
+        var response = await dio.get('http://10.0.2.2:8080/api/v1/instructions/communitymadeinstructions/$postId',
             options: Options(
               headers: {
                 'Authorization': "Bearer $idToken",
