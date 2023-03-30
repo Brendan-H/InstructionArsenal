@@ -15,6 +15,8 @@ import '../backend/models/community_made_instructions.dart';
 
 
 class DynamicLinkService {
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   static Future<void> handleDynamicLinks(BuildContext context) async {
     final PendingDynamicLinkData? data =
     await FirebaseDynamicLinks.instance.getInitialLink();
@@ -34,32 +36,57 @@ class DynamicLinkService {
     final Uri? deepLink = data?.link;
 
     if (deepLink != null) {
+      print(deepLink);
       final postId = deepLink.queryParameters['postId'];
-      var idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-      var dio = Dio();
-        var response = await dio.get('http://10.0.2.2:8080/api/v1/instructions/communitymadeinstructions/$postId',
-            options: Options(
-              headers: {
-                'Authorization': "Bearer $idToken",
-              },
-            ));
-        if (response.statusCode == 200) {
-    var communityMadeInstructions = CommunityMadeInstructions.fromJson(response.data);
-
-    await Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (context) => CommunityMadeInstructionsInfoPage(
-            communityMadeInstructions: communityMadeInstructions, isMyPost: false),
-      ),
-          (r) => false,
-    );
-        }
+      _callAPI(postId).then((post) {
+        navigatorKey.currentState?.push(
+            MaterialPageRoute(
+                builder: (context) => CommunityMadeInstructionsInfoPage(communityMadeInstructions: post, isMyPost: false,)));
+      });
+    //   var idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+    //   var dio = Dio();
+    //     var response = await dio.get('http://10.0.2.2:8080/api/v1/instructions/communitymadeinstructions/$postId',
+    //         options: Options(
+    //           headers: {
+    //             'Authorization': "Bearer $idToken",
+    //           },
+    //         ));
+    //     if (response.statusCode == 200) {
+    //       var communityMadeInstructions = CommunityMadeInstructions.fromJson(
+    //           response.data);
+    // // await Navigator.pushNamed(context, "/communitymadeinstructionsinfo",
+    // //     arguments: {"communityMadeInstructions": communityMadeInstructions, "isMyPost": false});
+    // await Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => CommunityMadeInstructionsInfoPage(
+    //         communityMadeInstructions: communityMadeInstructions, isMyPost: false),
+    //   ),
+    // );
+    //     }
 
 
 
       }
     }
+  static Future<CommunityMadeInstructions> _callAPI(String? postId) async {
+    var idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+    var dio = Dio();
+    var response = await dio.get('http://10.0.2.2:8080/api/v1/instructions/communitymadeinstructions/$postId',
+        options: Options(
+          headers: {
+            'Authorization': "Bearer $idToken",
+          },
+        ));
+    if (response.statusCode == 200) {
+      var communityMadeInstructions = CommunityMadeInstructions.fromJson(
+          response.data);
+      return communityMadeInstructions;
+    }
+    else {
+      return Future.error('Error');
+    }
+  }
   Future<Uri> createDynamicLink(num postId) async {
     final parameters = DynamicLinkParameters(
       // uriPrefix: 'https://instructionarsenal.brendanharan.com/go/',

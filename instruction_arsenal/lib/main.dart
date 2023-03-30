@@ -13,6 +13,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:instruction_arsenal/firebase_options.dart';
+import 'package:instruction_arsenal/homepage/community_made_instructions/community_made_instructions_info_page.dart';
 import 'package:instruction_arsenal/homepage/community_made_instructions/dynamic_link_info_page.dart';
 import 'package:instruction_arsenal/homepage/homepage.dart';
 import 'package:instruction_arsenal/login_page/login_page.dart';
@@ -20,6 +21,8 @@ import 'package:instruction_arsenal/utils/dynamic_links_service.dart';
 import 'package:instruction_arsenal/utils/theme.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:url_strategy/url_strategy.dart';
+
+import 'backend/models/community_made_instructions.dart';
 
 
 void main() async{
@@ -39,25 +42,6 @@ void main() async{
     return true;
   };
   runApp(MyApp(initialLink)
-      // MaterialApp(
-      //   builder: (context, child) => ResponsiveWrapper.builder(
-      //       BouncingScrollWrapper.builder(context, child!),
-      //       maxWidth: 1200,
-      //       minWidth: 450,
-      //       defaultScale: true,
-      //       breakpoints: [
-      //         const ResponsiveBreakpoint.resize(450, name: MOBILE),
-      //         const ResponsiveBreakpoint.autoScale(800, name: TABLET),
-      //         const ResponsiveBreakpoint.autoScale(1000, name: TABLET),
-      //         const ResponsiveBreakpoint.resize(1200, name: DESKTOP),
-      //         const ResponsiveBreakpoint.autoScale(2460, name: "4K"),
-      //       ],
-      //       background: Container(color: const Color(0xFFF5F5F5))),
-      //   debugShowCheckedModeBanner: false,
-      //   title: 'Instruction Arsenal',
-      //   theme: CustomTheme.lightTheme,
-      //   home: await getLandingPage(),
-      // )
   );
 }
 
@@ -115,6 +99,20 @@ class _MyAppState extends State<MyApp> {
       title: 'Instruction Arsenal',
       theme: CustomTheme.lightTheme,
       home: getLandingPage(widget.initialLink),
+      initialRoute: '/',
+      routes: {
+        '/communitymadeinstructionsinfopage': (context) {
+          final CommunityMadeInstructions communityMadeInstructions =
+          ModalRoute.of(context)!.settings.arguments as CommunityMadeInstructions;
+          final bool isMyPost =
+          ModalRoute.of(context)!.settings.arguments as bool;
+
+          return CommunityMadeInstructionsInfoPage(
+            communityMadeInstructions: communityMadeInstructions,
+            isMyPost: isMyPost,
+          );
+        },
+      },
     );
   }
 }
