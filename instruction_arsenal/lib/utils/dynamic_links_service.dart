@@ -91,8 +91,8 @@ class DynamicLinkService {
     final parameters = DynamicLinkParameters(
       // uriPrefix: 'https://instructionarsenal.brendanharan.com/go/',
       // link: Uri.parse('https://instructionarsenal.brendanharan.com/go/id/$id'),
-      uriPrefix: 'https://instructionarsenal.page.link',
-      link: Uri.parse('https://instructionarsenal.page.link/post?postId=$postId'),
+      uriPrefix: 'https://instructionarsenal.brendanharan.com/go',
+      link: Uri.parse('https://instructionarsenal.brendanharan.com/go/post?postId=$postId'),
       androidParameters: AndroidParameters(
           packageName: 'com.brendanharan.instructionarsenal',
           minimumVersion: 0),

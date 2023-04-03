@@ -15,7 +15,9 @@ class InstructionArsenalUser {
 }
 
 InstructionArsenalUser? currentUser;
+
 bool get loggedIn => currentUser?.loggedIn ?? false;
+
 Stream<InstructionArsenalUser>
 InstructionArsenalUserStream() => FirebaseAuth.instance
     .authStateChanges()

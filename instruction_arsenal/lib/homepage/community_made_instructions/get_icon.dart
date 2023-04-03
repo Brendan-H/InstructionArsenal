@@ -7,35 +7,33 @@
 
 import 'package:flutter/material.dart';
 
-class GetIcon extends StatefulWidget {
+class GetIcon extends StatelessWidget {
   final String category;
-  const GetIcon({Key? key, required this.category}) : super(key: key);
 
-  @override
-  State<GetIcon> createState() => _GetIconState();
-}
-
-class _GetIconState extends State<GetIcon> {
-
-  IconData getIcon() {
-    if (widget.category == "Automotive") {
-      return Icons.directions_car;
-    }  //technology, cooking, sports, home, other
-    else if (widget.category == "Technology") {
-      return Icons.computer;
-    } else if (widget.category == "Cooking") {
-      return Icons.restaurant;
-    } else if (widget.category == "Sports") {
-      return Icons.sports;
-    } else if (widget.category == "Home") {
-      return Icons.home;
-    } else {
-      return Icons.help;
-    }
-  }
+  const GetIcon({required this.category});
 
   @override
   Widget build(BuildContext context) {
-    return Icon(getIcon());
+    IconData iconData = Icons.help;
+
+    switch (category) {
+      case "Automotive":
+        iconData = Icons.directions_car;
+        break;
+      case "Technology":
+        iconData = Icons.computer;
+        break;
+      case "Cooking":
+        iconData = Icons.restaurant;
+        break;
+      case "Sports":
+        iconData = Icons.sports;
+        break;
+      case "Home":
+        iconData = Icons.home;
+        break;
+    }
+
+    return Icon(iconData);
   }
 }

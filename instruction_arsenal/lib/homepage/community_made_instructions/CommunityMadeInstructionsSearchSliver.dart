@@ -16,6 +16,7 @@ class CommunityMadeInstructionsSearchSliver extends StatefulWidget {
     this.onChanged,
     this.debounceTime,
   }) : super(key: key);
+
   final ValueChanged<String>? onChanged;
   final Duration? debounceTime;
 
@@ -26,25 +27,27 @@ class CommunityMadeInstructionsSearchSliver extends StatefulWidget {
 
 class _CommunityMadeInstructionsSearchSliverState
     extends State<CommunityMadeInstructionsSearchSliver> {
-  final StreamController<String> _textChangeStreamController =
-  StreamController();
-  late StreamSubscription _textChangesSubscription;
+  final _textChangeStreamController = StreamController<String>();
+  late StreamSubscription<String> _textChangesSubscription;
 
   @override
   void initState() {
+    super.initState();
     _textChangesSubscription = _textChangeStreamController.stream
-        .debounceTime(
-      widget.debounceTime ?? const Duration(seconds: 1),
-    )
+        .debounceTime(widget.debounceTime ?? const Duration(seconds: 1))
         .distinct()
         .listen((text) {
-      final onChanged = widget.onChanged;
-      if (onChanged != null) {
-        onChanged(text);
+      if (widget.onChanged != null) {
+        widget.onChanged!(text);
       }
     });
+  }
 
-    super.initState();
+  @override
+  void dispose() {
+    _textChangeStreamController.close();
+    _textChangesSubscription.cancel();
+    super.dispose();
   }
 
   @override
@@ -60,11 +63,4 @@ class _CommunityMadeInstructionsSearchSliverState
       ),
     ),
   );
-
-  @override
-  void dispose() {
-    _textChangeStreamController.close();
-    _textChangesSubscription.cancel();
-    super.dispose();
-  }
 }

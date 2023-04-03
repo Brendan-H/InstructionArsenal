@@ -14,7 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:instruction_arsenal/firebase_options.dart';
 import 'package:instruction_arsenal/homepage/community_made_instructions/community_made_instructions_info_page.dart';
-import 'package:instruction_arsenal/homepage/community_made_instructions/dynamic_link_info_page.dart';
 import 'package:instruction_arsenal/homepage/homepage.dart';
 import 'package:instruction_arsenal/login_page/login_page.dart';
 import 'package:instruction_arsenal/utils/dynamic_links_service.dart';
