@@ -76,6 +76,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     DynamicLinkService.handleDynamicLinks(context);
+
   }
 
   @override

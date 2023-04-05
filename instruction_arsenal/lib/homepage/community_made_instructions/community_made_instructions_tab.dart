@@ -5,10 +5,13 @@
  *
  */
 
+import 'dart:io';
+
 import 'package:awesome_select/awesome_select.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:instruction_arsenal/backend/models/community_made_instructions.dart';
 import 'package:instruction_arsenal/homepage/community_made_instructions/CommunityMadeInstructionsCategorySliver.dart';
@@ -20,6 +23,8 @@ import 'package:instruction_arsenal/homepage/community_made_instructions/star_di
 import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+//TODO Google Native Ads, ability to bookmark, and ability to like a post
+
 class CommunityMadeInstructionsTab extends StatefulWidget {
   const CommunityMadeInstructionsTab({Key? key}) : super(key: key);
 
@@ -29,26 +34,33 @@ class CommunityMadeInstructionsTab extends StatefulWidget {
 
 class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructionsTab> {
   final TextEditingController _searchController = TextEditingController();
+  late BannerAd _bannerAd;
 
-  final List<CommunityMadeInstructions> exampleCommunityMadeInstructions = <CommunityMadeInstructions>[
-    CommunityMadeInstructions(
-      id: 999,
-      title: 'Example Community Made Instructions',
-      description: 'This is an example of a community made instructions',
-      category: 'Other',
-      difficulty: 1,
-      postCreatedAt : "2023-01-03T16:54:30.756846",
-      createdBy: "bjharan7@gmail.com",
-      instructions: "Step 1: Example Step 1. Step 2: Example Step 2. Step 3: Example Step 3.ldsjbflbfkjsbfkjjbdsfkjbdskjfbskdjfbksdjbfksdjbfkjsdbfkdjsbdkjfbkdjsbjbdksfkjbdskjsbdfkjbdskfjbdsjkfbdsjfbds",
-      likes: 155,
-      dislikes: 11,
-      tags: "example, cars, tire, automotive, wheels, repair",
-      timeToComplete: "30 Minutes",
-      sponsored: true,
-    )
-  ];
+  void _createBannerAd() {
+    final adUnitId = Platform.isAndroid
+        ? 'ca-app-pub-3940256099942544/6300978111'
+        : 'ca-app-pub-3940256099942544/2934735716';
+    _bannerAd = BannerAd(
+      adUnitId: adUnitId,
+      size: AdSize.mediumRectangle,
+      request: const AdRequest(),
+      listener: BannerAdListener(
+        onAdFailedToLoad: (ad, error) {
+          print("AD FAILED TO LOAD");
+          ad.dispose();
+        },
+        onAdLoaded: (ad) {
+          // Called when an ad is successfully loaded.
+          print('Ad loaded.');
+        },
+      ),
+    );
+    _bannerAd.load();
+  }
 
-  Future<List<CommunityMadeInstructions>?> fetchCommunityMadeInstructions(int pageKey) async {
+
+
+  Future<List?> fetchCommunityMadeInstructions(int pageKey) async {
     var idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
     var dio = Dio();
     var title = _searchController.text;
@@ -65,18 +77,23 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
         for (var communityMadeInstructionsJson in response.data) {
           communityMadeInstructions.add(CommunityMadeInstructions.fromJson(communityMadeInstructionsJson));
         }
-        final isLastPage = communityMadeInstructions.length < _pageSize;
-        if (isLastPage) {
-          _pagingController.appendLastPage(communityMadeInstructions);
-          print(communityMadeInstructions[0].title);
-        } else {
-          final nextPageKey = pageKey + communityMadeInstructions.length;
-          _pagingController.appendPage(communityMadeInstructions, nextPageKey);
-          print(communityMadeInstructions[0].title);
+        var communityMadeInstructionsWithAds = <dynamic>[];
+        for (var i = 0; i < communityMadeInstructions.length; i++) {
+          communityMadeInstructionsWithAds.add(communityMadeInstructions[i]);
+          if ((i + 1) % 10 == 0) {
+            communityMadeInstructionsWithAds.insert(i+1, AdWidget(
+              ad: _bannerAd,
+            ));
+          }
         }
-
-        print(communityMadeInstructions[0].title);
-        return communityMadeInstructions;
+        final isLastPage = communityMadeInstructionsWithAds.length < _pageSize;
+        if (isLastPage) {
+          _pagingController.appendLastPage(communityMadeInstructionsWithAds);
+        } else {
+          final nextPageKey = pageKey + communityMadeInstructionsWithAds.length;
+          _pagingController.appendPage(communityMadeInstructionsWithAds, nextPageKey);
+        }
+        return communityMadeInstructionsWithAds;
       }
       else {
         if (response.statusCode == 404) {
@@ -98,23 +115,28 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
         for (var communityMadeInstructionsJson in response.data) {
           communityMadeInstructions.add(CommunityMadeInstructions.fromJson(communityMadeInstructionsJson));
         }
-        final isLastPage = communityMadeInstructions.length < _pageSize;
+        var communityMadeInstructionsWithAds = <dynamic>[];
+        for (var i = 0; i < communityMadeInstructions.length; i++) {
+          communityMadeInstructionsWithAds.add(communityMadeInstructions[i]);
+          if ((i + 1) % 10 == 0) {
+            communityMadeInstructionsWithAds.insert(i+1, AdWidget(
+              ad: _bannerAd,
+            ));
+          }
+        }
+        final isLastPage = communityMadeInstructionsWithAds.length < _pageSize;
         if (isLastPage) {
-          _pagingController.appendLastPage(communityMadeInstructions);
+          _pagingController.appendLastPage(communityMadeInstructionsWithAds);
         } else {
           final nextPageKey = pageKey + 1;
-          _pagingController.appendPage(communityMadeInstructions, nextPageKey);
+          _pagingController.appendPage(communityMadeInstructionsWithAds, nextPageKey);
         }
-        print(communityMadeInstructions);
-
-        return communityMadeInstructions;
-
+        return communityMadeInstructionsWithAds;
       }
       else {
         if (response.statusCode == 404) {
           print('404');
         }
-        return exampleCommunityMadeInstructions;
        // throw Exception('An error occurred');
       }
     } else {
@@ -170,13 +192,14 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
     S2Choice<String>(value: 'Other', title: 'Other'),
   ];
 
-  late Future<List<CommunityMadeInstructions>?> futureCommunityMadeInstructions;
+  late Future<List<dynamic>?> futureCommunityMadeInstructions;
 
 
   var categoryChoice = "Automotive";
 
   @override
   void initState() {
+    _createBannerAd();
     _pagingController.addPageRequestListener((pageKey) {
       fetchCommunityMadeInstructions(pageKey);
     });
@@ -203,11 +226,8 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
 
   static const _pageSize = 20;
 
-  final PagingController<int, CommunityMadeInstructions> _pagingController =
+  final PagingController<int, dynamic> _pagingController =
   PagingController(firstPageKey: 0);
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -286,111 +306,120 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
                         });
                       },
                     ),
-                    PagedSliverList<int, CommunityMadeInstructions>(
+                    PagedSliverList<int, dynamic>(
                     pagingController: _pagingController,
-                    builderDelegate: PagedChildBuilderDelegate<CommunityMadeInstructions>(
-                      itemBuilder: (context, item, index) => InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CommunityMadeInstructionsInfoPage(
-                                  communityMadeInstructions: item,
-                                isMyPost: false,
-                              ),
-                            ),
+                    builderDelegate: PagedChildBuilderDelegate<dynamic>(
+                      itemBuilder: (context, item, index) {
+                        if (item is AdWidget) {
+                          return SizedBox(
+                            height: 300,
+                            child: item,
                           );
-                        },
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width * .9945,
-                          height: MediaQuery.of(context).size.height * .33,
-                          child: Card(
-                              elevation: 2,
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(0, 2, 0, 5),
-                                      child: Row(
-                                        children: [
-                                          Text("Created By: ${item.createdBy}"),
-                                          const Spacer(),
-                                          Visibility(
-                                            visible: item.sponsored ?? false,
-                                            child: const Text("Sponsored",
-                                                style: TextStyle(
-                                                    color: Colors.blue,
-                                                    fontWeight: FontWeight.bold)
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Text('${item.title}',
-                                      style: const TextStyle(
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.w600
-                                      ),),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                      child: Text(item.description ?? "description",
-                                        style: const TextStyle(
-                                          fontSize: 15,
-                                        ),),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                      child:
-                                      //Text(communityMadeInstruction.instructions ?? "instructions",
-                                      Text(item.instructions!.length > 200 ? '${item.instructions!.substring(0, 200)}...' : item.instructions ?? "Title",
-                                        //TODO only show first 100 characters and add "..." at the end
-                                        style: const TextStyle(
-                                            fontSize: 13,
-                                            color: Colors.black54
-                                        ),),
-                                    ),
-
-                                    const Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                      child: Row(
-                                        children: [
-                                          const Text("Difficulty: "),
-                                          StarDifficulty(difficulty: item.difficulty as int),
-                                          const Spacer(),
-                                          const Text("Time to Complete: 30 minutes"),
-                                        ],
-                                      ),
-                                    ),
-                                    Row(
+                        } else {
+                          return  InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CommunityMadeInstructionsInfoPage(
+                                    communityMadeInstructions: item,
+                                    isMyPost: false,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width * .9945,
+                              height: MediaQuery.of(context).size.height * .33,
+                              child: Card(
+                                  elevation: 2,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        GetIcon(category: item.category ?? "Other"),
                                         Padding(
-                                          padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                                          child: Text("Category: ${item.category}"),
+                                          padding: const EdgeInsets.fromLTRB(0, 2, 0, 5),
+                                          child: Row(
+                                            children: [
+                                              Text("Created By: ${item.createdBy}"),
+                                              const Spacer(),
+                                              Visibility(
+                                                visible: item.sponsored ?? false,
+                                                child: const Text("Sponsored",
+                                                    style: TextStyle(
+                                                        color: Colors.blue,
+                                                        fontWeight: FontWeight.bold)
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
+                                        Text('${item.title}',
+                                          style: const TextStyle(
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.w600
+                                          ),),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                          child: Text(item.description ?? "description",
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                            ),),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                          child:
+                                          //Text(communityMadeInstruction.instructions ?? "instructions",
+                                          Text(item.instructions!.length > 200 ? '${item.instructions!.substring(0, 200)}...' : item.instructions ?? "Title",
+                                            //TODO only show first 100 characters and add "..." at the end
+                                            style: const TextStyle(
+                                                fontSize: 13,
+                                                color: Colors.black54
+                                            ),),
+                                        ),
+
                                         const Spacer(),
-                                        const Icon(Icons.favorite_border, color: Colors.red,),
-                                        Text((item.likes!.toInt() - item.dislikes!.toInt()).toString()),
-                                        const Spacer(),
-                                        Text(dateTimeFormat(
-                                          //  "yyyy-MM-dd'T'HH:mm:ss.SSSZ",
-                                          // "hh:mma MMMM dd, yyyy",
-                                            "MMMM dd, yyyy hh:mma",
-                                            DateTime.parse(item.postCreatedAt ?? "Cannot retrieve time when post was created")))
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                          child: Row(
+                                            children: [
+                                              const Text("Difficulty: "),
+                                              StarDifficulty(difficulty: item.difficulty as int),
+                                              const Spacer(),
+                                              const Text("Time to Complete: 30 minutes"),
+                                            ],
+                                          ),
+                                        ),
+                                        Row(
+                                          children: [
+                                            GetIcon(category: item.category ?? "Other"),
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                                              child: Text("Category: ${item.category}"),
+                                            ),
+                                            const Spacer(),
+                                            const Icon(Icons.favorite_border, color: Colors.red,),
+                                            Text((item.likes!.toInt() - item.dislikes!.toInt()).toString()),
+                                            const Spacer(),
+                                            Text(dateTimeFormat(
+                                              //  "yyyy-MM-dd'T'HH:mm:ss.SSSZ",
+                                              // "hh:mma MMMM dd, yyyy",
+                                                "MMMM dd, yyyy hh:mma",
+                                                DateTime.parse(item.postCreatedAt ?? "Cannot retrieve time when post was created")))
+                                          ],
+                                        ),
+
                                       ],
                                     ),
+                                  )
+                              ),
 
-                                  ],
-                                ),
-                              )
-                          ),
+                            ),
+                          );
+                        }
 
-                        ),
-                      ),
-
+  }
                     ),
 
                   ),
@@ -409,6 +438,7 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
   @override
   void dispose() {
     _pagingController.dispose();
+    _bannerAd.dispose();
     super.dispose();
   }
 }
