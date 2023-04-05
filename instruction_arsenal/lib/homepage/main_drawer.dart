@@ -66,6 +66,18 @@ class _MainDrawerState extends State<MainDrawer> {
                     (r) => false,
               );},
           ),
+          ListTile(
+            leading: const Icon(Icons.bookmark),
+            title: const Text('Bookmarked Instructions'),
+            onTap: () async{
+              await Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ProfilePage(),
+                ),
+                    (r) => false,
+              );},
+          ),
           const ListTile(
             leading: Icon(Icons.settings),
             title: Text('Settings'),

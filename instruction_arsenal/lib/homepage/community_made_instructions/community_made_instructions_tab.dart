@@ -23,7 +23,7 @@ import 'package:instruction_arsenal/homepage/community_made_instructions/star_di
 import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-//TODO Google Native Ads, ability to bookmark, and ability to like a post
+//TODO ability to bookmark (using sqflite) and ability to like a post
 
 class CommunityMadeInstructionsTab extends StatefulWidget {
   const CommunityMadeInstructionsTab({Key? key}) : super(key: key);
