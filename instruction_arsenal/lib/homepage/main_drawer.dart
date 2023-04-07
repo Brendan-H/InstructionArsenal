@@ -7,6 +7,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:instruction_arsenal/profile/bookmarked_community_made_instructions_page.dart';
 import 'package:instruction_arsenal/profile/profile_page.dart';
 
 import '../login_page/login_page.dart';
@@ -73,7 +74,7 @@ class _MainDrawerState extends State<MainDrawer> {
               await Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const ProfilePage(),
+                  builder: (context) => const BookmarkedCommunityMadeInstructionsPage(),
                 ),
                     (r) => false,
               );},

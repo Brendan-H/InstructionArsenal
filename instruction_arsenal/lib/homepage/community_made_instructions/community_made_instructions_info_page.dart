@@ -13,7 +13,9 @@ import 'package:instruction_arsenal/homepage/community_made_instructions/like_bu
 import 'package:instruction_arsenal/homepage/community_made_instructions/star_difficulty.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:path/path.dart';
 
 import '../../utils/dynamic_links_service.dart';
 import '../homepage.dart';
@@ -32,6 +34,14 @@ class CommunityMadeInstructionsInfoPage extends StatefulWidget {
 class _CommunityMadeInstructionsInfoPageState extends State<CommunityMadeInstructionsInfoPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  bool isMyPost() {
+    if (FirebaseAuth.instance.currentUser!.email == widget.communityMadeInstructions.createdBy) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
 
 
   String getCreatedBy() {
@@ -43,7 +53,7 @@ class _CommunityMadeInstructionsInfoPageState extends State<CommunityMadeInstruc
     }
 
   }
-  showAlertDialog(BuildContext context) {
+  showDeleteDialog(BuildContext context) {
 
     // set up the buttons
     Widget cancelButton = TextButton(
@@ -89,6 +99,29 @@ class _CommunityMadeInstructionsInfoPageState extends State<CommunityMadeInstruc
     );
   }
 
+  Future<void> bookmarkPost(CommunityMadeInstructions post) async {
+    // Open the database
+    final Database db = await openDatabase(
+      join(await getDatabasesPath(), 'my_database.db'),
+      onCreate: (db, version) {
+        // Create the bookmarks table
+        return db.execute(
+          'CREATE TABLE bookmarks(id INTEGER PRIMARY KEY, title TEXT, description TEXT, postCreatedAt TEXT, instructions TEXT, createdBy TEXT, category TEXT, likes INTEGER, dislikes REAL, tags TEXT, difficulty REAL, timeToComplete TEXT, sponsored INTEGER)',
+        );
+      },
+      version: 1,
+    );
+
+    // Insert the post into the bookmarks table
+    await db.insert(
+      'bookmarks',
+      post.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+
+    // Close the database
+    await db.close();
+  }
 
 
 
@@ -115,31 +148,41 @@ class _CommunityMadeInstructionsInfoPageState extends State<CommunityMadeInstruc
     return Scaffold(
       appBar: AppBar(
         actions: [
-          Visibility(
-            visible: widget.isMyPost,
-            child: PopupMenuButton<int>(
-              onSelected: (widget) {
-                showAlertDialog(context);
-              },
-              itemBuilder: (context) => [
-                PopupMenuItem(
+          PopupMenuButton<int>(
+            itemBuilder: (context) => <PopupMenuEntry<int>>[
+              if (isMyPost())
+                PopupMenuItem<int>(
                   value: 1,
                   child: Row(
                     children: const [
                       Icon(Icons.delete),
-                      SizedBox(
-                        // sized box with width 10
-                        width: 10,
-                      ),
+                      SizedBox(width: 10),
                       Text("Delete this post")
                     ],
                   ),
                 ),
-              ],
-              offset: const Offset(0, 100),
-              icon: const Icon(Icons.more_vert, color: Colors.black,),
-              elevation: 2,
-            ),
+              PopupMenuItem<int>(
+                value: 2,
+                child: Row(
+                  children: const [
+                    Icon(Icons.bookmark),
+                    SizedBox(width: 10),
+                    Text("Bookmark this post")
+                  ],
+                ),
+              ),
+            ],
+            onSelected: (value) {
+              if (value == 1) {
+                showDeleteDialog(context);
+              } else if (value == 2) {
+                bookmarkPost(widget.communityMadeInstructions);
+                // Handle bookmark post
+              }
+            },
+            offset: const Offset(0, 100),
+            icon: const Icon(Icons.more_vert, color: Colors.black,),
+            elevation: 2,
           ),
         ],
         centerTitle: true,

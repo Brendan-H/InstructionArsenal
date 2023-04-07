@@ -135,5 +135,22 @@ CommunityMadeInstructions copyWith({  int? id,
     map['sponsored'] = _sponsored;
     return map;
   }
+  Map<String, dynamic> toMap() {
+    return {
+      'id': _id,
+      'title': _title,
+      'description': _description,
+      'postCreatedAt': _postCreatedAt,
+      'instructions': _instructions,
+      'createdBy': _createdBy,
+      'category': _category,
+      'likes': _likes,
+      'dislikes': _dislikes,
+      'tags': _tags,
+      'difficulty': _difficulty,
+      'timeToComplete': _timeToComplete,
+      'sponsored': _sponsored,
+    };
+  }
 
 }
