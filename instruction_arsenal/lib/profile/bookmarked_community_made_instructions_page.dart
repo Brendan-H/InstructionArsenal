@@ -10,6 +10,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../backend/models/community_made_instructions.dart';
+import '../homepage/community_made_instructions/community_made_instructions_info_page.dart';
 import '../homepage/homepage.dart';
 
 class BookmarkedCommunityMadeInstructionsPage extends StatefulWidget {
@@ -58,7 +59,6 @@ class _BookmarkedCommunityMadeInstructionsPageState extends State<BookmarkedComm
               'createdBy TEXT, '
               'category TEXT, '
               'likes INTEGER, '
-              'dislikes REAL, '
               'tags TEXT, '
               'difficulty REAL, '
               'timeToComplete TEXT, '
@@ -103,7 +103,6 @@ class _BookmarkedCommunityMadeInstructionsPageState extends State<BookmarkedComm
         createdBy: maps[i]['createdBy'],
         category: maps[i]['category'],
         likes: maps[i]['likes'],
-        dislikes: maps[i]['dislikes'],
         tags: maps[i]['tags'],
         difficulty: maps[i]['difficulty'],
         timeToComplete: maps[i]['timeToComplete'],
@@ -123,6 +122,7 @@ class _BookmarkedCommunityMadeInstructionsPageState extends State<BookmarkedComm
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white60,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -136,18 +136,79 @@ class _BookmarkedCommunityMadeInstructionsPageState extends State<BookmarkedComm
             );
           },
         ),
-        title: const Text('Bookmarks'),
+        iconTheme: const IconThemeData(color: Colors.black),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        title: const Text('Bookmarked Instructions',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: PagedListView<int, CommunityMadeInstructions>(
         pagingController: _pagingController,
         builderDelegate: PagedChildBuilderDelegate<CommunityMadeInstructions>(
+          firstPageErrorIndicatorBuilder: (context) => Column(
+            children: [
+              Spacer(),
+              const Text("An error occurred. Please press the retry button."),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.075,
+                  width: MediaQuery.of(context).size.width * .7,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                    onPressed: () => _pagingController.refresh(),
+                    child: const Text('Retry', style: TextStyle(color: Colors.white)),
+                  ),
+                ),
+              ),
+              Spacer(),
+            ],
+          ),
           itemBuilder: (context, item, index) {
-            return ListTile(
-              title: Text(item.title ?? ''),
-              subtitle: Text(item.description ?? ''),
-              trailing: IconButton(
-                icon: const Icon(Icons.delete),
-                onPressed: () => _deleteBookmark(item.id ?? 0),
+            return Card(
+              elevation: 2,
+              child: ListTile(
+                title: Text(
+                  item.title!.length > 100 ? '${item.title!.substring(0, 100)}...' : item.title ?? "Title",
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 18,
+                  ),
+                ),
+                subtitle: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                  child: Text(
+                    "Category: ${item.category}" ?? '',
+                    style: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+                trailing: IconButton(
+                  onPressed: () {
+                    _deleteBookmark(item.id ?? 0);
+                    _pagingController.refresh();
+                    },
+                  icon: Icon(Icons.delete),
+                  
+                ),
+                onTap: () {
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //       builder: (context) => CommunityMadeInstructionsInfoPage(
+                  //         communityMadeInstructions: item,
+                  //         isMyPost: true,
+                  //       ),
+                  //     )
+                  // );
+                },
               ),
             );
           },

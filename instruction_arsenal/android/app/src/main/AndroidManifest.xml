@@ -9,6 +9,7 @@
     package="com.brendanharan.instruction_arsenal">
 
     <application
+        android:largeHeap="true"
         android:label="InstructionArsenal"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">

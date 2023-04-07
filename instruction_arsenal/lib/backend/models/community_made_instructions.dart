@@ -29,7 +29,6 @@ class CommunityMadeInstructions {
       String? createdBy, 
       String? category, 
       int? likes,
-      num? dislikes, 
       String? tags, 
       num? difficulty, 
       String? timeToComplete, 
@@ -42,7 +41,6 @@ class CommunityMadeInstructions {
     _createdBy = createdBy;
     _category = category;
     _likes = likes;
-    _dislikes = dislikes;
     _tags = tags;
     _difficulty = difficulty;
     _timeToComplete = timeToComplete;
@@ -58,7 +56,6 @@ class CommunityMadeInstructions {
     _createdBy = json['createdBy'];
     _category = json['category'];
     _likes = json['likes'];
-    _dislikes = json['dislikes'];
     _tags = json['tags'];
     _difficulty = json['difficulty'];
     _timeToComplete = json['timeToComplete'];
@@ -72,7 +69,6 @@ class CommunityMadeInstructions {
   String? _createdBy;
   String? _category;
   int? _likes;
-  num? _dislikes;
   String? _tags;
   num? _difficulty;
   String? _timeToComplete;
@@ -85,7 +81,6 @@ CommunityMadeInstructions copyWith({  int? id,
   String? createdBy,
   String? category,
   int? likes,
-  num? dislikes,
   String? tags,
   num? difficulty,
   String? timeToComplete,
@@ -98,7 +93,6 @@ CommunityMadeInstructions copyWith({  int? id,
   createdBy: createdBy ?? _createdBy,
   category: category ?? _category,
   likes: likes ?? _likes,
-  dislikes: dislikes ?? _dislikes,
   tags: tags ?? _tags,
   difficulty: difficulty ?? _difficulty,
   timeToComplete: timeToComplete ?? _timeToComplete,
@@ -112,7 +106,6 @@ CommunityMadeInstructions copyWith({  int? id,
   String? get createdBy => _createdBy;
   String? get category => _category;
   int? get likes => _likes;
-  num? get dislikes => _dislikes;
   String? get tags => _tags;
   num? get difficulty => _difficulty;
   String? get timeToComplete => _timeToComplete;
@@ -128,7 +121,6 @@ CommunityMadeInstructions copyWith({  int? id,
     map['createdBy'] = _createdBy;
     map['category'] = _category;
     map['likes'] = _likes;
-    map['dislikes'] = _dislikes;
     map['tags'] = _tags;
     map['difficulty'] = _difficulty;
     map['timeToComplete'] = _timeToComplete;
@@ -145,7 +137,6 @@ CommunityMadeInstructions copyWith({  int? id,
       'createdBy': _createdBy,
       'category': _category,
       'likes': _likes,
-      'dislikes': _dislikes,
       'tags': _tags,
       'difficulty': _difficulty,
       'timeToComplete': _timeToComplete,

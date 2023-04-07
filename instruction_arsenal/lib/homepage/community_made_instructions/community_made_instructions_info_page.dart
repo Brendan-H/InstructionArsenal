@@ -106,7 +106,7 @@ class _CommunityMadeInstructionsInfoPageState extends State<CommunityMadeInstruc
       onCreate: (db, version) {
         // Create the bookmarks table
         return db.execute(
-          'CREATE TABLE bookmarks(id INTEGER PRIMARY KEY, title TEXT, description TEXT, postCreatedAt TEXT, instructions TEXT, createdBy TEXT, category TEXT, likes INTEGER, dislikes REAL, tags TEXT, difficulty REAL, timeToComplete TEXT, sponsored INTEGER)',
+          'CREATE TABLE bookmarks(id INTEGER PRIMARY KEY, title TEXT, description TEXT, postCreatedAt TEXT, instructions TEXT, createdBy TEXT, category TEXT, likes INTEGER, tags TEXT, difficulty REAL, timeToComplete TEXT, sponsored INTEGER)',
         );
       },
       version: 1,

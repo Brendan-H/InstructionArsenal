@@ -20,7 +20,6 @@ class DBHelper {
   static const String CREATED_BY_COLUMN = "created_by";
   static const String CATEGORY_COLUMN = "category";
   static const String LIKES_COLUMN = "likes";
-  static const String DISLIKES_COLUMN = "dislikes";
   static const String TAGS_COLUMN = "tags";
   static const String DIFFICULTY_COLUMN = "difficulty";
   static const String TIME_TO_COMPLETE_COLUMN = "time_to_complete";
@@ -31,7 +30,7 @@ class DBHelper {
       join(await getDatabasesPath(), DB_NAME),
       onCreate: (db, version) {
         return db.execute(
-          "CREATE TABLE $TABLE_NAME($ID_COLUMN INTEGER PRIMARY KEY, $TITLE_COLUMN TEXT, $DESCRIPTION_COLUMN TEXT, $POST_CREATED_AT_COLUMN TEXT, $INSTRUCTIONS_COLUMN TEXT, $CREATED_BY_COLUMN TEXT, $CATEGORY_COLUMN TEXT, $LIKES_COLUMN INTEGER, $DISLIKES_COLUMN REAL, $TAGS_COLUMN TEXT, $DIFFICULTY_COLUMN REAL, $TIME_TO_COMPLETE_COLUMN TEXT, $SPONSORED_COLUMN INTEGER)",
+          "CREATE TABLE $TABLE_NAME($ID_COLUMN INTEGER PRIMARY KEY, $TITLE_COLUMN TEXT, $DESCRIPTION_COLUMN TEXT, $POST_CREATED_AT_COLUMN TEXT, $INSTRUCTIONS_COLUMN TEXT, $CREATED_BY_COLUMN TEXT, $CATEGORY_COLUMN TEXT, $LIKES_COLUMN INTEGER, $TAGS_COLUMN TEXT, $DIFFICULTY_COLUMN REAL, $TIME_TO_COMPLETE_COLUMN TEXT, $SPONSORED_COLUMN INTEGER)",
         );
       },
       version: 1,
@@ -73,7 +72,6 @@ class DBHelper {
         createdBy: maps[i][CREATED_BY_COLUMN],
         category: maps[i][CATEGORY_COLUMN],
         likes: maps[i][LIKES_COLUMN],
-        dislikes: maps[i][DISLIKES_COLUMN],
         tags: maps[i][TAGS_COLUMN],
         difficulty: maps[i][DIFFICULTY_COLUMN],
         timeToComplete: maps[i][TIME_TO_COMPLETE_COLUMN],
