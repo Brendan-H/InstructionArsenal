@@ -9,6 +9,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:instruction_arsenal/backend/models/community_made_instructions.dart';
+import 'package:instruction_arsenal/homepage/community_made_instructions/like_button.dart';
 import 'package:instruction_arsenal/homepage/community_made_instructions/star_difficulty.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
@@ -258,8 +259,7 @@ class _CommunityMadeInstructionsInfoPageState extends State<CommunityMadeInstruc
                        child: Text("Category: ${widget.communityMadeInstructions.category}"),
                      ),
                      const Spacer(),
-                     const Icon(Icons.favorite_border, color: Colors.red,),
-                     Text((widget.communityMadeInstructions.likes!.toInt() - widget.communityMadeInstructions.dislikes!.toInt()).toString()),
+                     LikeButton(likes: widget.communityMadeInstructions.likes ?? 0, id: widget.communityMadeInstructions.id ?? 12),
                      const Spacer(),
                      Text(dateTimeFormat(
                        //  "yyyy-MM-dd'T'HH:mm:ss.SSSZ",

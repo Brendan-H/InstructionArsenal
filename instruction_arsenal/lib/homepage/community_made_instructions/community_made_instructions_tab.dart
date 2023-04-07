@@ -19,6 +19,7 @@ import 'package:instruction_arsenal/homepage/community_made_instructions/Communi
 import 'package:instruction_arsenal/homepage/community_made_instructions/community_made_instructions_info_page.dart';
 import 'package:instruction_arsenal/homepage/community_made_instructions/create_community_made_instructions.dart';
 import 'package:instruction_arsenal/homepage/community_made_instructions/get_icon.dart';
+import 'package:instruction_arsenal/homepage/community_made_instructions/like_button.dart';
 import 'package:instruction_arsenal/homepage/community_made_instructions/star_difficulty.dart';
 import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -399,8 +400,9 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
                                               child: Text("Category: ${item.category}"),
                                             ),
                                             const Spacer(),
-                                            const Icon(Icons.favorite_border, color: Colors.red,),
-                                            Text((item.likes!.toInt() - item.dislikes!.toInt()).toString()),
+                                            LikeButton(likes: item.likes, id: item.id),
+                                            // const Icon(Icons.favorite_border, color: Colors.red,),
+                                            // Text((item.likes!.toInt() - item.dislikes!.toInt()).toString()),
                                             const Spacer(),
                                             Text(dateTimeFormat(
                                               //  "yyyy-MM-dd'T'HH:mm:ss.SSSZ",
