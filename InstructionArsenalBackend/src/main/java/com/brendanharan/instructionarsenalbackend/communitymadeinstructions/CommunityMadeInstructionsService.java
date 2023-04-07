@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2023 by Brendan Haran, All Rights Reserved.
  * Use of this file or any of its contents is strictly prohibited without prior written permission from Brendan Haran.
- * Current File (CommunityMadeInstructionsService.java) Last Modified on 1/2/23, 8:45 PM
+ * Current File (CommunityMadeInstructionsService.java) Last Modified on 1/13/23, 6:46 PM
  *
  */
 
@@ -48,6 +48,15 @@ public class CommunityMadeInstructionsService {
 
     public List<CommunityMadeInstructions> findCommunityMadeInstructionsByCreatedByExact(String createdBy) {
         return communityMadeInstructionsRepository.findAllByCreatedBy(createdBy);
+    }
+
+    public void likeCommunityMadeInstructions(Long id) {
+        communityMadeInstructionsRepository.setLikes(id);
+    }
+
+    public int getLikes(Long id) {
+        var post = communityMadeInstructionsRepository.findAllById(id);
+        return post.getLikes();
     }
 }
 

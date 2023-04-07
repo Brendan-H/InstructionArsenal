@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2023 by Brendan Haran, All Rights Reserved.
  * Use of this file or any of its contents is strictly prohibited without prior written permission from Brendan Haran.
- * Current File (CommunityMadeInstructionsController.java) Last Modified on 1/2/23, 9:04 PM
+ * Current File (CommunityMadeInstructionsController.java) Last Modified on 1/13/23, 6:46 PM
  *
  */
 
@@ -60,6 +60,17 @@ public class CommunityMadeInstructionsController {
     @GetMapping("/titleandcategory/{title}/{category}")
     List<CommunityMadeInstructions> findPostByTitleAndCategory(@PathVariable String title, @PathVariable String category, @RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize) {
         return communityMadeInstructionsService.findCommunityMadeInstructionsByTitleAndCategoryLike(title, category, pageNo, pageSize);
+    }
+
+    @PutMapping("/likepost/{id}")
+    ResponseEntity likePost(@PathVariable long id) {
+        communityMadeInstructionsService.likeCommunityMadeInstructions(id);
+       return ResponseEntity.ok("Post Liked");
+    }
+
+    @GetMapping("/getlikes/{id}")
+    int getLikes(@PathVariable long id) {
+        return communityMadeInstructionsService.getLikes(id);
     }
 
 

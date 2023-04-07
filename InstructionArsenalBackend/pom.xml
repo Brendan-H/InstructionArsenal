@@ -2,7 +2,7 @@
 <!--
   ~ Copyright (c) 2023 by Brendan Haran, All Rights Reserved.
   ~ Use of this file or any of its contents is strictly prohibited without prior written permission from Brendan Haran.
-  ~ Current File (pom.xml) Last Modified on 12/22/22, 3:31 PM
+  ~ Current File (pom.xml) Last Modified on 1/13/23, 6:46 PM
   ~
   -->
 
@@ -85,6 +85,13 @@
             <groupId>com.google.firebase</groupId>
             <artifactId>firebase-admin</artifactId>
             <version>9.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.cloud</groupId>
+            <artifactId>spring-cloud-gcp-dependencies</artifactId>
+            <version>3.4.0</version>
+            <type>pom</type>
+            <scope>import</scope>
         </dependency>
     </dependencies>
 
