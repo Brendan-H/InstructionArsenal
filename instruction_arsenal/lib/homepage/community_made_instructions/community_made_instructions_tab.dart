@@ -9,6 +9,7 @@ import 'dart:io';
 
 import 'package:awesome_select/awesome_select.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -23,6 +24,8 @@ import 'package:instruction_arsenal/homepage/community_made_instructions/like_bu
 import 'package:instruction_arsenal/homepage/community_made_instructions/star_difficulty.dart';
 import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
+
+//TODO add ability to buy ad-free with inapp purchase
 
 class CommunityMadeInstructionsTab extends StatefulWidget {
   const CommunityMadeInstructionsTab({Key? key}) : super(key: key);
@@ -121,6 +124,7 @@ class _CommunityMadeInstructionsTabState extends State<CommunityMadeInstructions
             communityMadeInstructionsWithAds.insert(i+1, AdWidget(
               ad: _bannerAd,
             ));
+            _bannerAd.load();
           }
         }
         final isLastPage = communityMadeInstructionsWithAds.length < _pageSize;

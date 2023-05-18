@@ -11,6 +11,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:instruction_arsenal/firebase_options.dart';
 import 'package:instruction_arsenal/homepage/community_made_instructions/community_made_instructions_info_page.dart';
@@ -22,6 +23,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 import 'backend/models/community_made_instructions.dart';
+import 'generated/l10n.dart';
 
 
 void main() async{
@@ -40,6 +42,11 @@ void main() async{
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
+  MobileAds.instance.updateRequestConfiguration(
+    RequestConfiguration(
+      testDeviceIds: ['E9F63D566FDEF50BFB41E18F94E93C59'],
+    ),
+  );
   runApp(MyApp(initialLink)
   );
 }
@@ -82,6 +89,13 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
       builder: (context, child) => ResponsiveWrapper.builder(
           BouncingScrollWrapper.builder(context, child!),
           maxWidth: 1200,

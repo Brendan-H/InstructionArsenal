@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:instruction_arsenal/profile/bookmarked_community_made_instructions_page.dart';
 import 'package:instruction_arsenal/profile/profile_page.dart';
 
+import '../generated/l10n.dart';
 import '../login_page/login_page.dart';
 
 class MainDrawer extends StatefulWidget {
@@ -57,7 +58,8 @@ class _MainDrawerState extends State<MainDrawer> {
           ),
           ListTile(
             leading: const Icon(Icons.account_circle),
-            title: const Text('Your Instructions'),
+          //  title: const Text('Your Instructions'),
+            title: Text(S.of(context).yourInstructions),
             onTap: () async{
               await Navigator.pushAndRemoveUntil(
                 context,

@@ -220,20 +220,13 @@ class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoP
                     Expanded(
                       child: Column(
                         children: [
-                          const Text(
+                           Text(
                             "Description:",
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 17,
-                              fontWeight: FontWeight.w700,
-                            ),
+                            style: Theme.of(context).textTheme.bodyMedium
                           ),
                           Text(
                             "${widget.officialInstructions.description}",
-                            style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 15,
-                            ),
+                            style: Theme.of(context).textTheme.bodyMedium
                           ),
                         ],
                       ),
@@ -250,20 +243,13 @@ class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoP
                     Expanded(
                       child: Column(
                         children: [
-                          const Text(
+                           Text(
                             "Created By:",
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 17,
-                              fontWeight: FontWeight.w700,
-                            ),
+                            style: Theme.of(context).textTheme.bodyMedium
                           ),
                           Text(
                             getCreatedBy(),
-                            style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 15,
-                            ),
+                            style: Theme.of(context).textTheme.bodyMedium
                           ),
                         ],
                       ),
@@ -279,22 +265,15 @@ class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoP
                     Expanded(
                       child: Column(
                         children: [
-                          const Text(
+                           Text(
                             "Created At:",
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 17,
-                              fontWeight: FontWeight.w700,
-                            ),
+                            style: Theme.of(context).textTheme.bodyMedium
                           ),
                           Text(
                             "${createdAtDate.substring(0, 17)} at ${createdAtDate.substring(18, 23)} ${createdAtDate.substring(23)}"
                             
                             ,
-                            style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 15,
-                            ),
+                            style: Theme.of(context).textTheme.bodyMedium
                           ),
                         ],
                       ),
@@ -310,20 +289,13 @@ class _OfficialInstructionsInfoPageState extends State<OfficialInstructionsInfoP
                     Expanded(
                       child: Column(
                         children: [
-                          const Text(
+                           Text(
                             "Instructions:",
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 17,
-                              fontWeight: FontWeight.w700,
-                            ),
+                            style: Theme.of(context).textTheme.bodyMedium
                           ),
                           Text(
                             "${widget.officialInstructions.instructions}",
-                            style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 15,
-                            ),
+                            style: Theme.of(context).textTheme.bodyMedium
                           ),
                         ],
                       ),

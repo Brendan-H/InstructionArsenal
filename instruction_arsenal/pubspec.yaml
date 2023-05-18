@@ -57,6 +57,10 @@ dependencies:
   share_plus: ^6.3.0
   smooth_star_rating_nsafe: ^1.0.0+1
   sqflite: ^2.2.6
+  dio_cache_interceptor: ^3.4.2
+  hive: ^2.2.3
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_native_splash: ^2.2.16
@@ -263,3 +267,5 @@ flutter_icons:
   macos:
     generate: true
     image_path: "assets/logos/ia.png"
+flutter_intl:
+  enabled: true
