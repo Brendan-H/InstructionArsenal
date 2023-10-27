@@ -4,6 +4,8 @@ Choose to see either official instructions from a verified source or community-m
 
 - Web version is down for now since I accidentally leaked my Google Cloud API keys <h1>🤦</h1>
 # Screenshots
+### Note: screenshot is of test data and is not a real instruction guide.
+
 <img src="https://github.com/Brendan-H/InstructionArsenal/blob/master/Communitymade.png" width="250" height="420">
 <img src="https://github.com/Brendan-H/InstructionArsenal/blob/master/IA_sharing.png" width="250" height="250">
 <img src="https://github.com/Brendan-H/InstructionArsenal/blob/master/Home_CM.png" width="250" height="420">
